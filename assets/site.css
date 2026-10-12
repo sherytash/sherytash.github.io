@@ -1,13 +1,14 @@
 
 :root{
-  --paper:#F5F7F2; --paper-tint:#ECEFE7; --land:#E6E4D8; --border:#F5F7F2;
-  --ink:#161A18; --ink-soft:#4E5651; --line:#DCE1D6; --line-strong:#B9C1B3;
-  --accent:#21454C; --accent-lift:#2E5C64;
-  --now:#B4432F;   
-  --on-accent:#FFFFFF; --water:#BCCDCB; --grat:#E1E7DF; --ref:#7E8780;
-  --shadow:rgba(22,26,24,0.55); --scrim:rgba(245,247,242,0.92);
+  
+  --paper:#D8E4E2; --paper-tint:#E9EFEC; --land:#F2EFE6; --border:#D8E4E2;
+  --ink:#121A19; --ink-soft:#3F4B48; --line:#BFD0CD; --line-strong:#9AB0AC;
+  --accent:#1E4148; --accent-lift:#2A565E;
+  --now:#9C3725;   
+  --on-accent:#FFFFFF; --water:#93B6B6; --grat:#C8D7D4; --ref:#57635F;
+  --shadow:rgba(18,32,30,0.5); --scrim:rgba(216,228,226,0.92);
   --motif-ink:none; --motif-wash:none;
-  --cl-ai:#21454C; --cl-sci:#8E6219;   
+  --cl-ai:#1E4148; --cl-sci:#734F0F;   
   --serif:"Newsreader", Georgia, "Times New Roman", serif;
   --sans:"Hanken Grotesk", system-ui, -apple-system, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
