@@ -95,6 +95,16 @@ html:not(.js) .vis-control{ display:none; }
 .cv-cl svg{ width:0.62rem; height:0.62rem; flex:none; overflow:visible; fill:var(--cl, var(--accent)); }
 .cv-cl-ai{ --cl:var(--cl-ai); } .cv-cl-sci{ --cl:var(--cl-sci); }
 .cv-what .cv-cl{ margin-right:0.45rem; }
+
+.cv-cite{ position:relative; display:inline-block; margin:0 0 0 0.7rem; padding:0; border:0; background:none;
+  font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.04em; line-height:1.2; color:var(--ink-soft);
+  text-decoration:underline; text-decoration-color:var(--line-strong); text-underline-offset:0.2em;
+  cursor:pointer; vertical-align:baseline; -webkit-tap-highlight-color:transparent; }
+.cv-cite[hidden]{ display:none; }
+.cv-cite::after{ content:""; position:absolute; left:-0.7rem; right:-0.7rem; top:50%; height:44px; transform:translateY(-50%); }
+.cv-cite:hover, .cv-cite.done{ color:var(--accent); }
+.cv-cite:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
+@media print{ .cv-cite{ display:none; } }
 .cv-key{ display:flex; flex-wrap:wrap; gap:0.3rem 1.3rem; margin:0.15rem 0 0.7rem; padding:0;
   font-size:0.78rem; line-height:1.4; color:var(--ink-soft); }
 .cv-key .cv-cl{ color:var(--cl, var(--ink-soft)); }

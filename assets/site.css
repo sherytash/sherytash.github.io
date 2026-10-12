@@ -219,6 +219,11 @@ html:not(.js) .finder{ display:none; }
 .fo-link{ font:inherit; font-family:var(--sans); font-size:0.84rem; color:var(--ink-soft); background:none; border:0;
   padding:0.5rem 0; margin-top:0.3rem; cursor:pointer; text-decoration:underline; text-underline-offset:0.25em; }
 .fo-link:hover{ color:var(--accent); }
+.fo-map{ display:inline-flex; align-items:center; min-height:44px; margin-top:0.7rem; padding:0 1.1rem; font:inherit;
+  font-family:var(--sans); font-size:0.88rem; color:var(--ink); background:var(--paper); border:1px solid var(--accent);
+  border-radius:999px; cursor:pointer; }
+.fo-map:hover{ background:var(--paper-tint); }
+.fo-map:disabled{ opacity:0.6; cursor:default; }
 
 
 .sheet-legal{ margin:1.6rem 0 0; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.05em; }
@@ -288,6 +293,23 @@ html:not(.js) .finder{ display:none; }
   background-image:url("/assets/motifs/terrain-river-night-01.webp"); background-position:left center; filter:var(--motif-wash); }
 .card-poem[data-motif="figure"]::after{ width:6.5rem; aspect-ratio:1; margin:1.4rem 0 0 auto; transform:scaleX(-1);
   background-image:url("/assets/motifs/people-standing-bent-01.webp"); background-position:center; filter:var(--motif-ink); }
+
+
+.card-poem .p-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.8rem; }
+.card-poem .p-title{ min-width:0; flex:1; }
+.card-poem .p-title .jahr{ margin:0; }
+.card-poem .read-by{ margin:0.25rem 0 0; color:var(--ink-soft); }
+.p-play{ flex:none; width:44px; height:44px; display:grid; place-items:center; padding:0; margin:-0.4rem -0.4rem 0 0; cursor:pointer;
+  border:1px solid var(--line-strong); border-radius:50%; background:var(--paper); color:var(--accent); -webkit-tap-highlight-color:transparent; }
+.p-play:hover{ border-color:var(--accent); }
+html:not(.js) .p-play{ display:none; }
+.p-ico{ display:block; width:1.05rem; height:1.05rem; fill:currentColor; }
+.p-play .i-pause, .card.is-playing .i-play{ display:none; }
+.card.is-playing .i-pause{ display:inline; }
+.p-bar{ display:block; height:2px; margin:0.9rem 0 1.4rem; background:var(--line); opacity:0; }
+.card.is-playing .p-bar{ opacity:1; }
+.p-bar i{ display:block; height:100%; background:var(--accent); transform:scaleX(var(--p, 0)); transform-origin:0 50%; }
+@media (prefers-reduced-motion:no-preference){ .p-bar i{ transition:transform 0.3s linear; } }
 
 
 .card-reads{ justify-content:center; }

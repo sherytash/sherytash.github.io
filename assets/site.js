@@ -296,29 +296,31 @@
     return { titles: p.slice(0, TITLES_PER_EDGE).map(i => g.papers[i]), total: p.length };
   }
   async function pathOf(g, c, hit) {
-    const you = { name: c.name, sub: c.inst };
-    const stefan = { name: 'Stefan Herytash' };
-    if (hit.steps === 1) return { nodes: [you, stefan], edges: [withStefan(g, hit.k)] };
+    const you = { name: c.name, sub: c.inst, ids: c.ids, instId: c.instId };
+    const stefan = { name: 'Stefan Herytash', pin: 'vienna' };
+    const via = k => ({ name: g.hop1[k].n, ids: g.hop1[k].ids.slice(0, 3) });
+    if (hit.steps === 1) return { nodes: [you, stefan], edges: [withStefan(g, hit.k)], kinds: ['co'] };
     if (hit.steps === 2 && hit.via) {
       const k = hit.via.k;
-      return { nodes: [you, { name: g.hop1[k].n }, stefan],
+      return { nodes: [you, via(k), stefan], kinds: ['co', 'co'],
         edges: [await sharedWorks(c.ids, [hit.via.id]), withStefan(g, k)], others: hit.others };
     }
     if (hit.steps === 2) {
       const ks = hit.links.filter((k, i) => hit.links.indexOf(k) === i);
       const k = ks[0];
-      return { nodes: [you, { name: g.hop1[k].n }, stefan],
+      return { nodes: [you, via(k), stefan], kinds: ['co', 'co'],
         edges: [await sharedWorks(c.ids, g.hop1[k].ids), withStefan(g, k)],
         others: ks.slice(1).map(x => g.hop1[x].n) };
     }
     const k = hit.k;
     const [e1, e2] = await Promise.all([sharedWorks(c.ids, [hit.mid.id]), sharedWorks([hit.mid.id], g.hop1[k].ids)]);
-    return { nodes: [you, { name: hit.mid.name }, { name: g.hop1[k].n }, stefan],
+    return { nodes: [you, { name: hit.mid.name, ids: [hit.mid.id] }, via(k), stefan], kinds: ['co', 'co', 'co'],
       edges: [e1, e2, withStefan(g, k)] };
   }
 
   const COL_TEXT = JSON.parse((document.getElementById('finder-colleague') || { textContent: '{}' }).textContent);
   const colText = (grp, kind) => (COL_TEXT[grp] || {})[kind] || '';
+  const COL_HOME = { wu: { pin: 'vienna', inst: 'WU Vienna' }, 'lmu-som': { pin: 'munich', inst: 'LMU Munich' } };
   let CG = null;
   async function loadColleagues() {
     if (CG) return CG;
@@ -388,12 +390,19 @@
   }
   async function presentColleague(t, col, others) {
     const { cg, c, hit } = col, who = cg.people[hit.k];
-    if (hit.steps === 1) { show(t, el('div', 'fo-hit', colText(who.grp, 'one'))); return; }
+    const home = COL_HOME[who.grp] || COL_HOME.wu, stefan = { name: 'Stefan Herytash', pin: 'vienna' };
+    if (hit.steps === 1) {
+      show(t, el('div', 'fo-hit', colText(who.grp, 'one')),
+        mapButton({ nodes: [{ name: c.name, inst: home.inst, pin: home.pin }, stefan], kinds: ['col'] }));
+      return;
+    }
     const nodes = [el('div', 'fo-hit', HEAD[2])];
     const shared = await sharedWorks(c.ids, who.ids);
     const ol = pathNode({ nodes: [{ name: c.name, sub: c.inst }, { name: who.n }, { name: 'Stefan Herytash' }],
       edges: [shared, { titles: [], label: colText(who.grp, 'edge') }] });
     nodes.push(ol);
+    nodes.push(mapButton({ nodes: [{ name: c.name, inst: c.inst, ids: c.ids, instId: c.instId },
+      { name: who.n, inst: home.inst, pin: home.pin }, stefan], kinds: ['co', 'col'] }));
     const more = (hit.more || []).map(k => cg.people[k].n);
     if (more.length) nodes.push(el('div', 'fo-sub', 'Also through ' + more.join(', ') + '.'));
     const rest = (others || []).filter(o => o.works > 0).slice(0, 3);
@@ -404,6 +413,68 @@
       nodes.push(b);
     }
     show(t, ...nodes);
+  }
+
+  const GEO = 'sh-geo-1';
+  const geoLoad = () => { try { const c = JSON.parse(sessionStorage.getItem(GEO)); if (c && c.a && c.i) return c; } catch (e) {} return { a: {}, i: {} }; };
+  const geoSave = c => { try { sessionStorage.setItem(GEO, JSON.stringify(c)); } catch (e) {} };
+  const orFilter = ids => 'filter=openalex:' + ids.join('|') + '&per-page=' + ids.length;
+  async function resolveGeo(spec) {
+    const C = geoLoad();
+    const people = spec.nodes.filter(n => !n.pin);
+    const askA = [...new Set(people.filter(n => !n.instId).flatMap(n => (n.ids || []).filter(i => !(i in C.a))))];
+    if (askA.length) {
+      try {
+        const r = await oa('authors?' + orFilter(askA) + '&select=id,last_known_institutions');
+        askA.forEach(i => { C.a[i] = 0; });
+        (r.results || []).forEach(a => {
+          const x = (a.last_known_institutions || [])[0];
+          C.a[idOf(a.id)] = x && x.id ? idOf(x.id) : 0;
+        });
+      } catch (e) {}
+    }
+    people.forEach(n => {
+      if (!n.instId) n.instId = (n.ids || []).map(i => C.a[i]).find(Boolean) || '';
+    });
+    const askI = [...new Set(people.map(n => n.instId).filter(i => i && !(i in C.i)))];
+    if (askI.length) {
+      try {
+        const r = await oa('institutions?' + orFilter(askI) + '&select=id,display_name,geo');
+        askI.forEach(i => { C.i[i] = 0; });
+        (r.results || []).forEach(x => {
+          const g = x.geo || {}, la = g.latitude != null ? g.latitude : g.lat, lo = g.longitude != null ? g.longitude : g.lng;
+          if (typeof la === 'number' && typeof lo === 'number') C.i[idOf(x.id)] = [x.display_name, la, lo];
+        });
+      } catch (e) {}
+    }
+    geoSave(C);
+    const nodes = [];
+    spec.nodes.forEach((n, k) => {
+      if (n.pin) { nodes.push({ n: n.name, pin: n.pin, i: n.inst || '', kind: spec.kinds[k - 1] }); return; }
+      const g = n.instId && C.i[n.instId];
+      if (g) nodes.push({ n: n.name, i: g[0] || n.inst || '', lat: g[1], lng: g[2], kind: spec.kinds[k - 1] });
+    });
+    return { nodes };
+  }
+  function toMap(path) {
+    if (typeof window.mapShowPath === 'function') {
+      if (window.closeSheet) window.closeSheet();
+      window.mapShowPath(path);
+      return;
+    }
+    try { sessionStorage.setItem('sh-path', JSON.stringify(path)); } catch (e) {}
+    location.assign('/');
+  }
+  function mapButton(spec) {
+    const b = el('button', 'fo-map', 'Show on map');
+    b.type = 'button';
+    b.addEventListener('click', async () => {
+      if (b.disabled) return;
+      b.disabled = true;
+      try { toMap(await resolveGeo({ nodes: spec.nodes.map(n => ({ ...n, inst: n.inst || n.sub })), kinds: spec.kinds })); }
+      finally { b.disabled = false; }
+    });
+    return b;
   }
 
   let run = 0;
@@ -488,7 +559,7 @@
     const nodes = [];
     if (lead) nodes.push(el('div', 'fo-hit', lead));
     if (note) nodes.push(el('div', 'fo-sub', note));
-    nodes.push(el('div', 'fo-hit', HEAD[hit.steps]), pathNode(p));
+    nodes.push(el('div', 'fo-hit', HEAD[hit.steps]), pathNode(p), mapButton(p));
     if (p.others && p.others.length) nodes.push(el('div', 'fo-sub', 'Also through ' + p.others.join(', ') + '.'));
     if (extra) nodes.push(el('div', 'fo-sub', extra));
     const rest = (others || []).filter(o => o.works > 0).slice(0, 3);
@@ -540,7 +611,7 @@
       const nodes = [el('div', 'fo-hit', hit)];
       if (g.ok && fromGraph.length) {
         const p = await pathOf(g, fromGraph[0], { steps: 1, k: graphNames[0] });
-        nodes.push(pathNode(p));
+        nodes.push(pathNode(p), mapButton(p));
       }
       show(t, ...nodes);
       return;
@@ -552,7 +623,8 @@
         '&per-page=50&select=id,display_name,works_count,last_known_institutions');
       found = (r.results || []).filter(c => c.works_count > 0).map(c => ({
         ids: [idOf(c.id)], name: c.display_name, works: c.works_count,
-        inst: ((c.last_known_institutions || [])[0] || {}).display_name || '' }));
+        inst: ((c.last_known_institutions || [])[0] || {}).display_name || '',
+        instId: idOf(((c.last_known_institutions || [])[0] || {}).id || '') }));
     } catch (e) {
       if (fromGraph.length === 1) {
         await present(t, g, fromGraph[0], { steps: 1, k: graphNames[0] }, [],
