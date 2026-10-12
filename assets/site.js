@@ -62,8 +62,13 @@
     if (!isOpen()) return;
     if (pushed) {
       pushed = false;
-      history.back(); return;
+      history.back();
+      setTimeout(() => { if (isOpen()) clear(); }, 350);
+      return;
     }
+    clear();
+  };
+  const clear = () => {
     location.replace('#_');
     history.replaceState(null, '', location.pathname + location.search);
   };
