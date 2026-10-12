@@ -104,7 +104,20 @@ html:not(.js) .vis-control{ display:none; }
 .cv-cite::after{ content:""; position:absolute; left:-0.7rem; right:-0.7rem; top:50%; height:44px; transform:translateY(-50%); }
 .cv-cite:hover, .cv-cite.done{ color:var(--accent); }
 .cv-cite:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
-@media print{ .cv-cite{ display:none; } }
+.cv-cite.open{ color:var(--accent); }
+
+.cv-pop{ margin:0.5rem 0 0.2rem; padding:0.6rem 0.8rem 0.3rem; max-width:40rem; border:1px solid var(--line-strong);
+  border-radius:6px; background:var(--paper); }
+.cv-pop-t{ margin:0; font-size:0.875rem; line-height:1.5; color:var(--ink); user-select:text; -webkit-user-select:text; outline:none;
+  overflow-wrap:anywhere; }
+.cv-what .cv-pop i{ font-family:inherit; font-size:inherit; }
+.cv-pop-r{ display:flex; gap:0.4rem 1.2rem; margin-top:0.1rem; }
+.cv-pop-b{ min-width:44px; min-height:44px; padding:0 0.2rem; border:0; background:none; font-family:var(--mono);
+  font-size:0.6875rem; letter-spacing:0.04em; color:var(--ink-soft); text-decoration:underline;
+  text-decoration-color:var(--line-strong); text-underline-offset:0.2em; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.cv-pop-b:hover{ color:var(--accent); }
+.cv-pop-b:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; border-radius:2px; }
+@media print{ .cv-cite, .cv-pop{ display:none; } }
 .cv-key{ display:flex; flex-wrap:wrap; gap:0.3rem 1.3rem; margin:0.15rem 0 0.7rem; padding:0;
   font-size:0.78rem; line-height:1.4; color:var(--ink-soft); }
 .cv-key .cv-cl{ color:var(--cl, var(--ink-soft)); }

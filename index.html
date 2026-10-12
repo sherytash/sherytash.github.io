@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZrBmLaHdBeKKiQDO33lsEcb70d/L4qpfCZiNw/YdojQ=' 'sha256-wcwenv2Tg77pPn+HZ+OsnURtoTo24LX4YbOYhpgFLss='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZrBmLaHdBeKKiQDO33lsEcb70d/L4qpfCZiNw/YdojQ=' 'sha256-H6zAjPWbFGMMzKe2OvYajavfgkAFqZyMONkQLw7M1G0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Stefan Herytash, Assistant Professor at WU Vienna</title>
-<meta name="description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on AI and the scientific process: language models in data collection, peer review and journal certification.">
+<meta name="description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on how AI changes the way knowledge is produced and judged: AI behavioral simulation and post-AI publishing.">
 <meta name="author" content="Stefan Herytash">
 <meta property="og:title" content="Stefan Herytash, Assistant Professor at WU Vienna">
-<meta property="og:description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on AI and the scientific process: language models in data collection, peer review and journal certification.">
+<meta property="og:description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on how AI changes the way knowledge is produced and judged: AI behavioral simulation and post-AI publishing.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sherytash.github.io/">
 <meta property="og:image" content="https://sherytash.github.io/assets/og-card.png">
@@ -116,7 +116,7 @@
     @keyframes rtin{ from{ opacity:0; } to{ opacity:1; } }
     #route .rt-edge, #route .rt-halo, #route .rt-node{ animation:rtin .5s ease both; animation-delay:calc(var(--i, 0) * 0.35s); }
   }
-  .pathx{ position:fixed; z-index:6; top:calc(var(--bar-b, 4.2rem) + 0.55rem); right:var(--gutter); width:44px; height:44px; padding:0;
+  .pathx{ position:fixed; z-index:6; top:calc(var(--bar-b, 4.2rem) + 0.55rem); right:calc(var(--tlw) + 0.6rem); width:44px; height:44px; padding:0;
     display:grid; place-items:center; font-size:1.5rem; line-height:1; color:var(--ink); background:var(--paper);
     border:1px solid var(--accent); border-radius:50%; cursor:pointer; }
   .pathx:hover{ background:var(--paper-tint); }
@@ -142,34 +142,35 @@
   .k-pin{ background:var(--accent); border:1px solid var(--accent); }
   .k-trip{ border:1.8px solid var(--trip); background:transparent; }
   
-  .k-year{ display:flex; align-items:center; gap:1.25rem; margin:0; }
-  .k-val{ flex:none; min-width:3.1ch; font-family:var(--mono); font-size:1.5rem; line-height:1; letter-spacing:0.01em; color:var(--ink); text-align:right; font-variant-numeric:tabular-nums; }
-  .k-val.all{ color:var(--ink-soft); }
-  .k-range{ -webkit-appearance:none; appearance:none; flex:1 1 auto; width:15rem; min-width:0; height:44px; margin:0 -11px; padding:0; background:transparent; cursor:pointer; touch-action:none; }
-  .k-range::-webkit-slider-runnable-track{ height:8px; border-radius:4px; border:1px solid var(--accent); box-sizing:border-box;
-    background:linear-gradient(90deg, color-mix(in srgb, var(--accent) var(--ramp-min, 38%), var(--paper)), var(--accent)); }
-  .k-range::-moz-range-track{ height:8px; border-radius:4px; border:1px solid var(--accent); box-sizing:border-box;
-    background:linear-gradient(90deg, color-mix(in srgb, var(--accent) var(--ramp-min, 38%), var(--paper)), var(--accent)); }
-  .k-range::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:44px; height:44px; margin-top:-18px; box-sizing:border-box; border-radius:50%;
-    border:11px solid transparent; background:var(--paper) padding-box; box-shadow:inset 0 0 0 2.5px var(--accent); }
-  .k-range::-moz-range-thumb{ width:44px; height:44px; box-sizing:border-box; border-radius:50%;
-    border:11px solid transparent; background:var(--paper) padding-box; box-shadow:inset 0 0 0 2.5px var(--accent); }
-  .k-range.on::-webkit-slider-thumb{ background:var(--accent) padding-box; }
-  .k-range.on::-moz-range-thumb{ background:var(--accent) padding-box; }
-  .k-range:focus-visible{ outline:none; }
-  .k-range:focus-visible::-webkit-slider-thumb{ outline:2px solid var(--ink); outline-offset:-4px; }
-  .k-range:focus-visible::-moz-range-thumb{ outline:2px solid var(--ink); outline-offset:-4px; }
-  html:not(.js) .k-year{ display:none; }
-  
-  .pin.dim{ opacity:0.32; }
-  .pin.dim .dot{ transform:scale(0.55); }
-  .lab.dim, .lab-now.dim, .chip.dim{ opacity:0.4; }
-  .leader.dim{ opacity:0.35; }
-  .chip.dim i{ transform:scale(0.6); }
+  :root{ --tlw:62px; }
+  .tl{ position:fixed; z-index:6; right:4px; width:58px; top:calc(var(--bar-b, 4.2rem) + 0.5rem); bottom:calc(var(--base-h) + 1rem);
+    touch-action:none; cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none; }
+  .tl-track{ position:absolute; top:20px; bottom:20px; left:0; right:0; }
+  .tl-track::before{ content:""; position:absolute; left:32px; width:6px; top:0; bottom:0; border-radius:3px; border:1px solid var(--accent); box-sizing:border-box;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--accent) var(--ramp-min, 38%), var(--paper)), var(--accent)); }
+  .tl-n{ position:absolute; left:35px; top:calc(var(--f) * 100%); width:9px; height:9px; margin:-4.5px 0 0 -4.5px; box-sizing:border-box; border-radius:50%;
+    background:color-mix(in srgb, var(--accent) var(--tm, 100%), var(--paper)); border:1.5px solid var(--accent); font-style:normal; }
+  .tl-y{ position:absolute; right:calc(100% + 9px); top:50%; transform:translateY(-50%); font:400 11px/1 var(--mono); letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums;
+    text-shadow:0 0 3px var(--paper), 0 0 3px var(--paper), 0 0 6px var(--paper); pointer-events:none; }
+  .tl-w{ width:18px; height:18px; margin:-9px 0 0 -9px; background:var(--paper); border:0; color:var(--accent); }
+  .tl-w svg{ display:block; width:18px; height:18px; }
+  .tl svg{ fill:none; stroke:currentColor; stroke-width:1.6; }
+  .tl-thumb{ position:absolute; left:35px; top:calc(var(--f) * 100%); transform:translate(-50%, -50%); box-sizing:border-box; min-width:44px; height:28px; padding:0 4px;
+    display:grid; place-items:center; border-radius:14px; background:var(--paper); border:2.5px solid var(--accent); color:var(--accent);
+    font:600 14px/1 var(--mono); font-variant-numeric:tabular-nums; letter-spacing:0; transition:top .28s ease; }
+  .tl-ty{ color:var(--ink); }
+  .tl-thumb svg{ display:none; width:20px; height:20px; }
+  .tl-thumb.is-start{ min-width:0; width:22px; height:22px; padding:0; border-radius:50%; }
+  .tl-thumb.is-world{ min-width:0; width:30px; height:30px; padding:0; border-radius:50%; }
+  .tl-thumb.is-world svg{ display:block; }
+  .tl-thumb.is-start .tl-ty, .tl-thumb.is-world .tl-ty{ display:none; }
+  .tl:focus-visible .tl-thumb{ outline:2px solid var(--ink); outline-offset:3px; }
+  html:not(.js) .tl{ display:none; }
+  @media (prefers-reduced-motion:reduce){ .tl-thumb{ transition:none; } }
   .moving .mapbase{ -webkit-backdrop-filter:none; backdrop-filter:none; }
   
   @media (min-width:720px){
-    .tkey{ position:absolute; right:var(--gutter); bottom:calc(100% + 0.55rem); padding:0 0.85rem 0 1rem; border-radius:999px;
+    .tkey{ position:absolute; right:calc(var(--tlw) + 0.6rem); bottom:calc(100% + 0.55rem); padding:0 0.85rem 0 1rem; min-height:1.7rem; border-radius:999px;
       background:color-mix(in srgb, var(--paper) 80%, transparent); border:1px solid var(--line); }
   }
   html:not(.js) .stage{ bottom:0; }
@@ -290,38 +291,43 @@
   @media (hover:hover){ .i-t:hover{ text-decoration:underline; text-decoration-color:var(--cl); text-underline-offset:0.18em; } }
   .i-s{ display:block; font-size:0.78rem; line-height:1.4; color:var(--ink-soft); margin-top:0.1rem; }
   .i-f{ display:block; font-size:0.8rem; line-height:1.45; color:var(--ink); margin-top:0.3rem; }
+  .i-more{ display:none; }
   @media (max-height:780px) and (min-width:720px){ .i-f{ display:none; } }
   @media (max-height:500px) and (orientation:landscape){ .intro{ display:none; } }
 
   
   @media (max-width:719px){
-    :root{ --chip-h:44px; --base-h:0px; }
+    :root{ --base-h:0px; }
     .stage{ top:0; bottom:0; }
     #map{ overflow:hidden; }
     .page-map .bar{ background:color-mix(in srgb, var(--paper) 78%, transparent);
       -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
     html:not(.js) .lab, html:not(.js) .lab-now{ display:none; }   
-    .mapbase{ height:auto; flex-direction:column-reverse; align-items:stretch; gap:0.5rem; padding:0 0 calc(0.7rem + env(safe-area-inset-bottom));
+    .mapbase{ height:auto; flex-direction:column-reverse; align-items:flex-start; gap:0.5rem; padding:0 0 calc(0.7rem + env(safe-area-inset-bottom));
       background:none; border:0; -webkit-backdrop-filter:none; backdrop-filter:none; pointer-events:none; }
-    .mapchips{ gap:0.4rem; margin:0; padding:0 var(--gutter); pointer-events:auto; -webkit-overflow-scrolling:touch; }
-    .chip{ gap:0.5rem; font-size:0.7rem; background:color-mix(in srgb, var(--paper) 90%, transparent);
-      border:1px solid var(--line); border-radius:999px; padding:0 0.95rem; min-height:var(--chip-h); }
-    .chip.on{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
-    .chip.on i{ border-color:var(--on-accent); }
-    .tkey{ align-self:stretch; margin:0 var(--gutter); padding:0 0.9rem 0.45rem; gap:0 0.8rem; flex-wrap:wrap; justify-content:flex-end; border-radius:14px; pointer-events:auto; touch-action:none;
+    
+    .js .mapchips{ position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; margin:0; padding:0; }
+    .tkey{ margin:0 var(--gutter); padding:0 0.9rem; min-height:34px; gap:0 0.8rem; flex-wrap:wrap; border-radius:999px; pointer-events:auto;
       background:color-mix(in srgb, var(--paper) 86%, transparent); border:1px solid var(--line); }
-    .k-year{ flex:1 1 100%; }
-    .k-range{ width:auto; }
-    .stopcard{ left:var(--gutter); right:var(--gutter); width:auto; }
-    .intro{ right:var(--gutter); width:auto; padding:0.7rem 0.95rem 0.55rem; }
+    .tl{ bottom:calc(0.8rem + env(safe-area-inset-bottom)); }
+    .pathx{ right:auto; left:var(--gutter); }
+    .stopcard{ left:var(--gutter); right:calc(var(--tlw) + 6px); width:auto; }
+    .intro{ right:calc(var(--tlw) + 6px); width:auto; padding:0.7rem 0.95rem 0.2rem; }
     .i-lede{ font-size:0.98rem; line-height:1.36; }
     .i-papers{ margin-top:0.5rem; }
     .i-papers li{ padding:0.45rem 0 0.4rem 0.75rem; }
     .i-t{ font-size:0.9rem; }
     .i-s{ font-size:0.72rem; }
     .i-f{ display:none; }
-    .stopcard.trip.lone{ right:auto; width:fit-content; }
-    .mapchips{ -webkit-mask-image:linear-gradient(90deg, #000 calc(100% - 1.6rem), transparent); mask-image:linear-gradient(90deg, #000 calc(100% - 1.6rem), transparent); }
+    
+    .intro:not(.open) .i-rest, .intro:not(.open) .i-s{ display:none; }
+    .intro:not(.open) .i-t{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .i-more{ display:grid; place-items:center; width:44px; height:44px; margin:0.05rem auto 0; padding:0; background:none; border:0; border-radius:50%;
+      color:var(--ink-soft); cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+    .i-more svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .2s ease; }
+    .intro.open .i-more svg{ transform:rotate(180deg); }
+    .i-more:focus-visible{ outline:2px solid var(--ink); outline-offset:-4px; }
+    .stopcard.trip.lone{ right:auto; width:fit-content; max-width:calc(100% - var(--gutter) - var(--tlw) - 6px); }
     
     .world2{ position:fixed; left:0; right:0; z-index:1; display:flex; flex-direction:column; gap:0;
       opacity:0; visibility:hidden; transition:opacity .35s ease, visibility 0s .35s; }
@@ -330,17 +336,15 @@
     .world2-on #map{ opacity:0; pointer-events:none; }
     .world2 svg{ display:block; flex:1 1 0; min-height:0; width:100%; overflow:hidden; touch-action:manipulation; }
     .world2 svg + svg{ border-top:1px solid var(--line-strong); }
-    @media (max-height:700px){ :root{ --chip-h:38px; } }
   }
 
   
-  .chip-world, .sc-step{ display:none; }
+  .sc-step{ display:none; }
   .sc-nav{ display:flex; align-items:center; }
   @media (max-width:719px), (max-height:500px) and (orientation:landscape){
     html.js, html.js body.page-map{ overflow:hidden; overscroll-behavior:none; }
     .journey, .cue{ display:none; }
     #map{ touch-action:none; }
-    .chip-world{ display:flex; }
     .sc-head{ align-items:center; }
     .sc-nav{ margin:-0.5rem -0.4rem -0.5rem 0; }
     .sc-step{ display:grid; place-items:center; width:44px; height:44px; padding:0; background:none; border:0; border-radius:50%;
@@ -381,15 +385,18 @@
 
   
   @media (max-height:500px) and (orientation:landscape){
-    :root{ --chip-h:36px; --base-h:calc(2.5rem + env(safe-area-inset-bottom)); }
+    :root{ --base-h:calc(2.5rem + env(safe-area-inset-bottom)); }
     .stage{ top:4rem; }
     #map{ overflow:hidden; }
-    .stopcard{ left:auto; right:var(--gutter); width:min(46vw, 26rem); top:calc(var(--bar-b, 4.2rem) + 0.2rem); }
-    .mapbase{ right:auto; width:calc(100% - min(46vw, 26rem) - 2 * var(--gutter)); }
+    .stopcard{ left:auto; right:calc(var(--tlw) + 6px); width:min(46vw, 26rem); top:calc(var(--bar-b, 4.2rem) + 0.2rem); }
+    .tl{ top:calc(var(--bar-b, 4.2rem) + 0.2rem); bottom:calc(var(--base-h) + 0.4rem); }
+    .pathx{ right:auto; left:var(--gutter); }
+    .mapbase{ right:auto; width:calc(100% - min(46vw, 26rem) - var(--tlw) - 2 * var(--gutter)); }
   }
   @media (max-height:500px) and (orientation:landscape) and (max-width:719px){
     :root{ --base-h:0px; }
-    .mapbase{ width:calc(100% - min(46vw, 26rem) - 2 * var(--gutter)); }
+    .mapbase{ width:calc(100% - min(46vw, 26rem) - var(--tlw) - 2 * var(--gutter)); }
+    .tl{ bottom:0.4rem; }
   }
 </style>
 <script type="application/ld+json">
@@ -401,7 +408,7 @@
       "@id": "https://sherytash.github.io/#website",
       "url": "https://sherytash.github.io/",
       "name": "Stefan Herytash",
-      "description": "Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the scientific process, from data collection with language models to peer review and journal certification.",
+      "description": "Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the way knowledge is produced and judged: when language models can simulate how people behave, and what publishing and peer review should look like after AI.",
       "inLanguage": "en",
       "publisher": {
         "@id": "https://sherytash.github.io/#person"
@@ -418,7 +425,7 @@
         "@type": "ImageObject",
         "url": "https://sherytash.github.io/assets/portrait-web.jpg"
       },
-      "description": "Assistant Professor at WU Vienna. Research on large language models as simulated research participants, journal certification and the science of science, and strategy and innovation.",
+      "description": "Assistant Professor at WU Vienna. Research on how AI changes the way knowledge is produced and judged: AI behavioral simulation with language models, and post-AI publishing and peer review.",
       "worksFor": {
         "@type": "Organization",
         "name": "Institute for Strategy, Technology and Organization",
@@ -447,6 +454,8 @@
         }
       ],
       "knowsAbout": [
+        "Post-AI publishing",
+        "AI behavioral simulation",
         "AI and the scientific process",
         "Large language models as simulated research participants",
         "Synthetic respondents in behavioral experiments",
@@ -472,7 +481,7 @@
 }
 </script>
 <meta name="twitter:title" content="Stefan Herytash, Assistant Professor at WU Vienna">
-<meta name="twitter:description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on AI and the scientific process: language models in data collection, peer review and journal certification.">
+<meta name="twitter:description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on how AI changes the way knowledge is produced and judged: AI behavioral simulation and post-AI publishing.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:site_name" content="Stefan Herytash">
 <meta property="og:image:width" content="1200">
@@ -563,8 +572,10 @@
 <a class="chip" href="#berlin" data-id="berlin" data-years="2026-2026" style="--tm:96%"><i aria-hidden="true"></i>Berlin</a>
 <a class="chip" href="#stanford" data-id="stanford" data-years="2027-2027" style="--tm:100%"><i aria-hidden="true"></i>Stanford</a>
     </nav>
-    <div class="tkey" style="--ramp-min:38%"><label class="k-year"><output class="k-val" aria-hidden="true">All</output><input type="range" class="k-range" aria-label="Year" min="2015" max="2027" step="1" value="2015" aria-valuetext="All"></label></div>
+    
   </div>
+
+  <div class="tl" id="tl" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Places, in the order of the journey" aria-valuemin="-1" aria-valuemax="15" aria-valuenow="-1" aria-valuetext="Stefan Herytash" style="--ramp-min:38%"><div class="tl-track"><i class="tl-n" style="--f:0.0625;--tm:38%" data-year="2016" title="Vienna 2016"><b class="tl-y">2016</b></i><i class="tl-n" style="--f:0.1250;--tm:42%" data-year="2019" title="Zurich 2019"><b class="tl-y">2019</b></i><i class="tl-n" style="--f:0.1875;--tm:47%" data-year="2022" title="Munich 2022"><b class="tl-y">2022</b></i><i class="tl-n" style="--f:0.2500;--tm:51%" data-year="2023" title="Lyon 2023"><b class="tl-y">2023</b></i><i class="tl-n" style="--f:0.3125;--tm:56%" data-year="2025" title="Phoenix 2025"><b class="tl-y">2025</b></i><i class="tl-n" style="--f:0.3750;--tm:60%" data-year="2025" title="Montreal 2025"></i><i class="tl-n" style="--f:0.4375;--tm:65%" data-year="2025" title="Chicago 2025"></i><i class="tl-n" style="--f:0.5000;--tm:69%" data-year="2025" title="Copenhagen 2025"></i><i class="tl-n" style="--f:0.5625;--tm:73%" data-year="2025" title="Hong Kong 2025"></i><i class="tl-n" style="--f:0.6250;--tm:78%" data-year="2025" title="Istanbul 2025"></i><i class="tl-n" style="--f:0.6875;--tm:82%" data-year="2026" title="Boston 2026"><b class="tl-y">2026</b></i><i class="tl-n" style="--f:0.7500;--tm:87%" data-year="2026" title="Philadelphia 2026"></i><i class="tl-n" style="--f:0.8125;--tm:91%" data-year="2026" title="Stockholm 2026"></i><i class="tl-n" style="--f:0.8750;--tm:96%" data-year="2026" title="Berlin 2026"></i><i class="tl-n" style="--f:0.9375;--tm:100%" data-year="2027" title="Stanford 2027"><b class="tl-y">2027</b></i><i class="tl-n tl-w" style="--f:1" title="World"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg></i><span class="tl-thumb is-start" style="--f:0"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg><span class="tl-ty"></span></span></div></div>
 
   <aside class="panels">
 <article class="panel" id="vienna" data-kind="eu" aria-labelledby="vienna-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="vienna-h">Vienna</h2><section class="stay" id="vienna-2016" data-stay="vienna-2016" data-city="vienna" data-start="2016-10" data-now="1"><ol><li><span class="yr">2026–</span><div><span class="t">Assistant Professor, <span class="inst" data-sketch="wu">WU Vienna</span></span><span class="s">Institute for Strategy, Technology and Organization</span></div></li><li><span class="yr">2021–2022</span><div><span class="t">Mathematician, <span class="inst" data-sketch="uniqa">UNIQA Insurance Group AG</span></span><span class="s">Group Actuarial</span></div></li><li><span class="yr">2019</span><div><span class="t">Mathematician, <span class="inst" data-sketch="erste">Erste Group Bank AG</span></span><span class="s">Group Risk Management</span></div></li><li><span class="yr">2016–2019</span><div><span class="t">BSc in Mathematics, <span class="inst" data-sketch="tuwien">TU Wien</span></span><span class="s">Thesis on optimal stopping · with great distinction</span></div></li></ol></section></article>
@@ -590,17 +601,18 @@
   
   <aside class="intro" id="intro" aria-labelledby="intro-role">
     <p class="i-role" id="intro-role">Assistant Professor, WU Vienna</p>
-    <p class="i-lede">I study how AI changes the way science is done. One line of work asks when language models can stand in for human participants in experiments. The other asks what peer review and journal certification are worth once a polished paper costs almost nothing to write.</p>
+    <p class="i-lede"><span class="i-first">I study how AI changes the way knowledge is produced and judged.</span> <span class="i-rest">Two questions guide my work: when can language models simulate how people behave, and what should publishing and peer review look like after AI?</span></p>
     <ul class="i-papers">
-      <li style="--cl:var(--cl-ai)"><span class="i-k">Data collection</span>
+      <li style="--cl:var(--cl-ai)"><span class="i-k">AI behavioral simulation</span>
         <a class="i-t" href="/cv/#paper-ai-simulations">When and How to Integrate AI Simulations into Behavioral Experimentation</a>
         <span class="i-s">Revise and resubmit, International Journal of Research in Marketing</span>
         <span class="i-f">Across 70 published marketing effects, language models rank the effects well but understate their size. A small human sample removes the bias.</span></li>
-      <li style="--cl:var(--cl-sci)"><span class="i-k">Certification and publishing</span>
+      <li style="--cl:var(--cl-sci)"><span class="i-k">Post-AI publishing</span>
         <a class="i-t" href="/cv/#paper-fax">After the Fax Machine Burns: Journal Certification When Everything Is Published</a>
         <span class="i-s">Submitted to Management Science</span>
         <span class="i-f">Journals could publish every submission on arrival and let a market grade it afterwards. Readers and hiring committees would be served at least as well as by today's verdict.</span></li>
     </ul>
+    <button class="i-more" type="button" aria-expanded="false" aria-label="Show more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   </aside>
 
   <div class="journey">
@@ -702,7 +714,8 @@
       if (phone.matches) return aim(v, (x0 + x1) / 2, (yN + yS) / 2, freeRect(false));
       const ib = intro.getBoundingClientRect(), r = svg.getBoundingClientRect();
       if (!ib.width) return v;
-      const f = [ib.right + 16, r.top, r.right - 45, r.bottom];
+      const rr = Math.min(r.right - 45, document.getElementById('tl').getBoundingClientRect().left - 6);
+      const f = [ib.right + 16, r.top, rr, r.bottom];
       const kf = Math.min((f[2] - f[0] - 2 * S) / span, Math.max(f[3] - f[1] - 2 * S, 1) / bandH);
       const kFill = r.height / WORLD[3], cy = WORLD[1] + WORLD[3] / 2;
       if (kf >= 0.9 * kFill) {
@@ -815,7 +828,7 @@
           const nr = f('.now-ring'); if (nr) { nr.setAttribute('r', u(q.nowR)); nr.setAttribute('stroke-width', u(1.6)); }
         });
         const taken = [];
-        ['#card:not([hidden])', '#intro', '.mapbase', phone.matches ? '.bar' : '.bar > *', '.tkey', '.cue'].forEach(sel => document.querySelectorAll(sel).forEach(e => {
+        ['#card:not([hidden])', '#intro', '.mapbase', phone.matches ? '.bar' : '.bar > *', '.tkey', '.cue', '#tl'].forEach(sel => document.querySelectorAll(sel).forEach(e => {
           const b = e.getBoundingClientRect(); if (b.width) taken.push([b.left - 4, b.top - 4, b.right + 4, b.bottom + 4]); }));
         const vis = P.filter(q => q.x > view[0] - 4 && q.x < view[2] + 4 && q.y > view[1] - 4 && q.y < view[3] + 4 &&
           (open || (q.x > R.left && q.x < R.right && q.y > R.top && q.y < R.bottom)) &&
@@ -989,7 +1002,10 @@
 
     function freeRect(withCard = true) {
       const r = svg.getBoundingClientRect(), bar = document.querySelector('.bar').getBoundingClientRect();
-      const top = Math.max(r.top, bar.bottom + 4), left = Math.max(r.left, 0), right = Math.min(r.right, innerWidth);
+      const top = Math.max(r.top, bar.bottom + 4), left = Math.max(r.left, 0);
+      let right = Math.min(r.right, innerWidth);
+      const rail = document.getElementById('tl').getBoundingClientRect();
+      if (rail.width) right = Math.min(right, rail.left - 6);
       let bottom = Math.min(r.bottom, innerHeight) - 14;
       document.querySelectorAll('.mapbase').forEach(el => { const b = el.getBoundingClientRect(); if (b.width) bottom = Math.min(bottom, b.top - 8); });
       const whole = [left, top, right, Math.max(bottom, top + 80)];
@@ -1027,7 +1043,7 @@
       return '<div class="sc-body"><div class="sc-head"><h2>' + esc(t.name) + '</h2><span class="end"><span class="when">' + esc(t.years) +
         '</span><button class="sc-x" type="button" aria-label="Close ' + esc(t.name) + '">&times;</button></span></div>' + (ph ? ph.outerHTML : '') + '</div>';
     }
-    const mark = (cls, city) => document.querySelectorAll('.pin, .chip:not(.chip-world), .lab').forEach(el => el.classList.toggle(cls, !!city && (el.dataset.id === city || el.dataset.for === city)));
+    const mark = (cls, city) => document.querySelectorAll('.pin, .chip, .lab').forEach(el => el.classList.toggle(cls, !!city && (el.dataset.id === city || el.dataset.for === city)));
     const swap = () => { card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap'); };
     function showStop(i, instant) {
       const t = tour[i];
@@ -1070,8 +1086,7 @@
       if (p === pos && !manual && !o.force) return;
       pos = p; manual = false;
       root.classList.toggle('at-start', p === -1 && !introGone);
-      document.querySelectorAll('.chip-world').forEach(c => c.classList.toggle('on', p >= N));
-      if (p >= -1) jpos = p;
+      if (p >= -1) { jpos = p; if (!tlDrag || gest.matches) setC(p, true); }
       if (phone.matches && p >= N) {
         hideCard(); want = null; halt(); enterWorld2(); return;
       }
@@ -1124,13 +1139,14 @@
       if (!world2) return;
       const f = freeRect(false), host = document.getElementById('world2');
       host.style.top = f[1] + 'px'; host.style.height = Math.max(f[3] - f[1], 120) + 'px';
+      const rail = Math.max(0, innerWidth - document.getElementById('tl').getBoundingClientRect().left + 6);
       world2.forEach(o => {
-        const r = o.el.getBoundingClientRect(), pw = r.width || innerWidth, ph = r.height || 200;
+        const r = o.el.getBoundingClientRect(), pw = r.width || innerWidth, ph = r.height || 200, fw = pw - rail;
         const xs = o.group.map(a => +a.dataset.x), ys = o.group.map(a => +a.dataset.y);
         const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
-        const mx = Math.min(28, pw / 10), my = Math.min(30, ph / 6);
-        const k = Math.min((pw - 2 * mx) / Math.max(x1 - x0, 1), (ph - 2 * my) / Math.max(y1 - y0, 1), 7);
-        o.vb = [(x0 + x1) / 2 - pw / k / 2, (y0 + y1) / 2 - ph / k / 2, pw / k, ph / k];
+        const mx = Math.min(28, fw / 10), my = Math.min(30, ph / 6);
+        const k = Math.min((fw - 2 * mx) / Math.max(x1 - x0, 1), (ph - 2 * my) / Math.max(y1 - y0, 1), 7);
+        o.vb = [(x0 + x1) / 2 - fw / k / 2, (y0 + y1) / 2 - ph / k / 2, pw / k, ph / k];
         o.el.setAttribute('viewBox', o.vb.map(n => n.toFixed(2)).join(' '));
       });
       world2.forEach(o => o.layout.size());
@@ -1139,7 +1155,6 @@
       if (!world2) world2 = buildWorld2();
       inWorld2 = true; root.classList.add('world2-on');
       layoutWorld2();
-      applyYear();
     }
     function leaveWorld2() { inWorld2 = false; root.classList.remove('world2-on'); }
 
@@ -1169,7 +1184,8 @@
       if (p !== pos) arrive(p, { instant: now - born < 1500 });
     };
     let settle = 0, maxWait = 0;
-    const run = () => { clearTimeout(settle); clearTimeout(maxWait); settle = maxWait = 0; commit(); };
+    const run = () => { clearTimeout(settle); clearTimeout(maxWait); settle = maxWait = 0; commit();
+      if (!gest.matches && !tlDrag && !hold && !resizing) setC(pos === TRIP ? jpos : Math.max(pos, -1), true); };
     const later = ms => { clearTimeout(settle); settle = setTimeout(run, ms); if (!maxWait) maxWait = setTimeout(run, 400); };
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(() => later(90), { rootMargin: '-50% 0px -50% 0px', threshold: [0, 1] });
@@ -1205,14 +1221,14 @@
       choose(id);
     };
     document.addEventListener('click', e => {
-      const t = e.target.closest && e.target.closest('.pin, .chip:not(.chip-world), .lab, .lab-hit');
+      const t = e.target.closest && e.target.closest('.pin, .chip, .lab, .lab-hit');
       if (!t) return;
       e.preventDefault(); clickT = performance.now();
       activate(idOf(t));
     });
     let tap = null;
     document.addEventListener('pointerdown', e => {
-      const t = e.pointerType === 'touch' && e.isPrimary && e.target.closest && e.target.closest('.pin, .chip:not(.chip-world), .lab, .lab-hit');
+      const t = e.pointerType === 'touch' && e.isPrimary && e.target.closest && e.target.closest('.pin, .chip, .lab, .lab-hit');
       tap = t ? { t, x: e.clientX, y: e.clientY, at: performance.now() } : null;
     }, true);
     document.addEventListener('pointerup', e => {
@@ -1230,24 +1246,75 @@
       goTo(Math.max(0, Math.min(N - 1, cur + (next ? 1 : -1))));
       if (e.detail === 0) { const nb = card.querySelector(next ? '.sc-next' : '.sc-prev'); if (nb && !nb.disabled) nb.focus({ preventScroll: true }); }
     });
-    const worldChip = document.createElement('a');
-    worldChip.className = 'chip chip-world'; worldChip.href = '#world'; worldChip.setAttribute('role', 'button'); worldChip.textContent = 'World';
-    worldChip.addEventListener('click', e => { e.preventDefault(); if (window.closeSheet) closeSheet(true); goTo(N); });
-    const chipRow = document.querySelector('.mapchips'); chipRow.insertBefore(worldChip, chipRow.firstChild);
-
-    const rng = document.querySelector('.k-range'), kval = document.querySelector('.k-val');
-    const spans = new Map(pins.map(a => [a.dataset.id, (a.dataset.years || '').split(' ').filter(Boolean).map(r => r.split('-').map(Number))]));
-    function applyYear() {
-      if (!rng) return;
-      const v = +rng.value, all = v === +rng.min;
-      kval.textContent = all ? 'All' : String(v); kval.classList.toggle('all', all); rng.classList.toggle('on', !all);
-      rng.setAttribute('aria-valuetext', all ? 'All' : String(v));
-      document.querySelectorAll('.pin, .chip:not(.chip-world), .lab, .lab-now').forEach(el => {
-        const dim = !all && !(spans.get(el.dataset.id || el.dataset.for) || []).some(([a, b]) => v >= a && v <= b);
-        el.classList.toggle('dim', dim); if (el.leader) el.leader.classList.toggle('dim', dim);
-      });
+    const tl = document.getElementById('tl'), tlTrack = tl.querySelector('.tl-track'), tlThumb = tl.querySelector('.tl-thumb');
+    const tlYear = tlThumb.querySelector('.tl-ty'), tlNotches = [...tl.querySelectorAll('.tl-n')];
+    const tlHome = tl.getAttribute('aria-valuetext');
+    let tlC = -1, tlNear = -2, tlDrag = false, tlGo = -9, tlRaf = 0;
+    function setC(c, glide) {
+      c = Math.max(-1, Math.min(N, c)); tlC = c;
+      tlThumb.style.transition = glide ? '' : 'none';
+      tlThumb.style.setProperty('--f', ((c + 1) / (N + 1)).toFixed(4));
+      const near = Math.round(c);
+      if (near === tlNear) return;
+      tlNear = near;
+      tlThumb.classList.toggle('is-start', near < 0); tlThumb.classList.toggle('is-world', near >= N);
+      tlYear.textContent = near >= 0 && near < N ? tlNotches[near].dataset.year : '';
+      tl.setAttribute('aria-valuenow', near);
+      tl.setAttribute('aria-valuetext', near < 0 ? tlHome : tlNotches[near].title);
     }
-    if (rng) rng.addEventListener('input', applyYear);
+    const tlYs = () => { const a = []; for (let i = -1; i <= N; i++) a.push(stepsTop(i)); return a; };
+    const cOfScroll = () => {
+      const a = tlYs(), y = scrollY;
+      if (y <= a[0]) return -1;
+      for (let k = 1; k < a.length; k++) if (y <= a[k]) return k - 2 + (a[k] > a[k - 1] ? (y - a[k - 1]) / (a[k] - a[k - 1]) : 0);
+      return N;
+    };
+    const scrollOfC = c => {
+      const a = tlYs(), s = Math.max(0, Math.min(N + 1, c + 1)), k = Math.min(Math.floor(s), N), f = s - k;
+      return a[k] + (a[k + 1] - a[k]) * f;
+    };
+    addEventListener('scroll', () => {
+      if (gest.matches || tlDrag || tlRaf) return;
+      tlRaf = requestAnimationFrame(() => {
+        tlRaf = 0;
+        if (resizing || (hold && (hold.y === null || Math.abs(scrollY - hold.y) < 40))) return;
+        setC(cOfScroll(), false);
+      });
+    }, { passive: true });
+    const cAt = y => { const r = tlTrack.getBoundingClientRect(); return Math.max(0, Math.min(1, (y - r.top) / r.height)) * (N + 1) - 1; };
+    function tlMove(e) {
+      const c = cAt(e.clientY);
+      if (gest.matches) { const p = Math.round(c); if (p !== tlGo) { tlGo = p; goTo(p); } return; }
+      setC(c, false);
+      try { root.classList.add('nosnap'); scrollTo(0, scrollOfC(c)); } catch (x) {   }
+    }
+    tl.addEventListener('pointerdown', e => {
+      if (e.button) return;
+      e.preventDefault(); if (e.pointerType !== 'touch') tl.focus({ preventScroll: true });
+      tlDrag = true; tlGo = -9; hold = null;
+      try { tl.setPointerCapture(e.pointerId); } catch (x) {   }
+      tlMove(e);
+    });
+    tl.addEventListener('pointermove', e => { if (tlDrag) tlMove(e); });
+    const tlEnd = e => {
+      if (!tlDrag) return;
+      tlDrag = false;
+      if (e.type === 'pointercancel') { setC(jpos, true); return; }
+      goTo(Math.round(cAt(e.clientY)));
+    };
+    tl.addEventListener('pointerup', tlEnd); tl.addEventListener('pointercancel', tlEnd);
+    tl.addEventListener('keydown', e => {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); goTo(e.key === 'Home' ? -1 : N); }
+    });
+
+    const more = intro.querySelector('.i-more');
+    more.addEventListener('click', () => {
+      const open = intro.classList.toggle('open');
+      more.setAttribute('aria-expanded', open); more.setAttribute('aria-label', open ? 'Show less' : 'Show more');
+      if (want === homeBox) { halt(); flyTo(want(), { instant: true }); }
+      size();
+    });
 
     function focusCentre() {
       if (vb[2] > 480) { hideCard(); return; }
