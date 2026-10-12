@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZrBmLaHdBeKKiQDO33lsEcb70d/L4qpfCZiNw/YdojQ=' 'sha256-H6zAjPWbFGMMzKe2OvYajavfgkAFqZyMONkQLw7M1G0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZrBmLaHdBeKKiQDO33lsEcb70d/L4qpfCZiNw/YdojQ=' 'sha256-UWStpIxquUItOXLBuHukE4c4KG4HLQQ34kIxsxqm0us='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Stefan Herytash, Assistant Professor at WU Vienna</title>
 <meta name="description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on how AI changes the way knowledge is produced and judged: AI behavioral simulation and post-AI publishing.">
@@ -153,16 +153,16 @@
   .tl-y{ position:absolute; right:calc(100% + 9px); top:50%; transform:translateY(-50%); font:400 11px/1 var(--mono); letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums;
     text-shadow:0 0 3px var(--paper), 0 0 3px var(--paper), 0 0 6px var(--paper); pointer-events:none; }
   .tl-w{ width:18px; height:18px; margin:-9px 0 0 -9px; background:var(--paper); border:0; color:var(--accent); }
-  .tl-w svg{ display:block; width:18px; height:18px; }
+  .tl-s{ width:18px; height:18px; margin:-9px 0 0 -9px; background:var(--paper); border:0; color:var(--accent); }
+  .tl-w svg, .tl-s svg{ display:block; width:18px; height:18px; }
   .tl svg{ fill:none; stroke:currentColor; stroke-width:1.6; }
   .tl-thumb{ position:absolute; left:35px; top:calc(var(--f) * 100%); transform:translate(-50%, -50%); box-sizing:border-box; min-width:44px; height:28px; padding:0 4px;
     display:grid; place-items:center; border-radius:14px; background:var(--paper); border:2.5px solid var(--accent); color:var(--accent);
     font:600 14px/1 var(--mono); font-variant-numeric:tabular-nums; letter-spacing:0; transition:top .28s ease; }
   .tl-ty{ color:var(--ink); }
   .tl-thumb svg{ display:none; width:20px; height:20px; }
-  .tl-thumb.is-start{ min-width:0; width:22px; height:22px; padding:0; border-radius:50%; }
-  .tl-thumb.is-world{ min-width:0; width:30px; height:30px; padding:0; border-radius:50%; }
-  .tl-thumb.is-world svg{ display:block; }
+  .tl-thumb.is-start, .tl-thumb.is-world{ min-width:0; width:30px; height:30px; padding:0; border-radius:50%; }
+  .tl-thumb.is-world svg.g, .tl-thumb.is-start svg.h{ display:block; }
   .tl-thumb.is-start .tl-ty, .tl-thumb.is-world .tl-ty{ display:none; }
   .tl:focus-visible .tl-thumb{ outline:2px solid var(--ink); outline-offset:3px; }
   html:not(.js) .tl{ display:none; }
@@ -456,7 +456,7 @@
       "knowsAbout": [
         "Post-AI publishing",
         "AI behavioral simulation",
-        "AI and the scientific process",
+        "AI and how knowledge is produced and judged",
         "Large language models as simulated research participants",
         "Synthetic respondents in behavioral experiments",
         "Science of science",
@@ -575,7 +575,7 @@
     
   </div>
 
-  <div class="tl" id="tl" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Places, in the order of the journey" aria-valuemin="-1" aria-valuemax="15" aria-valuenow="-1" aria-valuetext="Stefan Herytash" style="--ramp-min:38%"><div class="tl-track"><i class="tl-n" style="--f:0.0625;--tm:38%" data-year="2016" title="Vienna 2016"><b class="tl-y">2016</b></i><i class="tl-n" style="--f:0.1250;--tm:42%" data-year="2019" title="Zurich 2019"><b class="tl-y">2019</b></i><i class="tl-n" style="--f:0.1875;--tm:47%" data-year="2022" title="Munich 2022"><b class="tl-y">2022</b></i><i class="tl-n" style="--f:0.2500;--tm:51%" data-year="2023" title="Lyon 2023"><b class="tl-y">2023</b></i><i class="tl-n" style="--f:0.3125;--tm:56%" data-year="2025" title="Phoenix 2025"><b class="tl-y">2025</b></i><i class="tl-n" style="--f:0.3750;--tm:60%" data-year="2025" title="Montreal 2025"></i><i class="tl-n" style="--f:0.4375;--tm:65%" data-year="2025" title="Chicago 2025"></i><i class="tl-n" style="--f:0.5000;--tm:69%" data-year="2025" title="Copenhagen 2025"></i><i class="tl-n" style="--f:0.5625;--tm:73%" data-year="2025" title="Hong Kong 2025"></i><i class="tl-n" style="--f:0.6250;--tm:78%" data-year="2025" title="Istanbul 2025"></i><i class="tl-n" style="--f:0.6875;--tm:82%" data-year="2026" title="Boston 2026"><b class="tl-y">2026</b></i><i class="tl-n" style="--f:0.7500;--tm:87%" data-year="2026" title="Philadelphia 2026"></i><i class="tl-n" style="--f:0.8125;--tm:91%" data-year="2026" title="Stockholm 2026"></i><i class="tl-n" style="--f:0.8750;--tm:96%" data-year="2026" title="Berlin 2026"></i><i class="tl-n" style="--f:0.9375;--tm:100%" data-year="2027" title="Stanford 2027"><b class="tl-y">2027</b></i><i class="tl-n tl-w" style="--f:1" title="World"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg></i><span class="tl-thumb is-start" style="--f:0"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg><span class="tl-ty"></span></span></div></div>
+  <div class="tl" id="tl" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Places, in the order of the journey" aria-valuemin="-1" aria-valuemax="15" aria-valuenow="-1" aria-valuetext="Stefan Herytash" style="--ramp-min:38%"><div class="tl-track"><i class="tl-n tl-s" style="--f:0" title="Start" aria-label="Start"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.8 9.4 10 3.2l7.2 6.2"/><path d="M4.8 8.4V16.5h10.4V8.4"/><path d="M8.3 16.5v-4.6h3.4v4.6"/></svg></i><i class="tl-n" style="--f:0.0625;--tm:38%" data-year="2016" title="Vienna 2016"><b class="tl-y">2016</b></i><i class="tl-n" style="--f:0.1250;--tm:42%" data-year="2019" title="Zurich 2019"><b class="tl-y">2019</b></i><i class="tl-n" style="--f:0.1875;--tm:47%" data-year="2022" title="Munich 2022"><b class="tl-y">2022</b></i><i class="tl-n" style="--f:0.2500;--tm:51%" data-year="2023" title="Lyon 2023"><b class="tl-y">2023</b></i><i class="tl-n" style="--f:0.3125;--tm:56%" data-year="2025" title="Phoenix 2025"><b class="tl-y">2025</b></i><i class="tl-n" style="--f:0.3750;--tm:60%" data-year="2025" title="Montreal 2025"></i><i class="tl-n" style="--f:0.4375;--tm:65%" data-year="2025" title="Chicago 2025"></i><i class="tl-n" style="--f:0.5000;--tm:69%" data-year="2025" title="Copenhagen 2025"></i><i class="tl-n" style="--f:0.5625;--tm:73%" data-year="2025" title="Hong Kong 2025"></i><i class="tl-n" style="--f:0.6250;--tm:78%" data-year="2025" title="Istanbul 2025"></i><i class="tl-n" style="--f:0.6875;--tm:82%" data-year="2026" title="Boston 2026"><b class="tl-y">2026</b></i><i class="tl-n" style="--f:0.7500;--tm:87%" data-year="2026" title="Philadelphia 2026"></i><i class="tl-n" style="--f:0.8125;--tm:91%" data-year="2026" title="Stockholm 2026"></i><i class="tl-n" style="--f:0.8750;--tm:96%" data-year="2026" title="Berlin 2026"></i><i class="tl-n" style="--f:0.9375;--tm:100%" data-year="2027" title="Stanford 2027"><b class="tl-y">2027</b></i><i class="tl-n tl-w" style="--f:1" title="World"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg></i><span class="tl-thumb is-start" style="--f:0"><svg class="g" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg><svg class="h" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.8 9.4 10 3.2l7.2 6.2"/><path d="M4.8 8.4V16.5h10.4V8.4"/><path d="M8.3 16.5v-4.6h3.4v4.6"/></svg><span class="tl-ty"></span></span></div></div>
 
   <aside class="panels">
 <article class="panel" id="vienna" data-kind="eu" aria-labelledby="vienna-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="vienna-h">Vienna</h2><section class="stay" id="vienna-2016" data-stay="vienna-2016" data-city="vienna" data-start="2016-10" data-now="1"><ol><li><span class="yr">2026–</span><div><span class="t">Assistant Professor, <span class="inst" data-sketch="wu">WU Vienna</span></span><span class="s">Institute for Strategy, Technology and Organization</span></div></li><li><span class="yr">2021–2022</span><div><span class="t">Mathematician, <span class="inst" data-sketch="uniqa">UNIQA Insurance Group AG</span></span><span class="s">Group Actuarial</span></div></li><li><span class="yr">2019</span><div><span class="t">Mathematician, <span class="inst" data-sketch="erste">Erste Group Bank AG</span></span><span class="s">Group Risk Management</span></div></li><li><span class="yr">2016–2019</span><div><span class="t">BSc in Mathematics, <span class="inst" data-sketch="tuwien">TU Wien</span></span><span class="s">Thesis on optimal stopping · with great distinction</span></div></li></ol></section></article>
@@ -660,7 +660,7 @@
     </div>
     <div class="fwhen" id="f-when-wrap" hidden>
       <label for="f-when">Preferred days and times (optional)</label>
-      <input id="f-when" name="preferred_times" placeholder="Tue or Thu afternoon" autocomplete="off" disabled>
+      <input id="f-when" name="preferred_times" placeholder="Wednesday, 4 pm" autocomplete="off" disabled>
     </div>
     <label class="vh" for="f-msg">Your message</label>
     <textarea required id="f-msg" name="message" rows="4" placeholder="Your message"></textarea>
@@ -1196,6 +1196,10 @@
 
     function goTo(p, o = {}) {
       p = Math.max(-1, Math.min(N, p));
+      if (p === -1) {
+        introGone = false;
+        if (intro.classList.contains('open')) intro.querySelector('.i-more').click();
+      }
       if (gest.matches) { hold = null; halt(); arrive(p, { force: true, instant: o.instant }); return; }
       hold = { pos: p, t: performance.now(), y: null };
       clearTimeout(holdT); holdT = setTimeout(() => { if (hold) hold.y = scrollY; }, 720);
@@ -1247,7 +1251,7 @@
       if (e.detail === 0) { const nb = card.querySelector(next ? '.sc-next' : '.sc-prev'); if (nb && !nb.disabled) nb.focus({ preventScroll: true }); }
     });
     const tl = document.getElementById('tl'), tlTrack = tl.querySelector('.tl-track'), tlThumb = tl.querySelector('.tl-thumb');
-    const tlYear = tlThumb.querySelector('.tl-ty'), tlNotches = [...tl.querySelectorAll('.tl-n')];
+    const tlYear = tlThumb.querySelector('.tl-ty'), tlNotches = [...tl.querySelectorAll('.tl-n:not(.tl-s)')];
     const tlHome = tl.getAttribute('aria-valuetext');
     let tlC = -1, tlNear = -2, tlDrag = false, tlGo = -9, tlRaf = 0;
     function setC(c, glide) {

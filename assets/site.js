@@ -108,6 +108,7 @@
     if (when && whenWrap) {
       whenWrap.hidden = who !== 'student';
       when.disabled = who !== 'student';
+      if (who === 'student' && !when.value) when.value = 'Wednesday, 4 pm';
     }
     wireThesis();
   };
