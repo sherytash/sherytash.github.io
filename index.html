@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZrBmLaHdBeKKiQDO33lsEcb70d/L4qpfCZiNw/YdojQ=' 'sha256-1l+CkjfDLtIuJYpiHQ70jkPsbaJrIhLTAL8lc2o8CHM='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZrBmLaHdBeKKiQDO33lsEcb70d/L4qpfCZiNw/YdojQ=' 'sha256-xIyMOYO27KpD0v315XC7HwlE1R9M9mFcSRDp+iqOtFg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Stefan Herytash, Assistant Professor at WU Vienna</title>
 <meta name="description" content="Stefan Herytash, Assistant Professor at WU Vienna. Research on AI and the scientific process: language models in data collection, peer review and journal certification.">
@@ -168,7 +168,7 @@
   }
   .sc-head{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; }
   .stopcard h2{ margin:0; font-family:var(--serif); font-weight:400; font-size:1.5rem; letter-spacing:-0.01em; }
-  .stopcard .nowtag{ font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--now); margin-left:0.55rem; vertical-align:0.25em; }
+  .stopcard .nowtag{ font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--now); margin-left:0.55rem; vertical-align:0.25em; }
   .stopcard .count{ font-family:var(--mono); font-size:0.7rem; letter-spacing:0.04em; color:var(--ink); white-space:nowrap; }
   .stopcard ol{ list-style:none; margin:0.5rem 0 0; padding:0; }
   .stopcard li{ display:grid; grid-template-columns:5.6rem 1fr; gap:0.7rem; padding:0.5rem 0; border-top:1px solid var(--line); }
@@ -226,6 +226,11 @@
     -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
     border:1px solid var(--line); border-radius:14px; padding:1rem 1.25rem 0.9rem;
     box-shadow:0 20px 40px -32px var(--shadow);
+  }
+  
+  @media (min-width:720px) and (min-height:501px){
+    .intro{ left:0; top:4.6rem; bottom:var(--base-h); width:min(28rem, 34vw); box-sizing:border-box; overflow-y:auto;
+      border-width:0 1px 0 0; border-radius:0; box-shadow:none; padding:1.4rem var(--gutter) 1.2rem; }
   }
   .js:not(.at-start) .intro, .card-open .intro{ display:none; }
   @media (prefers-reduced-motion:no-preference){
@@ -636,7 +641,16 @@
       if (!ib.width) return v;
       const f = [ib.right + 16, r.top, r.right - 45, r.bottom];
       const kf = Math.min((f[2] - f[0] - 2 * S) / span, Math.max(f[3] - f[1] - 2 * S, 1) / bandH);
-      return aim([(x0 + x1) / 2 - W / kf / 2, (yN + yS) / 2 - H / kf / 2, W / kf, H / kf], (x0 + x1) / 2, (yN + yS) / 2, f);
+      const kFill = r.height / WORLD[3], cy = WORLD[1] + WORLD[3] / 2;
+      if (kf >= 0.9 * kFill) {
+        const half = r.height / kf / 2;
+        const my = kf >= kFill ? Math.min(Math.max((yN + yS) / 2, WORLD[1] + half), WORLD[1] + WORLD[3] - half) : cy;
+        return aim([(x0 + x1) / 2 - W / kf / 2, my - H / kf / 2, W / kf, H / kf], (x0 + x1) / 2, my, f);
+      }
+      let cx = Math.min(x0 - S / kFill + (f[2] - f[0]) / kFill / 2, (x0 + x1) / 2);
+      const px = f[0] + (x1 - cx) * kFill + (f[2] - f[0]) / 2;
+      if (px > r.right - 110 && px < r.right + 12) cx -= (r.right + 12 - px) / kFill;
+      return aim([cx - W / kFill / 2, cy - H / kFill / 2, W / kFill, H / kFill], cx, cy, [f[0], r.top, f[2], r.bottom]);
     };
     const homeBox = () => {
       if (!phone.matches) return worldBox();
