@@ -341,12 +341,12 @@
       if (nowLab) {
         const q = front.find(q => q.a.classList.contains('pin-now'));
         if (q) {
-          nowLab.setAttribute('font-size', 11); nowLab.setAttribute('stroke-width', 3); nowLab.setAttribute('text-anchor', 'middle');
+          nowLab.setAttribute('font-size', 11); nowLab.setAttribute('stroke-width', 2); nowLab.setAttribute('text-anchor', 'middle');
           nowLab.setAttribute('x', 0); nowLab.setAttribute('y', (q.nowR + 11).toFixed(1));
           if (vis.includes(q)) taken.push([q.x - 11, q.y + q.nowR + 3, q.x + 11, q.y + q.nowR + 13.5]);
         }
       }
-      labs.forEach(t => { t.setAttribute('font-size', p.font); t.setAttribute('stroke-width', 3); });
+      labs.forEach(t => { t.setAttribute('font-size', p.font); t.setAttribute('stroke-width', 2); });
       vis.forEach(q => { const t = labFor.get(q.id); if (t && !widths.get(t)) { t.classList.remove('off'); const w = t.getBBox().width; if (w) widths.set(t, w); } });
       const world = isWorld();
       const crowd = new Map(vis.map(q => [q.id, vis.filter(o => o !== q && Math.hypot(o.x - q.x, o.y - q.y) < 40 * (world ? 1 : 2.5)).length]));
