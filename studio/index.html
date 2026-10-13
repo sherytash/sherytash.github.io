@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZrBmLaHdBeKKiQDO33lsEcb70d/L4qpfCZiNw/YdojQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Studio of Stefan Herytash: poems, photographs, games</title>
 <meta name="description" content="Poems, photographs, board games and books by Stefan Herytash, next to his academic work at WU Vienna.">
@@ -20,9 +20,10 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#D8E4E2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1D1C18" media="(prefers-color-scheme: dark)">
-<script>(function(d){d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
+<script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js');</script>
 <meta property="og:description" content="Poems, photographs, board games and books by Stefan Herytash, next to his academic work at WU Vienna.">
 <meta name="twitter:title" content="Studio of Stefan Herytash: poems, photographs, games">
 <meta name="twitter:description" content="Poems, photographs, board games and books by Stefan Herytash, next to his academic work at WU Vienna.">

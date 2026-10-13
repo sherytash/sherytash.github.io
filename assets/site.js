@@ -53,14 +53,14 @@
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     }
   }, true);
-  const isOpen = () => location.hash === '#contact';
+  const isOpen = () => (sheet && sheet.matches(':target')) || location.hash === '#contact';
   const focusSheet = () => {
     if (!sheet || sheet.contains(document.activeElement)) return;
     sheet.tabIndex = -1; sheet.focus({ preventScroll: true });
   };
   window.closeSheet = (keepStep) => {
     if (!isOpen()) return;
-    if (pushed) {
+    if (pushed && location.hash === '#contact') {
       pushed = false;
       history.back();
       setTimeout(() => { if (isOpen()) clear(); }, 350);
@@ -69,10 +69,13 @@
     clear();
   };
   const clear = () => {
+    pushed = false;
     location.replace('#_');
     history.replaceState(null, '', location.pathname + location.search);
+    if (sheet && sheet.matches(':target')) sheet.style.display = 'none';
   };
   addEventListener('hashchange', () => {
+    if (sheet) sheet.style.display = '';
     if (isOpen()) { focusSheet(); return; }
     if (/^#(contact-|finder$)/.test(location.hash)) return;
     pushed = false;
@@ -703,7 +706,7 @@
     else { root.setAttribute('data-theme', next); store(next); }
     label();
   });
-  sys.addEventListener('change', label);
+  sys.addEventListener ? sys.addEventListener('change', label) : sys.addListener(label);
   label();
 })();
 

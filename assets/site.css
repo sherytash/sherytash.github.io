@@ -65,7 +65,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   display:flex; justify-content:space-between; align-items:center; gap:1rem;
   padding:calc(0.9rem + env(safe-area-inset-top)) var(--gutter) 0.9rem;
 }
-.page-doc .bar, body:has(.sheet:target, .panel:target) .bar{ background:color-mix(in srgb, var(--paper) 92%, transparent);
+.page-doc .bar{ background:var(--paper); background:color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+body:has(.sheet:target, .panel:target) .bar{ background:var(--paper); background:color-mix(in srgb, var(--paper) 92%, transparent);
   backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
 .page-map .bar{ pointer-events:none; }
 .page-map .bar > *{ pointer-events:auto; }
@@ -325,7 +327,7 @@ html:not(.js) .p-play{ display:none; }
 .card-tile{ justify-content:flex-start; gap:0; }
 .card-tile .chess, .card-tile img{ display:block; width:4.5rem; aspect-ratio:1; margin:0 0 1.1rem; border:1px solid var(--line-strong); border-radius:4px; }
 .card-tile img{ object-fit:cover; width:12rem; }
-.card-tile .chess{ background:repeating-conic-gradient(color-mix(in srgb, var(--ink) 62%, var(--paper)) 0 25%, var(--paper-tint) 0 50%) 0 0 / 25% 25%; }
+.card-tile .chess{ background:repeating-conic-gradient(var(--ink-soft) 0 25%, var(--paper-tint) 0 50%) 0 0 / 25% 25%; background:repeating-conic-gradient(color-mix(in srgb, var(--ink) 62%, var(--paper)) 0 25%, var(--paper-tint) 0 50%) 0 0 / 25% 25%; }
 .card-tile ul{ list-style:none; margin:0; padding:0; }
 .card-tile li{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:0.1rem 1.2rem; padding:0.8rem 0; border-top:1px solid var(--line); }
 .card-tile li:last-child{ border-bottom:1px solid var(--line); }
@@ -354,21 +356,21 @@ html.js .g-note{ display:none; }
 .g-ttt button, .g-c4 .col{ touch-action:manipulation; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; }
 .g-ttt button{ position:relative; aspect-ratio:1; display:grid; place-items:center; padding:0; border:0; background:var(--paper); cursor:pointer; }
 
-@media (hover:hover){ .g-ttt[data-state="you"] button:not(.x):not(.o):hover{ background:color-mix(in srgb, var(--accent) 8%, var(--paper)); } }
+@media (hover:hover){ .g-ttt[data-state="you"] button:not(.x):not(.o):hover{ background:var(--paper); background:color-mix(in srgb, var(--accent) 8%, var(--paper)); } }
 .g-ttt[data-state="stefan"] button, .g-ttt[data-state="over"] button, .g-ttt button.x, .g-ttt button.o{ cursor:default; }
 .g-ttt button.x::before, .g-ttt button.x::after{ content:""; position:absolute; left:27%; top:calc(50% - 0.1rem); width:46%; height:0.2rem; border-radius:1px; background:var(--accent); transform:rotate(45deg); }
 .g-ttt button.x::after{ transform:rotate(-45deg); }
 .g-ttt button.o::before{ content:""; width:42%; aspect-ratio:1; border:0.22rem solid var(--ink); border-radius:50%; }
-.g-ttt button.win{ background:color-mix(in srgb, var(--accent) 16%, var(--paper)); box-shadow:inset 0 0 0 3px var(--ink); }   
+.g-ttt button.win{ background:var(--paper); background:color-mix(in srgb, var(--accent) 16%, var(--paper)); box-shadow:inset 0 0 0 3px var(--ink); }   
 .g-ttt button:focus-visible, .g-c4 .col:focus-visible{ outline-offset:-3px; }
 .g-c4{ display:grid; grid-template-columns:repeat(7, 1fr); width:min(100%, 20.5rem); padding:5px; background:var(--land);
   border:1px solid var(--line-strong); border-radius:10px; overflow:hidden; }
 .g-c4 .col{ display:grid; grid-template-rows:repeat(6, auto); padding:0; border:0; border-radius:6px; background:none; cursor:pointer; }
-@media (hover:hover){ .g-c4[data-state="you"] .col:hover{ background:color-mix(in srgb, var(--ink) 7%, transparent); } }
+@media (hover:hover){ .g-c4[data-state="you"] .col:hover{ background:var(--paper-tint); background:color-mix(in srgb, var(--ink) 7%, transparent); } }
 .g-c4[data-state="stefan"] .col, .g-c4[data-state="over"] .col{ cursor:default; }
 .g-c4 .cell{ display:block; aspect-ratio:1; padding:11%; }
 .g-c4 .cell i{ display:block; width:100%; height:100%; border-radius:50%; background:var(--paper);
-  box-shadow:inset 0 1px 3px color-mix(in srgb, var(--shadow) 40%, transparent); }
+  box-shadow:inset 0 1px 3px var(--line); box-shadow:inset 0 1px 3px color-mix(in srgb, var(--shadow) 40%, transparent); }
 .g-c4 .p1 i{ background:var(--accent); box-shadow:none; animation:g-drop calc(0.14s + var(--t) * 0.05s) cubic-bezier(.5,0,.9,.6); }
 .g-c4 .p2 i{ background:var(--paper); box-shadow:inset 0 0 0 0.3rem var(--ink); animation:g-drop calc(0.14s + var(--t) * 0.05s) cubic-bezier(.5,0,.9,.6); }
 .g-c4 .win i{ outline:2px solid var(--ink); outline-offset:2px; }
@@ -378,7 +380,7 @@ html.js .g-note{ display:none; }
 
 .sketch{ position:fixed; left:0; top:0; z-index:60; width:11.5rem; padding:0.55rem 0.65rem 0.5rem;
   background:var(--paper); color:var(--ink); border:1px solid var(--line-strong); border-radius:4px;
-  box-shadow:0 6px 22px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow:0 6px 22px var(--line); box-shadow:0 6px 22px color-mix(in srgb, var(--ink) 12%, transparent);
   pointer-events:none; opacity:0; visibility:hidden; transition:opacity .15s, visibility 0s .15s; }
 .sketch.on{ opacity:1; visibility:visible; transition:opacity .15s; }
 .sketch svg{ display:block; width:100%; height:auto; aspect-ratio:8/5; }
