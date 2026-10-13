@@ -82,7 +82,7 @@
     const loadFine = () => {
       if (window.GLOBE_FINE) { takeFine(); return; }
       const s = document.createElement('script');
-      s.src = '/assets/globe-fine.js'; s.async = true; s.onload = takeFine;
+      s.src = '/assets/globe-fine.js?v=c863d631'; s.async = true; s.onload = takeFine;
       document.head.appendChild(s);
     };
 

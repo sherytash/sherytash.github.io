@@ -731,7 +731,7 @@
 (() => {
   if (!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
   let box, cur, sp;
-  const load = () => sp || (sp = fetch('/assets/sketches.svg').then(r => r.text()).then(t => {
+  const load = () => sp || (sp = fetch('/assets/sketches.svg?v=6563425d').then(r => r.text()).then(t => {
     const d = document.createElement('div');
     d.hidden = true; d.innerHTML = t;
     box = document.createElement('div');

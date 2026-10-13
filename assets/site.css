@@ -305,9 +305,9 @@ html:not(.js) .finder{ display:none; }
 .strophe:last-of-type{ margin-bottom:0; }
 .card-poem[data-motif]::after{ content:""; display:block; pointer-events:none; background-repeat:no-repeat; background-size:contain; }
 .card-poem[data-motif="river"]::after{ width:min(100%, 20rem); aspect-ratio:800/500; margin:0.2rem 0 0 -0.6rem;
-  background-image:url("/assets/motifs/terrain-river-night-01.webp"); background-position:left center; filter:var(--motif-wash); }
+  background-image:url("/assets/motifs/terrain-river-night-01.webp?v=098144ed"); background-position:left center; filter:var(--motif-wash); }
 .card-poem[data-motif="figure"]::after{ width:6.5rem; aspect-ratio:1; margin:1.4rem 0 0 auto; transform:scaleX(-1);
-  background-image:url("/assets/motifs/people-standing-bent-01.webp"); background-position:center; filter:var(--motif-ink); }
+  background-image:url("/assets/motifs/people-standing-bent-01.webp?v=c73176c0"); background-position:center; filter:var(--motif-ink); }
 
 
 .card-poem .p-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.8rem; }
