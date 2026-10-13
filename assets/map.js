@@ -213,7 +213,7 @@
       return { id: city, city, el, step: st, now: !!el.dataset.now,
                name: document.getElementById(city).querySelector('h2').textContent, lon: +a.dataset.lon, lat: +a.dataset.lat, v: a.v };
     });
-    const N = tour.length, idx = new Map(tour.map((t, i) => [t.city, i]));
+    const N = tour.length, idx = new Map(); tour.forEach((t, i) => { if (!idx.has(t.city)) idx.set(t.city, i); });
     const trips = new Map(pins.filter(a => a.classList.contains('pin-trip')).map(a => {
       const el = document.getElementById(a.dataset.id);
       return [a.dataset.id, { id: a.dataset.id, el, name: el.querySelector('h2').textContent,
