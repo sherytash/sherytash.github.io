@@ -476,7 +476,7 @@
 
     function colours() {
       var cs = getComputedStyle(document.documentElement);
-      ['paper', 'paper-tint', 'ink', 'ink-soft', 'accent', 'now', 'line-strong'].forEach(function (k) { col[k] = cs.getPropertyValue('--' + k).trim() || '#000'; });
+      ['g-screen', 'g-ground', 'g-ship', 'g-shield', 'g-inv-a', 'g-inv-b', 'g-inv-c', 'g-you'].forEach(function (k) { col[k] = cs.getPropertyValue('--' + k).trim() || '#888'; });
     }
     function say(t) { if (t !== said) { said = t; ui.st.textContent = t; } }
     function status() {
@@ -503,35 +503,35 @@
     function draw() {
       var k = cv.width / SW, g = game, me = g;
       ctx.setTransform(k, 0, 0, k, 0, 0);
-      ctx.fillStyle = col.paper; ctx.fillRect(0, 0, SW, SH);
-      ctx.fillStyle = col['line-strong']; ctx.fillRect(0, SHIP_Y + SHIP_H / 2 + 4, SW, 1);
-      ctx.fillStyle = col['ink-soft'];
+      ctx.fillStyle = col['g-screen']; ctx.fillRect(0, 0, SW, SH);
+      ctx.fillStyle = col['g-ground']; ctx.fillRect(0, SHIP_Y + SHIP_H / 2 + 4, SW, 1);
+      ctx.fillStyle = col['g-shield'];
       g.shields.forEach(function (b) { if (b.on) ctx.fillRect(b.x, b.y, CELL, CELL); });
       g.inv.forEach(function (v) {
         if (!v.on) return;
         var x = me.ix(v), y = me.iy(v);
-        ctx.fillStyle = col.ink;
+        ctx.fillStyle = v.r === 0 ? col['g-inv-a'] : v.r < 3 ? col['g-inv-b'] : col['g-inv-c'];
         if (v.r === 0) {
           ctx.beginPath(); ctx.moveTo(x + IW / 2, y); ctx.lineTo(x + IW, y + IH / 2); ctx.lineTo(x + IW / 2, y + IH); ctx.lineTo(x, y + IH / 2); ctx.closePath(); ctx.fill();
-          ctx.fillStyle = col.paper; ctx.fillRect(x + IW / 2 - 2, y + IH / 2 - 2, 4, 4);
+          ctx.fillStyle = col['g-screen']; ctx.fillRect(x + IW / 2 - 2, y + IH / 2 - 2, 4, 4);
         } else {
           ctx.fillRect(x + 1, y, IW - 2, IH - 4);
           ctx.fillRect(x, y + IH - 4, 4, 4); ctx.fillRect(x + IW - 4, y + IH - 4, 4, 4);
-          ctx.fillStyle = col.paper; ctx.fillRect(x + 4, y + 3, 3, 3); ctx.fillRect(x + IW - 7, y + 3, 3, 3);
+          ctx.fillStyle = col['g-screen']; ctx.fillRect(x + 4, y + 3, 3, 3); ctx.fillRect(x + IW - 7, y + 3, 3, 3);
         }
       });
-      ctx.strokeStyle = col.ink; ctx.lineWidth = 1.5;
+      ctx.strokeStyle = col['g-inv-a']; ctx.lineWidth = 1.5;
       g.bombs.forEach(function (b) {
         ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x + 2, b.y + 2.7); ctx.lineTo(b.x - 2, b.y + 5.3); ctx.lineTo(b.x, b.y + 8); ctx.stroke();
       });
-      if (g.shot) { ctx.fillStyle = col.accent; ctx.fillRect(g.shot.x - 1, g.shot.y, 2, 8); }
+      if (g.shot) { ctx.fillStyle = col['g-ship']; ctx.fillRect(g.shot.x - 1, g.shot.y, 2, 8); }
       var sx = g.shipX - SHIP_W / 2, sy = SHIP_Y - SHIP_H / 2;
       ctx.beginPath();
       ctx.moveTo(sx, sy + SHIP_H); ctx.lineTo(sx, sy + 4); ctx.lineTo(sx + 8, sy + 4); ctx.lineTo(sx + 9, sy);
       ctx.lineTo(sx + SHIP_W - 9, sy); ctx.lineTo(sx + SHIP_W - 8, sy + 4); ctx.lineTo(sx + SHIP_W, sy + 4); ctx.lineTo(sx + SHIP_W, sy + SHIP_H);
       ctx.closePath();
-      if (g.hitT > 0 || g.over && g.lives <= 0) { ctx.strokeStyle = col.now; ctx.lineWidth = 1.5; ctx.stroke(); }
-      else { ctx.fillStyle = col.accent; ctx.fill(); }
+      if (g.hitT > 0 || g.over && g.lives <= 0) { ctx.strokeStyle = col['g-you']; ctx.lineWidth = 1.5; ctx.stroke(); }
+      else { ctx.fillStyle = col['g-ship']; ctx.fill(); }
     }
     function frame(t) {
       raf = 0;
