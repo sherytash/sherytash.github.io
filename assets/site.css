@@ -390,6 +390,12 @@ html.js .g-note{ display:none; }
 @keyframes g-drop{ from{ transform:translateY(calc((var(--t) + 1) * -132%)); } }
 @media (prefers-reduced-motion:reduce){ .g-c4 .p1 i, .g-c4 .p2 i{ animation:none; } }
 
+.g-sd{ justify-self:stretch; border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; background:var(--paper); }
+.g-sd canvas{ display:block; width:100%; cursor:pointer; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; }
+.g-sd[data-state="run"] canvas{ touch-action:none; cursor:crosshair; }
+.g-sd[data-state="over"] canvas{ cursor:default; }
+.g-sd canvas:focus-visible{ outline-offset:-3px; }
+
 
 .sketch{ position:fixed; left:0; top:0; z-index:60; width:11.5rem; padding:0.55rem 0.65rem 0.5rem;
   background:var(--paper); color:var(--ink); border:1px solid var(--line-strong); border-radius:4px;
