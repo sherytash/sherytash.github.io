@@ -54,7 +54,17 @@
     }
   }, true);
   const isOpen = () => (sheet && sheet.matches(':target')) || location.hash === '#contact';
+  const canInert = 'inert' in HTMLElement.prototype;
+  const setInert = on => {
+    if (!sheet || !canInert) return;
+    for (const el of document.body.children) {
+      if (el === sheet || el.contains(sheet) || /^(SCRIPT|TEMPLATE|STYLE)$/.test(el.tagName)) continue;
+      if (on && !el.inert) { el.inert = true; el.setAttribute('data-sheet-inert', ''); }
+      else if (!on && el.hasAttribute('data-sheet-inert')) { el.inert = false; el.removeAttribute('data-sheet-inert'); }
+    }
+  };
   const focusSheet = () => {
+    setInert(true);
     if (!sheet || sheet.contains(document.activeElement)) return;
     sheet.tabIndex = -1; sheet.focus({ preventScroll: true });
   };
@@ -70,6 +80,7 @@
   };
   const clear = () => {
     pushed = false;
+    setInert(false);
     location.replace('#_');
     history.replaceState(null, '', location.pathname + location.search);
     if (sheet && sheet.matches(':target')) sheet.style.display = 'none';
@@ -77,6 +88,7 @@
   addEventListener('hashchange', () => {
     if (sheet) sheet.style.display = '';
     if (isOpen()) { focusSheet(); return; }
+    setInert(false);
     if (/^#(contact-|finder$)/.test(location.hash)) return;
     pushed = false;
     if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
@@ -89,6 +101,9 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && isOpen()) window.closeSheet();
   });
+  document.addEventListener('click', e => {
+    if (canInert && isOpen() && (e.target === document.body || e.target === document.documentElement)) window.closeSheet();
+  });
 })();
 
 (() => {
@@ -98,12 +113,12 @@
   const whenWrap = document.getElementById('f-when-wrap');
   if (!panel) return;
   const T = {
-    research: { s: 'Website — research',
+    research: { s: 'Website: research',
       h: '<p>I&rsquo;m always glad to hear from potential collaborators.</p>' },
-    student: { s: 'Website — thesis supervision inquiry',
+    student: { s: 'Website: thesis supervision inquiry',
       h: '<p>If you want to write your thesis with me, get in touch.</p>' +
          '<p><a class="btn btn-ghost" id="thesis-mail" href="#contact">Use the thesis inquiry template</a></p>' },
-    industry: { s: 'Website — industry',
+    industry: { s: 'Website: industry',
       h: '<p>I take on selected consulting projects and talks.</p>' },
   };
   const pick = who => {
@@ -504,6 +519,7 @@
     const nodes = lead || [];
     nodes.push(el('div', null, 'We are more than three steps apart in the open scholarly graph.'));
     const sel = document.createElement('select');
+    sel.className = 'fo-select';
     sel.setAttribute('aria-label', 'Where might we have crossed paths?');
     sel.innerHTML = '<option value="">Where might we have crossed paths?</option>' +
       STAYS.map((x, i) => '<option value="' + i + '">' + x[0] + '</option>').join('');

@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Privacy notice, Stefan Herytash</title>
-<meta name="description" content="Privacy notice and credits for the personal website of Stefan Herytash.">
+<title>Legal notice &amp; privacy, Stefan Herytash</title>
+<meta name="description" content="Legal notice, privacy notice and credits for the personal website of Stefan Herytash.">
 <meta name="author" content="Stefan Herytash">
-<meta property="og:title" content="Privacy notice, Stefan Herytash">
-<meta property="og:description" content="Privacy notice and credits for the personal website of Stefan Herytash.">
+<meta property="og:title" content="Legal notice &amp; privacy, Stefan Herytash">
+<meta property="og:description" content="Legal notice, privacy notice and credits for the personal website of Stefan Herytash.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sherytash.github.io/legal/">
 <meta property="og:image" content="https://sherytash.github.io/assets/og-card.png">
@@ -24,7 +24,6 @@
 <script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/site.css">
-<script>document.documentElement.classList.add('js');</script>
 <style>
   
   main{ max-width:40rem; margin:0 auto; padding:6.5rem var(--gutter) 3.5rem; color:var(--ink); }
@@ -41,9 +40,14 @@
   .credits{ font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.04em; line-height:1.7; color:var(--ink-soft); margin:0; }
   main a{ color:var(--accent); text-underline-offset:0.25em; }
   main a:hover{ color:var(--accent-lift); }
+  
+  @media (max-width:720px){
+    main a{ position:relative; padding-block:0.75rem; }
+    .credits a{ padding-block:0.95rem; }
+  }
 </style>
-<meta name="twitter:title" content="Privacy notice, Stefan Herytash">
-<meta name="twitter:description" content="Privacy notice and credits for the personal website of Stefan Herytash.">
+<meta name="twitter:title" content="Legal notice &amp; privacy, Stefan Herytash">
+<meta name="twitter:description" content="Legal notice, privacy notice and credits for the personal website of Stefan Herytash.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:site_name" content="Stefan Herytash">
 <meta property="og:image:width" content="1200">
@@ -68,7 +72,7 @@
 
   <main id="main">
     <h1>Legal notice &amp; privacy</h1>
-    <span class="de">Impressum und Datenschutzerklärung</span>
+    <span class="de" lang="de">Impressum und Datenschutzerklärung</span>
     <h2>Legal notice</h2>
     <p class="imp">Stefan Herytash, Vienna, Austria. Contact via <a href="#contact">the form</a>.</p>
     <h2>Privacy</h2>
@@ -79,13 +83,13 @@
       <li>Your light or dark choice stays in your browser (local storage) and is sent nowhere.</li>
       <li>The contact form is handled by FormSubmit (formsubmit.co): it receives what you type when you press Send, and I use it only to answer you.</li>
       <li>The connection finder sends the name you type to OpenAlex (api.openalex.org) when you press Search, and to nobody else.</li>
-      <li>I am the controller. You may ask for access, correction or erasure through <a href="#contact">the form</a>, and complain to the Austrian Datenschutzbehörde (dsb.gv.at).</li>
+      <li>I am the controller. You may ask for access, correction or erasure through <a href="#contact">the form</a>, and complain to the Austrian <span lang="de">Datenschutzbehörde</span> (dsb.gv.at).</li>
     </ul>
     <p class="credits">Credits: Natural Earth (public domain); fonts under the <a href="/assets/fonts/LICENSE.txt">SIL Open Font License</a>; motifs from <em>saum</em>, a poetry project by Luca Bernardi; photos and texts &copy; Stefan Herytash.</p>
   </main>
-<aside class="sheet" id="contact" aria-label="Contact">
+<aside class="sheet" id="contact" role="dialog" aria-modal="true" aria-labelledby="contact-h">
   <a class="close" href="#" aria-label="Close">&times;</a>
-  <p class="sheet-eyebrow">Contact</p>
+  <p class="sheet-eyebrow" id="contact-h">Contact</p>
   <div class="whoami" role="group" aria-label="I am a">
     <button class="whobtn active" type="button" data-who="research" aria-pressed="true">Researcher</button>
     <button class="whobtn" type="button" data-who="student" aria-pressed="false">Student</button>
@@ -95,7 +99,7 @@
     <p>I&rsquo;m always glad to hear from potential collaborators.</p>
   </div>
   <form class="cform" id="cform" method="POST">
-    <input type="hidden" name="_subject" id="form-subject" value="Website — research">
+    <input type="hidden" name="_subject" id="form-subject" value="Website: research">
     <input type="hidden" name="_next" value="/?sent=1#contact">
     <input type="hidden" name="_captcha" value="false">
     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
@@ -123,7 +127,7 @@
       <input id="finder-name" placeholder="Your name" aria-label="Your name" autocomplete="name" enterkeyhint="search">
       <button class="btn btn-ghost" id="finder-go" type="button">Search</button>
     </div>
-    <script id="finder-stays" type="application/json">[["TU Wien", "2016–2019"], ["Erste Group Bank AG", "2019"], ["University of Zurich", "2019–2021"], ["University Hospital Zurich", "2020"], ["Open Learning Space Zurich", "2020–2021"], ["UNIQA Insurance Group AG", "2021–2022"], ["LMU Munich", "2022–2026"], ["EM Lyon Business School", "2023"], ["WU Vienna", "since 2026"]]</script>
+    <script id="finder-stays" type="application/json">[["Vienna University of Technology", "2016–2019"], ["Erste Group Bank", "2019"], ["University of Zurich", "2019–2021"], ["University Hospital Zurich", "2020"], ["Open Learning Space Zurich", "2020–2021"], ["UNIQA Insurance Group", "2021–2022"], ["LMU Munich", "2022–2026"], ["EM Lyon Business School", "2023"], ["WU Vienna", "since 2026"]]</script>
     <script id="finder-colleague" type="application/json">{"wu": {"one": "We are colleagues at WU Vienna.", "edge": "Colleagues at WU Vienna"}, "lmu-som": {"one": "We were colleagues at LMU Munich.", "edge": "Colleagues at LMU Munich"}}</script>
     <div class="finder-out" id="finder-out" role="status" aria-live="polite" aria-atomic="true"></div>
   </div>

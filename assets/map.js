@@ -57,20 +57,26 @@
     for (let lon = -180; lon < 180; lon += 15) { const vs = []; for (let lat = -75; lat <= 75; lat += 1) vs.push(vec(lon, lat)); grat.push(ringOf(vs, false)); }
     for (let lat = -75; lat <= 75; lat += 15) { const vs = []; for (let lon = -180; lon <= 180; lon += 1) vs.push(vec(lon, lat)); grat.push(ringOf(vs, false)); }
     const boxes = G ? Object.values(G.boxes) : [];
+    const groups = (rings, S, name) => {
+      rings.groups = Object.entries((S && S.vis && S.vis[name]) || {}).map(([iso, ix]) => ({ iso, rings: ix.map(i => rings[i]).filter(Boolean) }));
+      return rings;
+    };
     const LAND = {
-      world: decode('world', true), lakes: decode('lakes', true), rivers: decode('rivers', false),
+      world: groups(decode('world', true), G, 'world'), lakes: decode('lakes', true), rivers: decode('rivers', false),
       mid: [], fine: [], fineLakes: [], fineRivers: [],
       boxIn: boxes.map(b => boxRing(b, 0.05)), boxOut: boxes.map(b => boxRing(b, 0.25)), grat
     };
     const FINE_R = 650;
     const MID_R = 2200;
     const DEC = 1.4;
+    let fineOn = false;
 
     const takeFine = () => {
       const F = window.GLOBE_FINE;
       if (!F) return;
-      LAND.mid = decode('mid', true, F); LAND.fine = decode('fine', true, F);
+      LAND.mid = groups(decode('mid', true, F), F, 'mid'); LAND.fine = groups(decode('fine', true, F), F, 'fine');
       LAND.fineLakes = decode('fine_lakes', true, F); LAND.fineRivers = decode('fine_rivers', false, F);
+      addRiverNames(F, true);
       render(false);
     };
     const loadFine = () => {
@@ -81,11 +87,26 @@
     };
 
     const probe = document.createElement('i'); probe.hidden = true; document.body.appendChild(probe);
-    let COL = {};
+    let COL = {}, tints = new Map();
     const readColours = () => {
       const get = v => { probe.style.color = 'var(' + v + ')'; return getComputedStyle(probe).color; };
-      COL = { sea: get('--globe-sea'), land: get('--land'), border: get('--map-border'), grat: get('--map-grat'),
-              water: get('--water'), limb: get('--globe-limb'), shade: get('--globe-shade') };
+      COL = { sea: get('--globe-sea'), land: get('--globe-land'), border: get('--map-border'), grat: get('--map-grat'),
+              water: get('--river'), limb: get('--globe-limb'), shade: get('--globe-shade'),
+              vOld: get('--visit-old'), vNew: get('--visit-new'), vEdge: get('--visit-edge') };
+      tints = new Map();
+    };
+    const CITY = (G && G.cities) || {};
+    const rgbOf = s => (String(s).match(/[\d.]+/g) || [0, 0, 0]).slice(0, 3).map(Number);
+    const tintOf = iso => {
+      if (tints.has(iso)) return tints.get(iso);
+      let first = Infinity, c = null;
+      for (const id in CITY) if (CITY[id] === iso && idx.has(id)) first = Math.min(first, idx.get(id));
+      if (first < Infinity) {
+        const f = N > 1 ? first / (N - 1) : 1, a = rgbOf(COL.vOld), b = rgbOf(COL.vNew);
+        c = 'rgb(' + a.map((v, k) => Math.round(v + (b[k] - v) * f)).join(',') + ')';
+      }
+      tints.set(iso, c);
+      return c;
     };
 
     let cam = { lon: -22, lat: 40, R: 300, ox: innerWidth / 2, oy: innerHeight / 2 };
@@ -168,8 +189,12 @@
     function ground(land, lakes, rivers) {
       ctx.beginPath(); land.forEach(trace);
       ctx.fillStyle = COL.land; ctx.fill(); ctx.lineWidth = 0.55; ctx.strokeStyle = COL.border; ctx.stroke();
+      (land.groups || []).forEach(g => {
+        const c = tintOf(g.iso); if (!c) return;
+        ctx.beginPath(); g.rings.forEach(trace); ctx.fillStyle = c; ctx.fill(); ctx.strokeStyle = COL.vEdge; ctx.stroke();
+      });
       ctx.beginPath(); lakes.forEach(trace); ctx.fillStyle = COL.sea; ctx.fill();
-      ctx.beginPath(); rivers.forEach(trace); ctx.lineWidth = 0.8; ctx.strokeStyle = COL.water; ctx.stroke();
+      ctx.beginPath(); rivers.forEach(trace); ctx.lineWidth = 0.9; ctx.strokeStyle = COL.water; ctx.stroke();
     }
     function draw() {
       basis();
@@ -182,6 +207,7 @@
       ctx.beginPath(); ctx.arc(OX, OY, RR, 0, TAU); ctx.fillStyle = COL.sea; ctx.fill();
       ctx.beginPath(); LAND.grat.forEach(trace); ctx.strokeStyle = COL.grat; ctx.lineWidth = 0.6; ctx.stroke();
       const fine = RR > FINE_R && LAND.fine.length > 0 && LAND.boxIn.some(seen);
+      fineOn = fine;
       if (fine) { ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, H); LAND.boxOut.forEach(trace); ctx.clip('evenodd'); }
       ground(LAND.world, LAND.lakes, LAND.rivers);
       if (fine) {
@@ -260,6 +286,21 @@
     const RFIT = () => 0.45 * Math.min(SR.width, SR.height);
     const isWorld = () => cam.R < 1.8 * RFIT();
     const tr = (x, y) => 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')';
+    function tuck() {
+      const rail = document.getElementById('tl').getBoundingClientRect();
+      P.forEach(q => { q.tuck = !!rail.width && q.front && q.x > rail.left - 3 && q.y > rail.top - 3 && q.y < rail.bottom + 3;
+        q.a.classList.toggle('tuck', q.tuck);
+        if (nowLab && q.a.classList.contains('pin-now')) nowLab.classList.toggle('tuck', q.tuck); });
+    }
+    function pinAt(x, y, minR = 0) {
+      let best = null, bd = Infinity;
+      P.forEach(q => {
+        if (!q.front || q.tuck) return;
+        const d = Math.hypot(q.x - x, q.y - y);
+        if (d <= Math.max(q.a.hr || PXS.hit, minR) && d < bd) { bd = d; best = q.id; }
+      });
+      return best;
+    }
     function placePins(full, quick) {
       basis();
       const sl = SR.left, st = SR.top;
@@ -270,7 +311,7 @@
         const T = tr(q.x - sl, q.y - st);
         els.forEach(el => { el.classList.toggle('back', !q.front); if (q.front) el.setAttribute('transform', T); });
       });
-      if (!full) return;
+      if (!full) { tuck(); return; }
       const p = PXS, front = P.filter(q => q.front);
       const gap = q => Math.min(...front.filter(o => o !== q).map(o => Math.hypot(o.x - q.x, o.y - q.y)), 400);
       front.forEach(q => { q.r = Math.max(2.2, Math.min(p.dot * q.w, Math.max(gap(q) / 2 - 1, 4))); q.nowR = q.r + 5.6; q.g = gap(q); });
@@ -279,12 +320,13 @@
       front.forEach(q => {
         const a = q.a, f = sel => a.querySelector(sel);
         f('.dot').setAttribute('r', q.r.toFixed(2));
-        f('.hit').setAttribute('r', Math.max(20, Math.min(p.hit, q.g / 2)).toFixed(1));
+        a.hr = Math.max(q.r + 3, Math.min(p.hit, q.g / 2)); f('.hit').setAttribute('r', a.hr.toFixed(1));
         const ring = f('.ring'); ring.setAttribute('r', (q.nowR + 3.5).toFixed(2)); ring.setAttribute('stroke-width', 1.2);
         f('.pulse').setAttribute('r', (q.r + 3.1).toFixed(2));
         const halo = f('.halo'); if (halo) halo.setAttribute('r', (q.r + 1.5).toFixed(2));
         const nr = f('.now-ring'); if (nr) { nr.setAttribute('r', q.nowR.toFixed(2)); nr.setAttribute('stroke-width', 1.6); }
       });
+      tuck();
       const R = svg.getBoundingClientRect();
       const open = getComputedStyle(svg).overflow === 'visible', m = isWorld() ? 16 : 4;
       const view = open ? [m, m, innerWidth - m, innerHeight - m]
@@ -411,9 +453,74 @@
     }
     const size = () => placePins(true);
 
+    const rgrp = document.createElementNS(SVGNS, 'g');
+    rgrp.setAttribute('class', 'rivers off'); rgrp.setAttribute('aria-hidden', 'true');
+    svg.insertBefore(rgrp, svg.firstChild);
+    const RLAB = [], rwidth = new Map();
+    const ll = (a, i) => [a[i] / 100, a[i + 1] / 100];
+    function addRiverNames(S, fine) {
+      ((S && S.rlab) || []).forEach(a => {
+        const pts = [ll(a, 2), ll(a, 4), ll(a, 6)];
+        RLAB.push({ name: a[0], rank: a[1], fine, pts, v: pts.map(p => vec(p[0], p[1])), el: null });
+      });
+    }
+    addRiverNames(G, false);
+    const inBoxes = pts => pts.some(p => boxes.some(b => p[0] > b[0] + 0.25 && p[0] < b[2] - 0.25 && p[1] > b[1] + 0.25 && p[1] < b[3] - 0.25));
+    const RH = 6.5;
+    function placeRivers(on) {
+      RLAB.forEach(l => { if (l.el) l.el.classList.add('off'); });
+      if (!on || !RLAB.length) { rgrp.classList.add('off'); return; }
+      rgrp.classList.remove('off');
+      basis();
+      const sl = SR.left, st = SR.top, block = [];
+      ['#card:not([hidden])', '#intro', '.mapbase', phone.matches ? '.bar' : '.bar > *', '.tkey', '.cue', '#tl', '#pathx:not([hidden])',
+        '.lab:not(.off)', '.lab-now', '.leader:not(.off)'].forEach(sel => document.querySelectorAll(sel).forEach(e => {
+        const b = e.getBoundingClientRect(); if (b.width || b.height) block.push([b.left - 3, b.top - 3, b.right + 3, b.bottom + 3]); }));
+      P.forEach(q => { if (q.front) { const r = (q.r || 4) + 5; block.push([q.x - r, q.y - r, q.x + r, q.y + r]); } });
+      const W = innerWidth, H = innerHeight, cx0 = cam.ox, cy0 = cam.oy;
+      const most = cam.R >= 1600 ? 6 : cam.R >= 800 ? 4 : 2;
+      const hitBox = (x, y, b) => x > b[0] - RH && x < b[2] + RH && y > b[1] - RH && y < b[3] + RH &&
+        Math.hypot(Math.max(b[0] - x, 0, x - b[2]), Math.max(b[1] - y, 0, y - b[3])) < RH;
+      const taken = [], named = new Set();
+      const cands = RLAB.filter(l => l.fine ? fineOn && l.rank <= most && inBoxes([l.pts[2]]) : !(fineOn && cam.R >= 1600 && inBoxes(l.pts)))
+        .sort((a, b) => a.rank - b.rank);
+      for (const l of cands) {
+        if (named.has(l.name)) continue;
+        const [a, b, m] = l.v.map(proj);
+        if (a[2] < 0.25 || b[2] < 0.25 || m[2] < 0.25) continue;
+        if (!l.el) {
+          l.el = document.createElementNS(SVGNS, 'text'); l.el.setAttribute('class', 'rv off');
+          l.el.setAttribute('text-anchor', 'middle'); l.el.setAttribute('y', '4'); l.el.textContent = l.name; rgrp.appendChild(l.el);
+        }
+        let w = rwidth.get(l.name);
+        if (!w) {
+          l.el.classList.remove('off'); w = l.el.getComputedTextLength() || l.name.length * 6.2; l.el.classList.add('off');
+          if (!document.fonts || document.fonts.status === 'loaded') rwidth.set(l.name, w);
+        }
+        const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        if (L < 0.75 * w) continue;
+        let ux = (b[0] - a[0]) / L, uy = (b[1] - a[1]) / L;
+        if (ux < -0.05 || (Math.abs(ux) <= 0.05 && uy > 0)) { ux = -ux; uy = -uy; }
+        let spot = null;
+        for (const side of [-1, 1]) {
+          const cx = m[0] + side * uy * -(RH + 2.5), cy = m[1] + side * ux * (RH + 2.5);
+          const n = Math.max(2, Math.ceil(w / 10)), circ = [];
+          for (let i = 0; i < n; i++) { const t = -w / 2 + w * i / (n - 1); circ.push([cx + ux * t, cy + uy * t]); }
+          if (circ.every(([x, y]) => x > 6 + RH && x < W - 6 - RH && y > 6 + RH && y < H - 6 - RH &&
+                Math.hypot(x - cx0, y - cy0) < cam.R - RH - 2 &&
+                !block.some(bb => hitBox(x, y, bb)) && !taken.some(([tx, ty]) => Math.hypot(tx - x, ty - y) < 2 * RH + 2))) { spot = { cx, cy, circ }; break; }
+        }
+        if (!spot) continue;
+        taken.push(...spot.circ); named.add(l.name);
+        l.el.setAttribute('transform', 'translate(' + (spot.cx - sl).toFixed(1) + ' ' + (spot.cy - st).toFixed(1) + ') rotate(' + (Math.atan2(uy, ux) / D2R).toFixed(1) + ')');
+        l.el.classList.remove('off');
+      }
+    }
+
     function render(lite) {
       draw();
       placePins(!lite, !!(anim || inert || drag || pinch));
+      placeRivers(!lite && !(anim || inert || drag || pinch));
       if (route) placeRoute();
       if (manual && !lite) focusCentre();
     }
@@ -645,8 +752,15 @@
       else if (trips.has(id)) arriveTrip(id);
     }
 
-    let acted = { id: '', t: 0 }, clickT = 0;
+    let acted = { id: '', t: 0 }, clickT = 0, downTouch = false;
     const idOf = el => el.dataset.id || el.dataset.for;
+    const TOUCH_R = 22;
+    const meant = (t, x, y, touch) => {
+      const el = t && t.closest && t.closest('.pin, .chip, .lab, .lab-hit');
+      if (el && !el.classList.contains('pin')) return idOf(el);
+      if (el) return pinAt(x, y, touch ? TOUCH_R : 0) || idOf(el);
+      return touch && t && t.closest && t.closest('#map') ? pinAt(x, y, TOUCH_R) || '' : '';
+    };
     const activate = id => {
       const now = performance.now();
       if (id === acted.id && now - acted.t < 450) return;
@@ -654,22 +768,23 @@
       choose(id);
     };
     document.addEventListener('click', e => {
-      const t = e.target.closest && e.target.closest('.pin, .chip, .lab, .lab-hit');
-      if (!t) return;
+      const id = meant(e.target, e.clientX, e.clientY, downTouch);
+      if (!id) return;
       e.preventDefault(); clickT = performance.now();
-      activate(idOf(t));
+      activate(id);
     });
     let tap = null;
     document.addEventListener('pointerdown', e => {
-      const t = e.pointerType === 'touch' && e.isPrimary && e.target.closest && e.target.closest('.pin, .chip, .lab, .lab-hit');
-      tap = t ? { t, x: e.clientX, y: e.clientY, at: performance.now() } : null;
+      downTouch = e.pointerType === 'touch';
+      const id = downTouch && e.isPrimary && meant(e.target, e.clientX, e.clientY, true);
+      tap = id ? { id, x: e.clientX, y: e.clientY, at: performance.now() } : null;
     }, true);
     document.addEventListener('pointerup', e => {
       const d = tap; tap = null;
       if (!d || e.pointerType !== 'touch') return;
       if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 10 || performance.now() - d.at > 600) return;
       const up = performance.now();
-      setTimeout(() => { if (clickT < up) activate(idOf(d.t)); }, 380);
+      setTimeout(() => { if (clickT < up) activate(d.id); }, 380);
     }, true);
     card.addEventListener('click', e => {
       if (e.target.closest('.sc-x')) { leaveTrip(); return; }
@@ -684,17 +799,31 @@
     const tlYear = tlThumb.querySelector('.tl-ty'), tlNotches = [...tl.querySelectorAll('.tl-n:not(.tl-s)')];
     const tlHome = tl.getAttribute('aria-valuetext');
     let tlC = -1, tlNear = -2, tlDrag = false, tlGo = -9, tlRaf = 0;
+    const tlLabs = tlNotches.map((n, i) => [n.querySelector('.tl-y'), (i + 1) / (N + 1)]).filter(x => x[0]);
+    let tlFadeT = 0;
+    function tlFade(f, from) {
+      const H = tlTrack.clientHeight, r = tlThumb.offsetHeight / 2 + 9;
+      const lo = Math.min(f, from) * H - r, hi = Math.max(f, from) * H + r;
+      tlLabs.forEach(([y, fn]) => y.classList.toggle('tl-off', fn * H > lo && fn * H < hi));
+    }
     function setC(c, glide) {
-      c = Math.max(-1, Math.min(N, c)); tlC = c;
+      c = Math.max(-1, Math.min(N, c));
+      const was = (tlC + 1) / (N + 1), f = (c + 1) / (N + 1);
+      tlC = c;
       tlThumb.style.transition = glide ? '' : 'none';
-      tlThumb.style.setProperty('--f', ((c + 1) / (N + 1)).toFixed(4));
+      tlThumb.style.setProperty('--f', f.toFixed(4));
       const near = Math.round(c);
-      if (near === tlNear) return;
-      tlNear = near;
-      tlThumb.classList.toggle('is-start', near < 0); tlThumb.classList.toggle('is-world', near >= N);
-      tlYear.textContent = near >= 0 && near < N ? tlNotches[near].dataset.year : '';
-      tl.setAttribute('aria-valuenow', near);
-      tl.setAttribute('aria-valuetext', near < 0 ? tlHome : tlNotches[near].title);
+      if (near !== tlNear) {
+        tlNear = near;
+        tlThumb.classList.toggle('is-start', near < 0); tlThumb.classList.toggle('is-world', near >= N);
+        tlYear.textContent = near >= 0 && near < N ? tlNotches[near].dataset.year : '';
+        tl.setAttribute('aria-valuenow', near);
+        tl.setAttribute('aria-valuetext', near < 0 ? tlHome : tlNotches[near].title);
+      }
+      clearTimeout(tlFadeT);
+      const gliding = glide && !reduce && Math.abs(f - was) > 1e-4;
+      tlFade(f, gliding ? was : f);
+      if (gliding) tlFadeT = setTimeout(() => tlFade(f, f), 300);
     }
     const tlYs = () => { const a = []; for (let i = -1; i <= N; i++) a.push(stepsTop(i)); return a; };
     const cOfScroll = () => {
@@ -834,7 +963,7 @@
     });
     svg.addEventListener('pointerup', e => {
       if (!fingers(e) || moved || ptrs.size !== 1 || pinch) { lastTap = null; return; }
-      if (e.target.closest && e.target.closest('.pin, .lab, .lab-hit')) { lastTap = null; return; }
+      if (meant(e.target, e.clientX, e.clientY, true)) { lastTap = null; return; }
       const now = performance.now();
       if (lastTap && now - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 32) {
         lastTap = null; handsOn(); basis();
@@ -1053,6 +1182,7 @@
         if (real && pos >= -1 && !gest.matches) { try { scrollTo(0, stepsTop(pos)); } catch (e) {   } }
         resizing = false;
         sizeCanvas();
+        tlFade((tlC + 1) / (N + 1), (tlC + 1) / (N + 1));
         if (k !== frameKey) { frameKey = k; if (want && !manual) { halt(); cam = want(); } }
         render(false);
         later(150);

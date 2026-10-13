@@ -43,9 +43,9 @@
     <h1>This page does not exist.</h1>
     <p><a href="/">Back to the map</a></p>
   </main>
-<aside class="sheet" id="contact" aria-label="Contact">
+<aside class="sheet" id="contact" role="dialog" aria-modal="true" aria-labelledby="contact-h">
   <a class="close" href="#" aria-label="Close">&times;</a>
-  <p class="sheet-eyebrow">Contact</p>
+  <p class="sheet-eyebrow" id="contact-h">Contact</p>
   <div class="whoami" role="group" aria-label="I am a">
     <button class="whobtn active" type="button" data-who="research" aria-pressed="true">Researcher</button>
     <button class="whobtn" type="button" data-who="student" aria-pressed="false">Student</button>
@@ -55,7 +55,7 @@
     <p>I&rsquo;m always glad to hear from potential collaborators.</p>
   </div>
   <form class="cform" id="cform" method="POST">
-    <input type="hidden" name="_subject" id="form-subject" value="Website — research">
+    <input type="hidden" name="_subject" id="form-subject" value="Website: research">
     <input type="hidden" name="_next" value="/?sent=1#contact">
     <input type="hidden" name="_captcha" value="false">
     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
@@ -83,7 +83,7 @@
       <input id="finder-name" placeholder="Your name" aria-label="Your name" autocomplete="name" enterkeyhint="search">
       <button class="btn btn-ghost" id="finder-go" type="button">Search</button>
     </div>
-    <script id="finder-stays" type="application/json">[["TU Wien", "2016–2019"], ["Erste Group Bank AG", "2019"], ["University of Zurich", "2019–2021"], ["University Hospital Zurich", "2020"], ["Open Learning Space Zurich", "2020–2021"], ["UNIQA Insurance Group AG", "2021–2022"], ["LMU Munich", "2022–2026"], ["EM Lyon Business School", "2023"], ["WU Vienna", "since 2026"]]</script>
+    <script id="finder-stays" type="application/json">[["Vienna University of Technology", "2016–2019"], ["Erste Group Bank", "2019"], ["University of Zurich", "2019–2021"], ["University Hospital Zurich", "2020"], ["Open Learning Space Zurich", "2020–2021"], ["UNIQA Insurance Group", "2021–2022"], ["LMU Munich", "2022–2026"], ["EM Lyon Business School", "2023"], ["WU Vienna", "since 2026"]]</script>
     <script id="finder-colleague" type="application/json">{"wu": {"one": "We are colleagues at WU Vienna.", "edge": "Colleagues at WU Vienna"}, "lmu-som": {"one": "We were colleagues at LMU Munich.", "edge": "Colleagues at LMU Munich"}}</script>
     <div class="finder-out" id="finder-out" role="status" aria-live="polite" aria-atomic="true"></div>
   </div>
