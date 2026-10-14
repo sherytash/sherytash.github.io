@@ -93,7 +93,38 @@
       COL = { sea: get('--globe-sea'), land: get('--globe-land'), border: get('--map-border'), grat: get('--map-grat'),
               water: get('--river'), limb: get('--globe-limb'), shade: get('--globe-shade'),
               vOld: get('--visit-old'), vNew: get('--visit-new'), vEdge: get('--visit-edge') };
+      const n = String(get('--globe-night')).match(/[\d.]+/g) || [0, 0, 0, 0], a = n.length > 3 ? +n[3] : 0;
+      COL.night = 'rgb(' + n.slice(0, 3).join(',') + ')';
+      COL.nightA = a > 0 ? 1 - Math.pow(1 - Math.min(a, 0.99), 1 / NIGHT_STEPS) : 0;
       tints = new Map();
+    };
+
+    const NIGHT_STEPS = 6, NIGHT_PTS = 240;
+    const sunAt = ms => {
+      const n = ms / 864e5 - 10957.5;
+      const L = 280.460 + 0.9856474 * n, g = (357.528 + 0.9856003 * n) * D2R;
+      const lam = (L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * D2R, eps = (23.439 - 4e-7 * n) * D2R;
+      const dec = Math.asin(Math.sin(eps) * Math.sin(lam)), ra = Math.atan2(Math.cos(eps) * Math.sin(lam), Math.cos(lam));
+      const lon = ((ra / D2R - (280.46061837 + 360.98564736629 * n)) % 360 + 540) % 360 - 180;
+      return [lon, dec / D2R];
+    };
+    let NIGHT = [];
+    const setSun = ms => {
+      const [lon, lat] = sunAt(ms), A = vec(lon + 180, -lat);
+      const k = Math.abs(A[2]) < 0.9 ? [0, 0, 1] : [1, 0, 0];
+      const U = norm([A[1] * k[2] - A[2] * k[1], A[2] * k[0] - A[0] * k[2], A[0] * k[1] - A[1] * k[0]]);
+      const V = [A[1] * U[2] - A[2] * U[1], A[2] * U[0] - A[0] * U[2], A[0] * U[1] - A[1] * U[0]];
+      NIGHT = [];
+      for (let s = 0; s < NIGHT_STEPS; s++) {
+        const h = Math.sin(s * 6 / (NIGHT_STEPS - 1) * D2R), rho = Math.sqrt(1 - h * h), vs = [];
+        for (let i = 0; i < NIGHT_PTS; i++) {
+          const t = i / NIGHT_PTS * TAU, c = Math.cos(t) * rho, sn = Math.sin(t) * rho;
+          vs.push([h * A[0] + c * U[0] + sn * V[0], h * A[1] + c * U[1] + sn * V[1], h * A[2] + c * U[2] + sn * V[2]]);
+        }
+        const r = ringOf(vs, true, 1);
+        r.c = A; r.r = Math.acos(h); r.h = h; r.rho = rho;
+        NIGHT.push(r);
+      }
     };
     const CITY = (G && G.cities) || {};
     const rgbOf = s => (String(s).match(/[\d.]+/g) || [0, 0, 0]).slice(0, 3).map(Number);
@@ -186,6 +217,31 @@
         ctx.closePath();
       }
     }
+    function traceCap(r) {
+      const az = dot(r.c, CV), s = r.rho * Math.sqrt(Math.max(0, 1 - az * az)), zc = r.h * az;
+      if (zc + s <= 0) { if (az > r.h) { ctx.moveTo(OX + RR, OY); ctx.arc(OX, OY, RR, 0, TAU); } return; }
+      if (zc - s > 0 && az < 0) { ctx.moveTo(OX + RR, OY); ctx.arc(OX, OY, RR, 0, TAU); }
+      trace(r);
+    }
+    let nightEdge = [], nightFullA = 0;
+    function nightSplit() {
+      nightEdge = []; nightFullA = 0;
+      if (!NIGHT.length || !(COL.nightA > 0)) return;
+      const d = Math.acos(clamp(dot(NIGHT[0].c, CV), -1, 1));
+      let full = 0;
+      for (const r of NIGHT) { if (d + VANG < r.r) full++; else if (d - VANG <= r.r) nightEdge.push(r); }
+      nightFullA = full ? 1 - Math.pow(1 - COL.nightA, full) : 0;
+    }
+    function nightFill() {
+      ctx.fillStyle = COL.night; ctx.globalAlpha = COL.nightA;
+      for (const r of nightEdge) { ctx.beginPath(); traceCap(r); ctx.fill('evenodd'); }
+      if (nightFullA) { ctx.globalAlpha = nightFullA; ctx.beginPath(); ctx.arc(OX, OY, RR, 0, TAU); ctx.fill(); }
+      ctx.globalAlpha = 1;
+    }
+    function nightLakes() {
+      if (nightEdge.length) { ctx.save(); ctx.clip(); nightFill(); ctx.restore(); }
+      else if (nightFullA) { ctx.fillStyle = COL.night; ctx.globalAlpha = nightFullA; ctx.fill(); ctx.globalAlpha = 1; }
+    }
     function ground(land, lakes, rivers) {
       ctx.beginPath(); land.forEach(trace);
       ctx.fillStyle = COL.land; ctx.fill(); ctx.lineWidth = 0.55; ctx.strokeStyle = COL.border; ctx.stroke();
@@ -194,6 +250,7 @@
         ctx.beginPath(); g.rings.forEach(trace); ctx.fillStyle = c; ctx.fill(); ctx.strokeStyle = COL.vEdge; ctx.stroke();
       });
       ctx.beginPath(); lakes.forEach(trace); ctx.fillStyle = COL.sea; ctx.fill();
+      nightLakes();
       ctx.beginPath(); rivers.forEach(trace); ctx.lineWidth = 0.9; ctx.strokeStyle = COL.water; ctx.stroke();
     }
     function draw() {
@@ -206,6 +263,8 @@
       ctx.lineJoin = 'round'; ctx.lineCap = 'round';
       ctx.beginPath(); ctx.arc(OX, OY, RR, 0, TAU); ctx.fillStyle = COL.sea; ctx.fill();
       ctx.beginPath(); LAND.grat.forEach(trace); ctx.strokeStyle = COL.grat; ctx.lineWidth = 0.6; ctx.stroke();
+      nightSplit();
+      nightFill();
       const fine = RR > FINE_R && LAND.fine.length > 0 && LAND.boxIn.some(seen);
       fineOn = fine;
       if (fine) { ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, H); LAND.boxOut.forEach(trace); ctx.clip('evenodd'); }
@@ -236,13 +295,14 @@
     const pinOf = id => svg.querySelector('.pin[data-id="' + id + '"]');
     const tour = steps.filter(st => st.dataset.step !== 'world').map(st => {
       const city = st.dataset.step, el = document.querySelector('.stay[data-city="' + city + '"]'), a = pinOf(city);
-      return { id: city, city, el, step: st, now: !!el.dataset.now,
-               name: document.getElementById(city).querySelector('h2').textContent, lon: +a.dataset.lon, lat: +a.dataset.lat, v: a.v };
+      const panel = document.getElementById(city);
+      return { id: city, city, el, step: st, now: !!el.dataset.now, tz: panel.dataset.tz || '',
+               name: panel.querySelector('h2').textContent, lon: +a.dataset.lon, lat: +a.dataset.lat, v: a.v };
     });
     const N = tour.length, idx = new Map(); tour.forEach((t, i) => { if (!idx.has(t.city)) idx.set(t.city, i); });
     const trips = new Map(pins.filter(a => a.classList.contains('pin-trip')).map(a => {
       const el = document.getElementById(a.dataset.id);
-      return [a.dataset.id, { id: a.dataset.id, el, name: el.querySelector('h2').textContent,
+      return [a.dataset.id, { id: a.dataset.id, el, name: el.querySelector('h2').textContent, tz: el.dataset.tz || '',
         years: (el.querySelector('.yrs') || {}).textContent || '', lon: +a.dataset.lon, lat: +a.dataset.lat, v: a.v }];
     }));
     const tm = i => Math.round(B.rampMin + (100 - B.rampMin) * (N > 1 ? i / (N - 1) : 1)) + '%';
@@ -620,17 +680,26 @@
     };
 
     const esc = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const fmts = new Map();
+    const timeIn = tz => {
+      if (!tz || !window.Intl) return '';
+      try {
+        if (!fmts.has(tz)) fmts.set(tz, new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }));
+        return fmts.get(tz).format(Date.now()) + ' there';
+      } catch (e) { fmts.set(tz, null); return ''; }
+    };
+    const ltHTML = tz => { const s = timeIn(tz); return s ? '<span class="lt" data-tz="' + esc(tz) + '">' + s + '</span>' : ''; };
     function cardHTML(i) {
       const t = tour[i];
       return '<div class="sc-body"><div class="sc-head"><h2>' + esc(t.name) +
-        (t.now ? '<span class="nowtag">now</span>' : '') + '</h2><span class="sc-nav"><button class="sc-step sc-prev" type="button" aria-label="Previous city"' + (i === 0 ? ' disabled' : '') +
+        (t.now ? '<span class="nowtag">now</span>' : '') + '</h2>' + ltHTML(t.tz) + '<span class="sc-nav"><button class="sc-step sc-prev" type="button" aria-label="Previous city"' + (i === 0 ? ' disabled' : '') +
         '>&lsaquo;</button><span class="count">' + (i + 1) + ' / ' + N + '</span><button class="sc-step sc-next" type="button" aria-label="Next city"' + (i === N - 1 ? ' disabled' : '') +
         '>&rsaquo;</button></span></div>' +
         t.el.querySelector('ol').outerHTML + '</div>';
     }
     function tripHTML(t) {
       const ph = t.el.querySelector('.photos');
-      return '<div class="sc-body"><div class="sc-head"><h2>' + esc(t.name) + '</h2><span class="end"><span class="when">' + esc(t.years) +
+      return '<div class="sc-body"><div class="sc-head"><h2>' + esc(t.name) + '</h2>' + ltHTML(t.tz) + '<span class="end"><span class="when">' + esc(t.years) +
         '</span><button class="sc-x" type="button" aria-label="Close ' + esc(t.name) + '">&times;</button></span></div>' + (ph ? ph.outerHTML : '') + '</div>';
     }
     const mark = (cls, city) => document.querySelectorAll('.pin, .chip, .lab').forEach(el => el.classList.toggle(cls, !!city && (el.dataset.id === city || el.dataset.for === city)));
@@ -1018,7 +1087,7 @@
       return e;
     };
     function clearPath() {
-      route = null; routeG.replaceChildren(); pathX.hidden = true; root.classList.remove('path-on');
+      route = null; routeG.replaceChildren(); pathX.hidden = true; root.classList.remove('path-on', 'career-on');
       if (want === routeView) want = null;
     }
     function spec(n, mode) {
@@ -1072,11 +1141,17 @@
         }
         n.el.setAttribute('transform', tr(px - sl, py - st));
       });
+      route.career.forEach(c => {
+        const [px, py, z] = proj(c.v);
+        c.el.classList.toggle('back', z <= FRONT);
+        if (z > FRONT) c.el.setAttribute('transform', tr(px - sl, py - st));
+      });
     }
     function routeView() {
       const f = freeRect(), [x, y] = mid(f);
-      const c = norm(route.spots.reduce((s, q) => [s[0] + q.v[0], s[1] + q.v[1], s[2] + q.v[2]], [0, 0, 0]));
-      const dmax = Math.max(...route.spots.map(q => Math.acos(clamp(dot(q.v, c), -1, 1))));
+      const all = route.spots.concat(route.career);
+      const c = norm(all.reduce((s, q) => [s[0] + q.v[0], s[1] + q.v[1], s[2] + q.v[2]], [0, 0, 0]));
+      const dmax = Math.max(...all.map(q => Math.acos(clamp(dot(q.v, c), -1, 1))));
       const half = 0.5 * Math.min(f[2] - f[0], f[3] - f[1]) - 90;
       const R = dmax < 1e-4 ? cityView({ lon: 0, lat: 0 }).R : clamp(Math.max(half, 60) / Math.sin(Math.min(dmax, Math.PI / 2)), Math.min(fitR(f), RFIT()), RMAX());
       const [lon, lat] = lonlat(c);
@@ -1125,7 +1200,30 @@
         const node = { el: g, v: q.v, side, w: Math.max(...lines.map(l => l[0].length)) * 6.6 + 4, n: lines.length, texts, nbrs, mode: 0 };
         nodes.push(node); setMode(node, 0);
       });
-      route = { nodes, arcs, spots }; root.classList.add('path-on');
+      const career = [];
+      (path.career || []).forEach(c => {
+        let v = null;
+        if (c.pin) { const a = pinOf(c.pin); if (a) v = a.v; }
+        else if (isFinite(c.lat) && isFinite(c.lng)) v = vec(+c.lng, +c.lat);
+        if (!v) return;
+        const same = career.find(o => Math.acos(clamp(dot(o.v, v), -1, 1)) < 0.004);
+        if (same) { if (c.both && !same.both) Object.assign(same, { both: true, n: c.n }); return; }
+        if (!c.both && spots.some(q => Math.acos(clamp(dot(q.v, v), -1, 1)) < 0.004)) return;
+        career.push({ v, both: !!c.both, n: c.n });
+      });
+      career.forEach(c => {
+        const onPath = spots.some(q => Math.acos(clamp(dot(q.v, c.v), -1, 1)) < 0.004 && q.people.length);
+        const g = svgEl('g', 'rt-you' + (c.both ? ' rt-both' : ''), { style: '--i:' + spots.length });
+        const h = c.both ? 11 : 4.5;
+        g.appendChild(svgEl('rect', 'rt-sq', { x: -h, y: -h, width: 2 * h, height: 2 * h }));
+        if (c.both && !onPath) wrapText(c.n, phone.matches ? 21 : 27).slice(0, 2).forEach((l, j) => {
+          const t = svgEl('text', 'rt-inst', { x: 16, y: (4 + j * 13).toFixed(1) }); t.textContent = l; g.appendChild(t);
+        });
+        routeG.insertBefore(g, routeG.firstChild);
+        c.el = g;
+      });
+      route = { nodes, arcs, spots, career }; root.classList.add('path-on');
+      root.classList.toggle('career-on', career.length > 0);
       pathX.hidden = false; placeX();
       if (gest.matches && !introGone) { introGone = true; root.classList.remove('at-start'); }
       halt(); manual = false; want = routeView;
@@ -1205,9 +1303,21 @@
     const dark = matchMedia('(prefers-color-scheme: dark)');
     dark.addEventListener ? dark.addEventListener('change', repaint) : dark.addListener(repaint);
 
-    root.classList.add('at-now', 'at-start'); barEdge(); sizeCanvas(); readColours();
+    let clockT = 0;
+    const tick = () => {
+      clearTimeout(clockT); clockT = 0;
+      if (document.hidden) return;
+      setSun(Date.now());
+      card.querySelectorAll('.lt').forEach(el => { el.textContent = timeIn(el.dataset.tz); });
+      if (!(anim || inert || drag || pinch)) draw();
+      clockT = setTimeout(tick, 60000 - Date.now() % 60000 + 30);
+    };
+    document.addEventListener('visibilitychange', tick);
+
+    root.classList.add('at-now', 'at-start'); barEdge(); sizeCanvas(); readColours(); setSun(Date.now());
     want = startView; frameKey = frame();
     cam = want(); render(false);
+    clockT = setTimeout(tick, 60000 - Date.now() % 60000 + 30);
     const fromHash = () => {
       const key = decodeURIComponent(location.hash.slice(1)), i = stopOf(key);
       if (i >= 0) {

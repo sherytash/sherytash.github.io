@@ -114,7 +114,8 @@
   if (!panel) return;
   const T = {
     research: { s: 'Website: research',
-      h: '<p>I&rsquo;m always glad to hear from potential collaborators.</p>' },
+      h: '<p>I&rsquo;m always glad to hear from potential collaborators.</p>' +
+         '<p><a class="btn btn-ghost" id="seminar-ask" href="#contact">Invite me for a seminar</a></p>' },
     student: { s: 'Website: thesis supervision inquiry',
       h: '<p>If you want to write your thesis with me, get in touch.</p>' +
          '<p><a class="btn btn-ghost" id="thesis-mail" href="#contact">Use the thesis inquiry template</a></p>' },
@@ -134,6 +135,21 @@
       if (who === 'student' && !when.value) when.value = 'Wednesday, 4 pm';
     }
     wireThesis();
+    wireSeminar();
+  };
+  const wireSeminar = () => {
+    const b = document.getElementById('seminar-ask');
+    if (!b) return;
+    b.addEventListener('click', e => {
+      e.preventDefault();
+      if (subj) subj.value = 'Website: seminar invitation';
+      const msg = document.getElementById('f-msg');
+      if (msg) {
+        if (!msg.value) msg.value = 'I would like to invite you to give a research seminar at ';
+        msg.focus();
+        msg.setSelectionRange(msg.value.length, msg.value.length);
+      }
+    });
   };
   window.pickWho = who => { if (T[who]) pick(who); };
   document.querySelectorAll('.whobtn').forEach(b => b.addEventListener('click', () => pick(b.dataset.who)));
@@ -165,8 +181,8 @@
   const hex = b => [...b].map(x => x.toString(16).padStart(2, '0')).join('');
   const unhex = h => new Uint8Array(h.match(/../g).map(x => parseInt(x, 16)));
   const STAYS = JSON.parse((document.getElementById('finder-stays') || { textContent: '[]' }).textContent);
-  const MY_PLACES = ['Ludwig-Maximilians', 'Vienna University of Economics', 'Wirtschaftsuniversität',
-    'University of Zurich', 'Vienna University of Technology', 'TU Wien', 'EM Lyon', 'Stanford'];
+  const PLACES = JSON.parse((document.getElementById('finder-places') || { textContent: '[]' }).textContent);
+  const THIS_YEAR = new Date().getFullYear();
   const OA = 'https://api.openalex.org/';
   const CHECK_AT_MOST = 6;
   const TITLES_PER_EDGE = 3;
@@ -208,6 +224,44 @@
       d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
     return d[a.length][b.length];
   }
+
+  const STOP = new Set(['of', 'the', 'and', 'for', 'in', 'at', 'de', 'der', 'und', 'la', 'le']);
+  const words = v => norm(v).split(' ').filter(w => w && !STOP.has(w));
+  const squash = v => norm(v).replace(/ /g, '');
+  const ALIAS = { 'LMU Munich': ['ludwig maximilians', 'university of munich', 'lmu munchen'],
+    'WU Vienna': ['vienna university of economics', 'wirtschaftsuniversitat wien'],
+    'Vienna University of Technology': ['tu wien'] };
+  function sameInst(names, inst) {
+    if (!inst) return false;
+    const sq = squash(inst), al = ALIAS[inst] || [], iw = words(inst);
+    if (names.some(n => squash(n) === sq || al.some(a => (' ' + norm(n) + ' ').indexOf(' ' + a + ' ') !== -1))) return true;
+    const pool = new Set(names.flatMap(words));
+    return iw.length > 1 && iw.every(w => pool.has(w));
+  }
+  const instNames = x => [x.display_name || ''].concat(x.display_name_alternatives || [], x.display_name_acronyms || []);
+  function typedIs(q, x, strict) {
+    const names = instNames(x), qs = squash(q);
+    if (names.some(n => squash(n) === qs)) return true;
+    if (strict) return false;
+    const pool = new Set(names.concat((x.geo || {}).city || []).flatMap(words)), qw = words(q);
+    return qw.length > 0 && qw.every(w => pool.has(w));
+  }
+  const yearsOf = s => {
+    const y = (String(s).match(/\d{4}/g) || []).map(Number);
+    if (!y.length) return [];
+    const a = Math.min(...y), b = /–\s*$/.test(s) ? Math.max(THIS_YEAR, a) : Math.max(...y), r = [];
+    for (let i = a; i <= b; i++) r.push(i);
+    return r;
+  };
+  const yearText = ys => {
+    const r = [];
+    [...new Set(ys)].sort((a, b) => a - b).forEach(y => {
+      const last = r[r.length - 1];
+      if (last && y === last[1] + 1) last[1] = y; else r.push([y, y]);
+    });
+    const t = r.map(([a, b]) => a === b ? String(a) : a + '–' + b);
+    return t.length > 1 ? t.slice(0, -1).join(', ') + ' and ' + t[t.length - 1] : t[0] || '';
+  };
 
   let db = null;
   async function lookup(name) {
@@ -315,9 +369,9 @@
       return { titles: titles.slice(0, TITLES_PER_EDGE), total: count > 10 ? count : titles.length };
     } catch (e) { return { titles: [], total: 0 }; }
   }
-  function withStefan(g, k) {
+  function withStefan(g, k, n) {
     const p = g.hop1[k].p;
-    return { titles: p.slice(0, TITLES_PER_EDGE).map(i => g.papers[i]), total: p.length };
+    return { titles: p.slice(0, n || TITLES_PER_EDGE).map(i => g.papers[i]), total: p.length };
   }
   async function pathOf(g, c, hit) {
     const you = { name: c.name, sub: c.inst, ids: c.ids, instId: c.instId };
@@ -415,9 +469,11 @@
   async function presentColleague(t, col, others) {
     const { cg, c, hit } = col, who = cg.people[hit.k];
     const home = COL_HOME[who.grp] || COL_HOME.wu, stefan = { name: 'Stefan Herytash', pin: 'vienna' };
+    const mine = c.ids.length ? await careerOf(c) : null;
+    const career = mine ? mine.career : null, line = mine && mine.line ? [el('div', 'fo-sub', mine.line)] : [];
     if (hit.steps === 1) {
       show(t, el('div', 'fo-hit', colText(who.grp, 'one')),
-        mapButton({ nodes: [{ name: c.name, inst: home.inst, pin: home.pin }, stefan], kinds: ['col'] }));
+        mapButton({ nodes: [{ name: c.name, inst: home.inst, pin: home.pin }, stefan], kinds: ['col'], career }), ...line);
       return;
     }
     const nodes = [el('div', 'fo-hit', HEAD[2])];
@@ -426,9 +482,10 @@
       edges: [shared, { titles: [], label: colText(who.grp, 'edge') }] });
     nodes.push(ol);
     nodes.push(mapButton({ nodes: [{ name: c.name, inst: c.inst, ids: c.ids, instId: c.instId },
-      { name: who.n, inst: home.inst, pin: home.pin }, stefan], kinds: ['co', 'col'] }));
+      { name: who.n, inst: home.inst, pin: home.pin }, stefan], kinds: ['co', 'col'], career }));
     const more = (hit.more || []).map(k => cg.people[k].n);
     if (more.length) nodes.push(el('div', 'fo-sub', 'Also through ' + more.join(', ') + '.'));
+    nodes.push(...line);
     const rest = (others || []).filter(o => o.works > 0).slice(0, 3);
     if (rest.length) {
       const b = el('button', 'fo-link', 'Not the right ' + c.name + '?');
@@ -445,7 +502,8 @@
   const orFilter = ids => 'filter=openalex:' + ids.join('|') + '&per-page=' + ids.length;
   async function resolveGeo(spec) {
     const C = geoLoad();
-    const people = spec.nodes.filter(n => !n.pin);
+    const people = spec.nodes.filter(n => !n.pin && n.lat == null);
+    const career = (spec.career || []).filter(a => !a.pin).slice(0, 60);
     const askA = [...new Set(people.filter(n => !n.instId).flatMap(n => (n.ids || []).filter(i => !(i in C.a))))];
     if (askA.length) {
       try {
@@ -460,7 +518,7 @@
     people.forEach(n => {
       if (!n.instId) n.instId = (n.ids || []).map(i => C.a[i]).find(Boolean) || '';
     });
-    const askI = [...new Set(people.map(n => n.instId).filter(i => i && !(i in C.i)))];
+    const askI = [...new Set(people.map(n => n.instId).concat(career.map(a => a.id)).filter(i => i && !(i in C.i)))];
     if (askI.length) {
       try {
         const r = await oa('institutions?' + orFilter(askI) + '&select=id,display_name,geo');
@@ -475,10 +533,16 @@
     const nodes = [];
     spec.nodes.forEach((n, k) => {
       if (n.pin) { nodes.push({ n: n.name, pin: n.pin, i: n.inst || '', kind: spec.kinds[k - 1] }); return; }
+      if (n.lat != null) { nodes.push({ n: n.name, i: n.inst || '', lat: n.lat, lng: n.lng, kind: spec.kinds[k - 1] }); return; }
       const g = n.instId && C.i[n.instId];
       if (g) nodes.push({ n: n.name, i: g[0] || n.inst || '', lat: g[1], lng: g[2], kind: spec.kinds[k - 1] });
     });
-    return { nodes };
+    const places = (spec.career || []).map(a => {
+      if (a.pin) return { n: a.name, pin: a.pin, both: true };
+      const g = C.i[a.id];
+      return g ? { n: g[0] || a.name, lat: g[1], lng: g[2] } : null;
+    }).filter(Boolean);
+    return places.length ? { nodes, career: places } : { nodes };
   }
   function toMap(path) {
     if (typeof window.mapShowPath === 'function') {
@@ -495,7 +559,7 @@
     b.addEventListener('click', async () => {
       if (b.disabled) return;
       b.disabled = true;
-      try { toMap(await resolveGeo({ nodes: spec.nodes.map(n => ({ ...n, inst: n.inst || n.sub })), kinds: spec.kinds })); }
+      try { toMap(await resolveGeo({ nodes: spec.nodes.map(n => ({ ...n, inst: n.inst || n.sub })), kinds: spec.kinds, career: spec.career })); }
       finally { b.disabled = false; }
     });
     return b;
@@ -540,26 +604,36 @@
     if (e.total > e.titles.length) li.appendChild(el('span', null, 'and ' + (e.total - e.titles.length) + ' more'));
     return li;
   }
-  function pathNode(p) {
+  function pathNode(p, notYou) {
     const ol = el('ol', 'fo-path');
     p.nodes.forEach((n, i) => {
-      const li = el('li', 'fo-node', n.name + (i === 0 ? ' (you)' : ''));
+      const li = el('li', 'fo-node', n.name + (i === 0 && !notYou ? ' (you)' : ''));
       if (n.sub) li.appendChild(el('span', 'fo-where', n.sub));
       ol.appendChild(li);
       if (p.edges[i]) ol.appendChild(edgeNode(p.edges[i]));
     });
     return ol;
   }
-  async function overlapLine(c) {
+  async function careerOf(c) {
     if (!(c.works > 0)) return null;
-    try {
-      const r = await getJSON(OA + 'authors/' + c.ids[0] + '?select=affiliations', 4000);
-      for (const a of r.affiliations || []) {
-        const nm = (a.institution || {}).display_name || '';
-        if (MY_PLACES.some(pat => nm.indexOf(pat) !== -1)) return 'Like me, you have also been at ' + nm + '.';
-      }
-    } catch (e) {}
-    return null;
+    let r;
+    try { r = await getJSON(OA + 'authors/' + c.ids[0] + '?select=affiliations', 4000); } catch (e) { return null; }
+    const mine = PLACES.filter(p => p[3] && yearsOf(p[1]).length && yearsOf(p[1])[0] <= THIS_YEAR);
+    const list = (r.affiliations || []).map(a => {
+      const x = a.institution || {}, years = (a.years || []).filter(Number.isFinite);
+      if (!x.id || !years.length) return null;
+      const here = mine.filter(p => sameInst([x.display_name || ''], p[3]));
+      const out = { id: idOf(x.id), name: x.display_name || '', years };
+      if (here.length) Object.assign(out, { pin: here[0][2], name: here[0][3], my: here.flatMap(p => yearsOf(p[1])) });
+      return out;
+    }).filter(Boolean);
+    const shared = list.filter(a => a.pin).sort((a, b) => Math.max(...b.years) - Math.max(...a.years));
+    const o = shared[0];
+    const line = o ? 'We were both at ' + o.name + ': you in ' + yearText(o.years) + ', I in ' + yearText(o.my) + '.' : null;
+    const seen = new Set();
+    const career = list.filter(a => { const k = a.pin || a.id; return !seen.has(k) && seen.add(k); })
+      .map(a => a.pin ? { pin: a.pin, name: a.name } : { id: a.id, name: a.name });
+    return { line, career };
   }
   function candButton(c, onPick) {
     const b = el('button', 'fo-cand', c.name + (c.inst ? ' · ' + c.inst : '') +
@@ -580,13 +654,14 @@
 
   async function present(t, g, c, hit, others, note, lead) {
     if (hit.steps === 0) { show(t, el('div', 'fo-hit', HEAD[0])); return; }
-    const [p, extra] = await Promise.all([pathOf(g, c, hit), overlapLine(c)]);
+    const [p, mine] = await Promise.all([pathOf(g, c, hit), careerOf(c)]);
+    if (mine) p.career = mine.career;
     const nodes = [];
     if (lead) nodes.push(el('div', 'fo-hit', lead));
     if (note) nodes.push(el('div', 'fo-sub', note));
     nodes.push(el('div', 'fo-hit', HEAD[hit.steps]), pathNode(p), mapButton(p));
     if (p.others && p.others.length) nodes.push(el('div', 'fo-sub', 'Also through ' + p.others.join(', ') + '.'));
-    if (extra) nodes.push(el('div', 'fo-sub', extra));
+    if (mine && mine.line) nodes.push(el('div', 'fo-sub', mine.line));
     const rest = (others || []).filter(o => o.works > 0).slice(0, 3);
     if (rest.length) {
       const b = el('button', 'fo-link', 'Not the right ' + c.name + '?');
@@ -611,6 +686,87 @@
       else if (failed) say(t, ERR.net);
       else showMiss(t);
     } finally { if (t === run) go.disabled = false; }
+  }
+
+  const chunks = (a, n) => { const r = []; for (let i = 0; i < a.length; i += n) r.push(a.slice(i, i + n)); return r; };
+  async function peopleAt(g, I, names) {
+    const out = [];
+    if (g.ok) {
+      const seen = new Set();
+      const groups = await Promise.all(chunks(g.hop1.flatMap(e => e.ids), 100).map(c =>
+        oa('works?filter=author.id:' + c.join('|') + ',institutions.id:' + I + '&group_by=author.id&per-page=200').catch(() => null)));
+      groups.forEach(r => r && (r.group_by || []).forEach(x => seen.add(idOf(x.key))));
+      const cand = [...seen].filter(i => !g.stefan.has(i) && (g.byId.has(i) || g.hop2.has(i)));
+      const here = new Map();
+      const conf = await Promise.all(chunks(cand, 100).map(c =>
+        oa('authors?filter=openalex:' + c.join('|') + ',last_known_institutions.id:' + I + '&select=id,display_name&per-page=100').catch(() => null)));
+      conf.forEach(r => r && (r.results || []).forEach(a => here.set(idOf(a.id), a.display_name)));
+      const ks = new Set();
+      here.forEach((nm, id) => {
+        const k = g.byId.get(id);
+        if (k != null && !ks.has(k)) { ks.add(k); out.push({ steps: 1, k, name: g.hop1[k].n, n: g.hop1[k].p.length }); }
+      });
+      out.sort((a, b) => b.n - a.n);
+      const two = [];
+      here.forEach((nm, id) => {
+        if (g.byId.has(id) || !g.hop2.has(id)) return;
+        const via = g.hop2.get(id)[0];
+        two.push({ steps: 2, via, name: nm, ids: [id], n: g.hop1[via].p.length });
+      });
+      out.push(...two.sort((a, b) => b.n - a.n));
+    }
+    for (const grp of Object.keys(COL_HOME)) {
+      if (!sameInst(names, COL_HOME[grp].inst)) continue;
+      const cg = await loadColleagues();
+      if (!cg.ok) continue;
+      const have = new Set(out.map(p => keyOf(p.name)));
+      cg.people.forEach(e => { if (e.grp === grp && !have.has(e.key)) out.push({ steps: 1, grp, name: e.n }); });
+    }
+    return out;
+  }
+  const SHOW_AT = 3;
+  async function presentInst(t, g, x) {
+    say(t, 'Checking coauthorships…');
+    const I = idOf(x.id), geo = x.geo || {}, names = instNames(x);
+    const mine = PLACES.filter(p => sameInst(names, p[3]));
+    const people = await peopleAt(g, I, names);
+    const nodes = [el('div', 'fo-hit', x.display_name)];
+    const where = [geo.city, geo.country].filter(Boolean).join(', ');
+    if (where) nodes.push(el('div', 'fo-sub', where));
+    if (mine.length) {
+      const ul = el('ul', 'fo-stays');
+      mine.forEach(p => { const li = el('li', null, p[0] + ', '); li.appendChild(el('span', 'fo-yrs', p[1])); ul.appendChild(li); });
+      nodes.push(el('div', 'fo-sub', 'My time there'), ul);
+    }
+    const pathFor = p => {
+      if (p.grp) return { nodes: [{ name: p.name }, { name: 'Stefan Herytash' }], edges: [{ titles: [], label: colText(p.grp, 'edge') }] };
+      if (p.steps === 1) return { nodes: [{ name: p.name }, { name: 'Stefan Herytash' }], edges: [withStefan(g, p.k, 1)] };
+      return { nodes: [{ name: p.name }, { name: g.hop1[p.via].n }, { name: 'Stefan Herytash' }],
+        edges: [{ titles: [], total: 0 }, withStefan(g, p.via, 1)] };
+    };
+    if (people.length) {
+      nodes.push(el('div', 'fo-sub', 'People there I am connected to'));
+      people.slice(0, SHOW_AT).forEach(p => nodes.push(pathNode(pathFor(p), true)));
+      const rest = people.slice(SHOW_AT);
+      if (rest.length) {
+        const named = rest.slice(0, 6).map(p => p.name);
+        nodes.push(el('div', 'fo-sub', 'Also there: ' + named.join(', ') +
+          (rest.length > named.length ? ' and ' + (rest.length - named.length) + ' more' : '') + '.'));
+      }
+    } else if (!mine.length) nodes.push(el('div', 'fo-sub', 'No connection there that I know of.'));
+    const short = mine.length ? mine[0][3] : x.display_name;
+    const p = people[0], here = { name: p ? p.name : short, inst: p ? short : where };
+    if (typeof geo.latitude === 'number' && typeof geo.longitude === 'number') Object.assign(here, { lat: geo.latitude, lng: geo.longitude });
+    else if (mine.length) here.pin = mine[0][2];
+    if (here.lat != null || here.pin) {
+      const stefan = { name: 'Stefan Herytash', pin: 'vienna' };
+      const spec = !p ? { nodes: [here], kinds: [] }
+        : p.grp ? { nodes: [here, stefan], kinds: ['col'] }
+        : p.steps === 1 ? { nodes: [here, stefan], kinds: ['co'] }
+        : { nodes: [here, { name: g.hop1[p.via].n, ids: g.hop1[p.via].ids.slice(0, 3) }, stefan], kinds: ['co', 'co'] };
+      nodes.push(mapButton(spec));
+    }
+    show(t, ...nodes);
   }
 
   async function search() {
@@ -642,6 +798,18 @@
       return;
     }
     say(t, 'Searching the open scholarly graph…');
+    const instQ = fromGraph.length ? null : oa('institutions?search=' + encodeURIComponent(name) +
+      '&per-page=5&select=id,display_name,display_name_alternatives,display_name_acronyms,geo').then(r => r.results || [], () => []);
+    const typedWords = words(name);
+    const instPick = async strong => {
+      const xs = instQ ? await instQ : [];
+      const exactly = xs.find(x => typedIs(name, x, true));
+      if (exactly) return exactly;
+      const loose = xs.find(x => typedIs(name, x, false));
+      if (!loose || !strong || typedWords.length > 1) return loose || null;
+      return words(loose.display_name || '')[0] === typedWords[0] ? loose : null;
+    };
+    const INST_WORD = /\b(universit|school|college|institut|hochschule|academy|akademie|polytechn|business|economics|cent(er|re)|klinik|hospital)/;
     let found;
     try {
       const r = await oa('authors?search=' + encodeURIComponent(name) +
@@ -651,6 +819,8 @@
         inst: ((c.last_known_institutions || [])[0] || {}).display_name || '',
         instId: idOf(((c.last_known_institutions || [])[0] || {}).id || '') }));
     } catch (e) {
+      const x = await instPick(false);
+      if (x) { await presentInst(t, g, x); return; }
       if (fromGraph.length === 1) {
         await present(t, g, fromGraph[0], { steps: 1, k: graphNames[0] }, [],
           'The open scholarly graph did not answer, so this is matched by name only.');
@@ -663,6 +833,10 @@
     }
     found.sort((a, b) => b.works - a.works);
     const exact = q.indexOf(' ') > 0 ? found.filter(c => keyOf(c.name) === q) : [];
+    if (exact.length && !fromGraph.length && INST_WORD.test(norm(name))) {
+      const xs = instQ ? await instQ : [], x = xs.find(y => typedIs(name, y, true));
+      if (x) { await presentInst(t, g, x); return; }
+    }
     if (exact.length || fromGraph.length) {
       const known = new Set();
       exact.forEach(c => c.ids.forEach(i => known.add(i)));
@@ -684,6 +858,8 @@
       const nt = keyOf(n).split(' ');
       return qt.every(a => nt.some(b => lev(a, b) <= (a.length > 4 ? 1 : 0)));
     };
+    const inst = await instPick(true);
+    if (inst) { await presentInst(t, g, inst); return; }
     const col = await colleagueHit([], name);
     if (col) { await presentColleague(t, col, []); return; }
     const close = found.filter(c => closeTo(c.name));
@@ -691,7 +867,11 @@
       if (closeTo(e.n)) close.push({ ids: e.ids, name: e.n, works: 0, inst: 'on my papers' });
     });
     close.sort((a, b) => (offlineHit(g, b) ? 1 : 0) - (offlineHit(g, a) ? 1 : 0) || b.works - a.works);
-    if (!close.length) { showMiss(t); return; }
+    if (!close.length) {
+      const x = await instPick(false);
+      if (x) await presentInst(t, g, x); else showMiss(t);
+      return;
+    }
     chooser(t, 'Which one is you?', close.slice(0, 3), c => pick(c, []));
   }
 

@@ -228,6 +228,11 @@ html:not(.js) .finder{ display:none; }
 .fo-node::before{ content:""; position:absolute; left:0; top:0.5em; width:0.46rem; height:0.46rem; border-radius:50%;
   background:var(--accent); }
 .fo-where{ display:block; font-family:var(--sans); font-size:0.78rem; color:var(--ink-soft); }
+
+.finder-out .fo-stays{ list-style:none; margin:0.3rem 0 0; padding:0; font-family:var(--sans); font-size:0.88rem; line-height:1.45; color:var(--ink); }
+.fo-stays li + li{ margin-top:0.2rem; }
+.fo-yrs{ white-space:nowrap; }
+.finder-out .fo-path + .fo-path{ margin-top:0.9rem; }
 .fo-edge{ margin:0.2rem 0 0.2rem 0.2rem; padding:0.25rem 0 0.25rem 0.95rem; border-left:1px solid var(--line-strong);
   font-size:0.84rem; line-height:1.4; color:var(--ink-soft); }
 .fo-edge span{ display:block; }
