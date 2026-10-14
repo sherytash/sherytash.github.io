@@ -62,6 +62,13 @@
     .pp-body.no-abs{ grid-template-columns:minmax(0, 30rem); }
     .pp-body.no-abs .vis{ grid-column:1; position:static; }
   }
+  
+  @media (min-width:1360px){
+    main{ max-width:calc(78rem + 2 * var(--gutter)); }
+    .pp-body{ grid-template-columns:minmax(0, 40rem) minmax(18rem, 34rem); justify-content:space-between; }
+    .pp-body .vis{ max-width:34rem; width:100%; }
+    .pp-body.no-abs{ grid-template-columns:minmax(0, 34rem); }
+  }
   @media print{ .pp-actions, .pp-nav{ display:none; } }
 
 .vis[data-vis="ai-simulations"] .fc-q{ fill:none; stroke:var(--vis-ref); stroke-width:0.9; }

@@ -148,6 +148,13 @@
   
   @media (min-width:561px){ html[lang="de"] .cv-row{ grid-template-columns:7.2rem minmax(0, 1fr); } }
   @media (min-width:1000px){ html[lang="de"] .cv-row.has-vis{ grid-template-columns:7.2rem minmax(0, 1fr) 21rem; } }
+  
+  @media (min-width:1440px){
+    main, .cv-bar-in{ max-width:84rem; }
+    .cv-row.has-vis{ grid-template-columns:6.4rem minmax(0, 1fr) 26rem; gap:0.25rem 1.6rem; }
+    .cv-row:not(.has-vis) .cv-what{ max-width:46rem; }
+    html[lang="de"] .cv-row.has-vis{ grid-template-columns:7.2rem minmax(0, 1fr) 26rem; }
+  }
   @media (max-width:560px){
     .cv-row{ grid-template-columns:1fr; gap:0.1rem; }
     .cv-row .vis{ grid-column:1; }
