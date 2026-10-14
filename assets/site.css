@@ -195,6 +195,7 @@ html:not(.js) .theme{ display:none; }
 html:not(.js) .whoami{ display:none; }
 .who-panel{ font-family:var(--serif); font-size:1.08rem; line-height:1.5; }
 .who-panel p{ margin:0 0 0.8rem; }
+.who-panel .ask-row{ display:flex; flex-wrap:wrap; gap:0.5rem; }
 .cform{ display:flex; flex-direction:column; gap:0.6rem; margin-top:1.1rem; }
 html:not(.js) .cform, html:not(.js) #show-email{ display:none; }
 .frow{ display:flex; gap:0.6rem; align-items:center; }

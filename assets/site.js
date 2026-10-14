@@ -115,7 +115,8 @@
   const T = {
     research: { s: 'Website: research',
       h: '<p>I&rsquo;m always glad to hear from potential collaborators.</p>' +
-         '<p><a class="btn btn-ghost" id="seminar-ask" href="#contact">Invite me for a seminar</a></p>' },
+         '<p class="ask-row"><a class="btn btn-ghost" id="seminar-ask" href="#contact">Invite me for a seminar</a>' +
+         '<a class="btn btn-ghost" id="review-ask" href="#contact">Ask me to review</a></p>' },
     student: { s: 'Website: thesis supervision inquiry',
       h: '<p>If you want to write your thesis with me, get in touch.</p>' +
          '<p><a class="btn btn-ghost" id="thesis-mail" href="#contact">Use the thesis inquiry template</a></p>' },
@@ -136,6 +137,21 @@
     }
     wireThesis();
     wireSeminar();
+    wireAsk('review-ask', 'Website: review request', 'I would like to ask you to review a manuscript for ');
+  };
+  const wireAsk = (id, subject, start) => {
+    const b = document.getElementById(id);
+    if (!b) return;
+    b.addEventListener('click', e => {
+      e.preventDefault();
+      if (subj) subj.value = subject;
+      const msg = document.getElementById('f-msg');
+      if (msg) {
+        if (!msg.value) msg.value = start;
+        msg.focus();
+        msg.setSelectionRange(msg.value.length, msg.value.length);
+      }
+    });
   };
   const wireSeminar = () => {
     const b = document.getElementById('seminar-ask');
