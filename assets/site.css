@@ -265,6 +265,7 @@ html:not(.js) .finder{ display:none; }
     --accent:#000000; --accent-lift:#000000; --now:#000000; --on-accent:#FFFFFF;
     --water:#BBBBBB; --grat:#EEEEEE; --ref:#777777; --shadow:transparent; --scrim:#FFFFFF;
     --motif-ink:none; --motif-wash:none;
+    --cl-ai:#1E4148; --cl-sci:#734F0F;   
     color-scheme:light;
   }
   @page{ margin:16mm 15mm; }
