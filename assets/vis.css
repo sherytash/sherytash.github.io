@@ -101,6 +101,7 @@ html:not(.js) .vis-control{ display:none; }
   text-decoration:underline; text-decoration-color:var(--line-strong); text-underline-offset:0.2em;
   cursor:pointer; vertical-align:baseline; -webkit-tap-highlight-color:transparent; }
 .cv-cite[hidden]{ display:none; }
+a.cv-page{ color:var(--ink-soft); }      
 .cv-cite::after{ content:""; position:absolute; left:-0.7rem; right:-0.7rem; top:50%; height:44px; transform:translateY(-50%); }
 .cv-cite:hover, .cv-cite.done{ color:var(--accent); }
 .cv-cite:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }

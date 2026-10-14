@@ -783,3 +783,13 @@
   addEventListener('hashchange', open);
   open();
 })();
+
+(() => {
+  document.querySelectorAll('a[data-ask]').forEach(a => a.addEventListener('click', () => {
+    if (window.pickWho) window.pickWho('research');
+    const subj = document.getElementById('form-subject');
+    if (subj) subj.value = 'Website: manuscript request, ' + a.dataset.ask;
+    const msg = document.getElementById('f-msg');
+    if (msg && !msg.value) msg.value = 'I would like to read the manuscript of “' + a.dataset.ask + '”.';
+  }));
+})();

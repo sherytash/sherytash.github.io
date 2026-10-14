@@ -315,6 +315,12 @@
   @media (hover:hover){ .i-t:hover{ text-decoration:underline; text-decoration-color:var(--cl); text-underline-offset:0.18em; } }
   .i-s{ display:block; font-size:0.78rem; line-height:1.4; color:var(--ink-soft); margin-top:0.1rem; }
   .i-f{ display:block; font-size:0.8rem; line-height:1.45; color:var(--ink); margin-top:0.3rem; }
+  
+  .i-q{ color:inherit; text-decoration:underline; text-decoration-color:var(--line-strong); text-decoration-thickness:1px; text-underline-offset:0.18em; }
+  @media (hover:hover){ .i-q:hover{ color:var(--accent); text-decoration-color:var(--accent); } }
+  .i-all{ margin:0.55rem 0 0; padding-top:0.5rem; border-top:1px solid var(--line); font-size:0.78rem; }
+  .i-all a{ display:inline-flex; align-items:center; min-height:32px; color:var(--ink-soft); text-decoration:none; }
+  .i-all a:hover{ color:var(--accent); text-decoration:underline; text-underline-offset:0.2em; }
   .i-more{ display:none; }
   @media (max-height:780px) and (min-width:720px){ .i-f{ display:none; } }
   @media (max-height:500px) and (orientation:landscape){ .intro{ display:none; } }
@@ -344,7 +350,9 @@
     .i-s{ font-size:0.72rem; }
     .i-f{ display:none; }
     
-    .intro:not(.open) .i-rest, .intro:not(.open) .i-s{ display:none; }
+    .intro:not(.open) .i-rest, .intro:not(.open) .i-s, .intro:not(.open) .i-all{ display:none; }
+    .i-all{ margin-top:0.35rem; padding-top:0.3rem; }
+    .i-all a{ min-height:44px; }
     .intro:not(.open) .i-t{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .i-more{ display:grid; place-items:center; width:44px; height:44px; margin:0.05rem auto 0; padding:0; background:none; border:0; border-radius:50%;
       color:var(--ink-soft); cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
@@ -615,17 +623,18 @@
   
   <aside class="intro" id="intro" aria-labelledby="intro-role">
     <p class="i-role" id="intro-role">Assistant Professor, WU Vienna</p>
-    <p class="i-lede"><span class="i-first">I study how AI changes the way knowledge is produced and judged.</span> <span class="i-rest">Two questions guide my work: when can language models simulate how people behave, and how should work be certified after AI?</span></p>
+    <p class="i-lede"><span class="i-first">I study how AI changes the way knowledge is produced and judged.</span> <span class="i-rest">Two questions guide my work: <a class="i-q" href="/papers/ai-simulations/">when can language models simulate how people behave</a>, and <a class="i-q" href="/papers/fax/">how should work be certified after AI</a>?</span></p>
     <ul class="i-papers">
       <li style="--cl:var(--cl-ai)"><span class="i-k">AI behavioral simulation</span>
-        <a class="i-t" href="/cv/#paper-ai-simulations">When and How to Integrate AI Simulations into Behavioral Experimentation</a>
+        <a class="i-t" href="/papers/ai-simulations/">When and How to Integrate AI Simulations into Behavioral Experimentation</a>
         <span class="i-s">Revise and resubmit, International Journal of Research in Marketing</span>
         <span class="i-f">Across 70 published marketing effects, language models rank the effects well but understate their size. A small human sample removes the bias.</span></li>
       <li style="--cl:var(--cl-sci)"><span class="i-k">Post-AI certification</span>
-        <a class="i-t" href="/cv/#paper-fax">After the Fax Machine Burns: Journal Certification When Everything Is Published</a>
+        <a class="i-t" href="/papers/fax/">After the Fax Machine Burns: Journal Certification When Everything Is Published</a>
         <span class="i-s">Submitted to Management Science</span>
         <span class="i-f">Journals could publish every submission on arrival and let a market grade it afterwards. Readers and hiring committees would be served at least as well as by today's verdict.</span></li>
     </ul>
+    <p class="i-all"><a href="/cv/#publications">All papers</a></p>
     <button class="i-more" type="button" aria-expanded="false" aria-label="Show more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   </aside>
 
@@ -700,7 +709,7 @@
 
 
 
-  <script src="/assets/site.js?v=3ec96243" defer></script>
+  <script src="/assets/site.js?v=f8250bce" defer></script>
   <script src="/assets/globe-land.js?v=24360c20" defer></script>
   <script src="/assets/map.js?v=7fbcadb4" defer></script>
 </body>
