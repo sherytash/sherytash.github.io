@@ -96,6 +96,13 @@
   .doc .cv-paper.doc-span.has-vis{ grid-template-columns:minmax(0, 1fr) 19rem; }
   .doc-fig{ grid-template-columns:minmax(0, 1fr) 20rem; }
 }
+@container (min-width:76rem){
+  .doc .cv-sec{ grid-template-columns:13rem minmax(0, 1fr); }
+  .doc-lead, .doc-part{ padding-left:15rem; }
+  .doc .cv-row.has-vis{ grid-template-columns:6.4rem minmax(0, 1fr) 26rem; gap:0.25rem 1.6rem; }
+  .doc .cv-paper.doc-span.has-vis{ grid-template-columns:minmax(0, 1fr) 26rem; }
+  .doc .cv-row:not(.has-vis) .cv-what{ max-width:46rem; }
+}
 
 @media (max-width:560px){ .doc .cv-when:empty{ display:none; } }
 @media print{

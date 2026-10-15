@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-8eTXOsluTdYQHBp9DJU+d1vcbgUVZ/s/qe1Jk1EgOzQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-66w7tW3+Aw1p+zrKBoHC+56iyWwoBKsE+WP1bPOOMdk=' 'sha256-8eTXOsluTdYQHBp9DJU+d1vcbgUVZ/s/qe1Jk1EgOzQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Ludwig-Maximilians-Universität München · Stefan Herytash</title>
 <meta name="robots" content="noindex, nofollow">
@@ -28,13 +28,13 @@
 <style>
   
   main{ max-width:calc(40rem + 2 * var(--gutter)); margin:0 auto; padding:6.2rem var(--gutter) 3rem; box-sizing:border-box; }
-  main.fit-wide{ max-width:calc(120rem + 2 * var(--gutter)); }
-  .fit-wide .fit-st, .fit-wide .fit-measure{ max-width:40rem; }
-  .deck-sec + .fit-side{ margin-top:1.8rem; }
   .fit-eye{ margin:0; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
   h1{ margin:0.7rem 0 1rem; font-family:var(--serif); font-weight:400; font-size:clamp(1.6rem, 1.2rem + 1.8vw, 2.3rem);
     line-height:1.18; letter-spacing:-0.01em; }
   .fit-st p{ margin:0 0 1rem; font-size:1.02rem; line-height:1.65; }
+  .fit-docs .fit-st{ max-width:40rem; }
+  .fit-docs .fit-st .fit-lead{ font-size:clamp(1.02rem, 0.95rem + 0.3vw, 1.1rem); line-height:1.6; }
+  .fit-docs .fit-st p:last-child{ margin-bottom:0; }
   .fit-draft{ display:inline-block; font-family:var(--mono); font-size:0.6875rem!important; letter-spacing:0.1em; text-transform:uppercase;
     color:var(--ink-soft); border:1px dashed var(--line-strong); border-radius:999px; padding:0.15rem 0.7rem; }
   .fit-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem 1.4rem; margin:1.2rem 0 0; }
@@ -43,76 +43,73 @@
   .fit-pdf:hover{ text-decoration-color:var(--accent); }
   .fit-sec{ margin:2.2rem 0 0; padding-top:1.4rem; border-top:1px solid var(--line); }
   .fit-sec > h2{ margin:0 0 0.8rem; font-family:var(--serif); font-weight:400; font-size:1.5rem; letter-spacing:-0.005em; }
+  .fit-docs .fit-sec{ margin-top:3rem; }
+  .fit-docs .fit-measure{ max-width:40rem; }
+
   
-  .deck-sec{ margin:1.6rem 0 0; padding-top:1.2rem; border-top:1px solid var(--line); scroll-margin-top:3.4rem; }
-  .deck-h{ margin:0 0 0.2rem; font-family:var(--serif); font-weight:400; font-size:1.5rem; letter-spacing:-0.005em; }
-  .deck-tabs{ display:flex; flex-wrap:wrap; gap:0 1.3rem; margin:0 0 0.9rem; }
-  .deck-tab{ display:inline-flex; flex-direction:column; justify-content:center; min-height:44px; white-space:nowrap;
-    font-size:0.86rem; line-height:1.2; color:var(--ink-soft); text-decoration:none; border-bottom:2px solid transparent; }
+  :root{ --fit-top:3.9rem; --fit-barh:2.75rem; --fit-stick:calc(var(--fit-top) + var(--fit-barh) + 0.9rem); }
+  .appdoc{ margin:2.8rem 0 0; container-type:inline-size; }
+  .appdoc, .appdoc .cv-sec[id], .appdoc .doc-partsec, .fit-docs .fit-sec{ scroll-margin-top:var(--fit-stick); }
+  .appdoc-head{ display:flex; align-items:baseline; gap:0 0.9rem; padding:0.75rem 0 0.2rem; border-top:2px solid var(--line-strong); }
+  .appdoc-label{ margin:0; min-width:0; font-family:var(--mono); font-weight:400; font-size:0.75rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--ink); }
+  .appdoc-n{ flex:none; font-family:var(--mono); font-size:0.72rem; color:var(--ink-soft); }
   
-  .deck-tab::after{ content:attr(data-t); display:block; height:0; overflow:hidden; visibility:hidden; font-weight:600;
-    pointer-events:none; user-select:none; }
-  .deck-tab:hover{ color:var(--accent); }
-  .deck-tab[aria-selected="true"]{ color:var(--ink); font-weight:600; border-bottom-color:var(--accent); }
-  .deck-tab:focus-visible{ outline-offset:-2px; }
-  .deck-card{ --edge:1.375rem; position:relative; background:var(--paper-tint); border:1px solid var(--line); border-radius:14px;
-    container-type:inline-size; }
-  .deck-head{ display:flex; align-items:center; gap:0 0.9rem; height:var(--edge); padding:0.2rem 0.45rem 0.4rem 1rem; box-sizing:content-box; }
-  .deck-label{ margin:0; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-family:var(--mono);
-    font-weight:400; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink); }
-  .deck-n{ flex:none; font-family:var(--mono); font-size:0.72rem; color:var(--ink-soft); }
-  
-  .deck-pdf{ flex:none; position:relative; margin-left:auto; padding:0 0.55rem; font-family:var(--mono); font-size:0.6875rem;
+  .appdoc-pdf{ flex:none; position:relative; margin-left:auto; padding:0 0.1rem; font-family:var(--mono); font-size:0.6875rem;
     letter-spacing:0.08em; color:var(--accent); text-decoration:underline; text-decoration-color:var(--line-strong);
     text-underline-offset:0.25em; }
-  .deck-pdf::before{ content:""; position:absolute; inset:-0.8rem -0.1rem; }
-  .deck-pdf:hover{ text-decoration-color:var(--accent); }
-  .deck-doc{ padding:0.2rem 1.25rem 1.5rem; }
-  html:not(.js) .deck{ display:grid; gap:1rem; }
-  html.js .deck{ --edge:1.375rem; --deck-h:max(24rem, calc(100svh - 7.75rem)); position:relative; height:var(--deck-h);
-    overflow:hidden; overflow:clip; touch-action:pan-y pinch-zoom; }
-  html.js .deck-card{ position:absolute; left:0; right:0; bottom:0; top:calc((var(--n) - 1) * var(--edge) + 4px);
-    display:flex; flex-direction:column; overflow:hidden; z-index:calc(var(--n) - var(--d));
-    transform:translateX(var(--dx, 0px)) translateY(calc(var(--d) * var(--edge) * -1 + var(--lift, 0px))) scale(calc(1 - var(--d) * 0.015));
-    transform-origin:50% 0; transition:transform .3s cubic-bezier(.2, .7, .3, 1), opacity .3s ease; }
-  html.js .deck-card::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:var(--paper);
-    opacity:min(calc(var(--d) * 0.07), 0.42); transition:opacity .3s ease; }
-  html.js .deck-head, html.js .deck-doc{ position:relative; z-index:1; }
-  html.js .deck-doc{ flex:1; min-height:0; overflow-y:auto; overscroll-behavior-x:contain; touch-action:pan-y pinch-zoom; }
-  html.js .deck-doc:focus-visible{ outline-offset:-3px; }
+  .appdoc-pdf::before{ content:""; position:absolute; inset:-0.9rem -0.7rem; }
+  .appdoc-pdf:hover{ text-decoration-color:var(--accent); }
+
   
-  html.js .deck-card:not(.is-front) .deck-doc{ visibility:hidden; }
-  html.js .deck-card:not(.is-front){ cursor:pointer; }
-  html.js .deck-card:not(.is-front) .deck-n, html.js .deck-card:not(.is-front) .deck-pdf{ visibility:hidden; }
-  html.js .deck-card:not(.is-front) .deck-label{ color:var(--ink-soft); }
-  @media (hover:hover){
-    html.js .deck-card:not(.is-front):hover{ --lift:-3px; }
-    html.js .deck-card:not(.is-front):hover .deck-label{ color:var(--accent); }
-  }
+  .toc, .toc-secs{ list-style:none; margin:0; padding:0; }
+  .toc a{ color:var(--ink-soft); text-decoration:none; }
+  .toc a:hover{ color:var(--accent); }
+  .toc a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; border-radius:3px; }
+  .toc a[aria-current]{ color:var(--ink); font-weight:600; }
+  .toc .toc-short{ display:none; }
   
-  html.js .deck-card.deck-out, html.js .deck-card.deck-from{ z-index:calc(var(--n) + 1); opacity:0;
-    transform:translateX(calc(var(--out) * 105%)); }
-  html.js .deck-card.deck-snap, html.js .deck-card.deck-drag{ transition:none; }
-  html.js .deck-card.deck-hide{ opacity:0; }
-  @media (max-width:719px){
+  @media (max-width:999px){
+    .fit-toc{ position:sticky; top:var(--fit-top); z-index:8; margin:1.6rem calc(-1 * var(--gutter)) 0;
+      background:var(--paper); border-bottom:1px solid var(--line); }
+    .toc{ display:flex; align-items:stretch; gap:0 1.1rem; height:var(--fit-barh); padding:0 var(--gutter); overflow-x:auto;
+      overscroll-behavior-x:contain; scrollbar-width:none; }
+    .toc::-webkit-scrollbar{ display:none; }
+    .toc-doc, .toc-secs, .toc-secs li{ display:contents; }
+    .toc a{ flex:none; display:flex; flex-direction:column; justify-content:center; white-space:nowrap; font-size:0.8rem;
+      line-height:1.2; border-bottom:2px solid transparent; margin-bottom:-1px; }
     
-    html.js .deck{ margin-inline:calc(0.4rem - var(--gutter)); }
-    .deck-doc{ padding:0.1rem 0.9rem 1.2rem; }
-    .deck-tabs{ flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin-inline:calc(-1 * var(--gutter)); padding-inline:var(--gutter);
-      overscroll-behavior-x:contain; }
-    .deck-tabs::-webkit-scrollbar{ display:none; }
-  }
-  @media (min-width:720px){
-    .deck-card, html.js .deck{ --edge:1.625rem; }
-    html.js .deck{ --deck-h:max(28rem, calc(100vh - 8.6rem)); }
+    .toc a::after{ content:attr(data-t); display:block; height:0; overflow:hidden; visibility:hidden; font-weight:600;
+      pointer-events:none; user-select:none; }
+    .toc a[aria-current]{ border-bottom-color:var(--accent); }
+    .toc .toc-d{ font-family:var(--mono); font-size:0.66rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink); }
+    .toc .toc-doc + .toc-doc .toc-d{ margin-left:0.7rem; }
+    .toc .toc-full{ display:none; }
+    .toc .toc-short{ display:inline; }
+    
+    .fit-toc.more-r .toc{ -webkit-mask-image:linear-gradient(90deg, #000 calc(100% - 2.4rem), transparent); mask-image:linear-gradient(90deg, #000 calc(100% - 2.4rem), transparent); }
+    .fit-toc.more-l .toc{ -webkit-mask-image:linear-gradient(90deg, transparent, #000 2.4rem); mask-image:linear-gradient(90deg, transparent, #000 2.4rem); }
+    .fit-toc.more-l.more-r .toc{ -webkit-mask-image:linear-gradient(90deg, transparent, #000 2.4rem, #000 calc(100% - 2.4rem), transparent); mask-image:linear-gradient(90deg, transparent, #000 2.4rem, #000 calc(100% - 2.4rem), transparent); }
   }
   
-  @media (min-width:1400px){
-    .fit-wide .fit-top{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(24rem, 30rem); gap:0 3.5rem; align-items:start;
-      margin-top:1.6rem; padding-top:1.2rem; border-top:1px solid var(--line); }
-    .fit-wide .deck-sec{ position:sticky; top:4.4rem; margin:0; padding:0; border:0; }
-    .fit-wide .deck-sec + .fit-side{ margin-top:0; padding-top:0.45rem; }
-    html.js .fit-wide .deck{ --deck-h:max(28rem, calc(100vh - 11.6rem)); }
+  @media (min-width:1000px){
+    :root{ --fit-stick:calc(var(--fit-top) + 1.2rem); }
+    main.fit-docs{ max-width:calc(12.5rem + 3rem + 64rem + 2 * var(--gutter)); display:grid;
+      grid-template-columns:12.5rem minmax(0, 1fr); column-gap:3rem; align-items:start; }
+    .fit-docs > *{ grid-column:2; min-width:0; }
+    .fit-docs > .fit-toc{ grid-column:1; grid-row:1 / span 3; align-self:start; position:sticky; top:calc(var(--fit-top) + 1.4rem);
+      max-height:calc(100vh - var(--fit-top) - 2.4rem); overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin;
+      padding:0.15rem 0 1rem; }
+    .toc > li + li{ margin-top:0.45rem; }
+    .toc a{ display:block; padding:0.12rem 0 0.12rem 0.7rem; border-left:2px solid transparent; font-size:0.8rem; line-height:1.3; }
+    .toc .toc-d{ font-size:0.86rem; font-weight:500; color:var(--ink); }
+    .toc .toc-d[aria-current]{ font-weight:600; }
+    .toc-secs{ margin:0.1rem 0 0 0.7rem; border-left:1px solid var(--line); }
+    .toc-secs a{ margin-left:-1px; padding-left:0.75rem; }
+    .toc a[aria-current]{ border-left-color:var(--accent); }
+  }
+  @media (min-width:1440px){
+    main.fit-docs{ max-width:calc(12.5rem + 3.5rem + 80rem + 2 * var(--gutter)); column-gap:3.5rem; }
   }
   .fit-count{ margin:1rem 0 0.4rem; font-size:0.95rem; line-height:1.55; color:var(--ink-soft); }
   .fit-stays + .fit-count{ margin-top:1.2rem; }
@@ -165,20 +162,16 @@
   .ps-meta{ margin:0; font-size:0.9rem; line-height:1.55; color:var(--ink-soft); }
   .ps-meta .cv-g{ color:var(--accent); font-style:italic; font-family:var(--serif); font-size:1.04em; }
   .ps-card .vis{ max-width:30rem; margin:0.9rem 0 0; }
-  @media (min-width:1000px){ .fit-wide .ps-list{ grid-template-columns:repeat(2, minmax(0, 1fr)); gap:2rem 2.5rem; align-items:start; } }
-  @media (min-width:1600px){ .fit-wide .ps-list{ grid-template-columns:repeat(3, minmax(0, 1fr)); } }
   @media (max-width:560px){
     .cv-row{ grid-template-columns:1fr; gap:0.1rem; }
     .cv-row .vis{ grid-column:1; }
   }
   @media print{
-    main{ padding-top:0; }
-    .fit-actions, .fit-draft{ display:none; }
+    main{ padding-top:0; display:block!important; }
+    .fit-actions, .fit-draft, .fit-toc, .appdoc-pdf{ display:none!important; }
     .q-orig summary{ display:none; } .q-orig p{ display:block; }
     .ps-card, .fit-row{ break-inside:avoid; }
-    .deck{ display:none!important; }
-    .fit-top{ display:block!important; }
-    .deck-sec{ position:static!important; }
+    .appdoc{ break-before:page; }
   }
 
 .vis[data-vis="ai-simulations"] .fc-q{ fill:none; stroke:var(--vis-ref); stroke-width:0.9; }
@@ -240,16 +233,15 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
 </header>
 
   <main id="main" class="fit-main">
+    <div class="fit-intro">
     <p class="fit-eye">Assistant Professor · WU Wien</p>
     <h1>Stefan Herytash</h1>
-    <div class="fit-top">
-    
-    <div class="fit-side">
-    <div class="fit-st"><p>Ich bin Assistant Professor am Institute for Strategy, Technology and Organization der WU Wien. Ich erforsche, wie KI verändert, wie Wissen entsteht und wie es bewertet wird.</p><p>An der LMU habe ich den Master of Research in Business mit 1,0 abgeschlossen. Danach habe ich bei Manfred Schwaiger promoviert, summa cum laude. Meine Dissertation heißt „Simulating Human Decision-Making with Large Language Models“. Für die Promotion erhielt ich den Förderpreis der LMU Management Alumni.</p><p>Von 2022 bis 2025 war ich wissenschaftlicher Mitarbeiter an der LMU. Ich habe Project Management und das Seminar on AI in Marketing gelehrt. Für das Institut habe ich mehr als 100.000 Euro Forschungsmittel von Industriepartnern eingeworben.</p><p>Ein Aufsatz prüft, wann Sprachmodelle menschliches Verhalten in Experimenten nachbilden können. Ich vergleiche dafür 70 Effekte aus 30 Marketingstudien mit ihren Simulationen. Simulierte und menschliche Effekte korrelieren mit r = 0,73, doch die Simulationen unterschätzen ihre Größe: Die Kalibrierungssteigung liegt bei 0,38. Sprachmodelle machen Manuskripte billig, und die Begutachtung war schon vorher langsam und unbezahlt. Ein zweiter Aufsatz entwirft ein Publikationssystem für diese Lage: Jede Einreichung erscheint sofort, ein offener Markt bewertet sie danach.</p><p>Seit 2026 lehre ich an der WU Wien Strategy and Innovation und Agentic AI in Strategy &amp; Innovation. Von Januar bis März 2027 bin ich Gastwissenschaftler an der Stanford University.</p></div>
+    <div class="fit-st"><p class="fit-lead">Ich bin Assistant Professor am Institute for Strategy, Technology and Organization der WU Wien. Ich erforsche, wie KI verändert, wie Wissen entsteht und wie es bewertet wird.</p><p>An der LMU habe ich den Master of Research in Business mit 1,0 abgeschlossen. Danach habe ich bei Manfred Schwaiger promoviert, summa cum laude. Meine Dissertation heißt „Simulating Human Decision-Making with Large Language Models“. Für die Promotion erhielt ich den Förderpreis der LMU Management Alumni.</p><p>Von 2022 bis 2025 war ich wissenschaftlicher Mitarbeiter an der LMU. Ich habe Project Management und das Seminar on AI in Marketing gelehrt. Für das Institut habe ich mehr als 100.000 Euro Forschungsmittel von Industriepartnern eingeworben.</p><p>Ein Aufsatz prüft, wann Sprachmodelle menschliches Verhalten in Experimenten nachbilden können. Ich vergleiche dafür 70 Effekte aus 30 Marketingstudien mit ihren Simulationen. Simulierte und menschliche Effekte korrelieren mit r = 0,73, doch die Simulationen unterschätzen ihre Größe: Die Kalibrierungssteigung liegt bei 0,38. Sprachmodelle machen Manuskripte billig, und die Begutachtung war schon vorher langsam und unbezahlt. Ein zweiter Aufsatz entwirft ein Publikationssystem für diese Lage: Jede Einreichung erscheint sofort, ein offener Markt bewertet sie danach.</p><p>Seit 2026 lehre ich an der WU Wien Strategy and Innovation und Agentic AI in Strategy &amp; Innovation. Von Januar bis März 2027 bin ich Gastwissenschaftler an der Stanford University.</p></div>
     <div class="fit-actions"><a class="btn" href="#contact">Kontakt</a><a class="fit-pdf" href="/assets/stefan-herytash-cv.pdf?v=fa96c08d">Lebenslauf (PDF)</a></div>
     </div>
-    </div>
-    <section class="fit-sec" aria-labelledby="fit-inst">
+    
+    
+    <section class="fit-sec" id="institution" aria-labelledby="fit-inst">
       <h2 id="fit-inst">Ludwig-Maximilians-Universität München</h2>
       <div class="fit-measure">
 <ol class="cv-list fit-stays"><li class="cv-row"><span class="cv-when">2022–2026</span><div class="cv-what"><span class="cv-t1">PhD in Management, LMU Munich</span><span class="cv-t2">summa cum laude · Förderpreis (award for an outstanding doctorate), LMU Management Alumni</span></div></li><li class="cv-row"><span class="cv-when">2022–2025</span><div class="cv-what"><span class="cv-t1">Research and Teaching Assistant, LMU Munich</span><span class="cv-t2">School of Management</span></div></li><li class="cv-row"><span class="cv-when">2022–2024</span><div class="cv-what"><span class="cv-t1">Master of Research in Business, LMU Munich</span><span class="cv-t2">Overall grade: excellent (1.0), the highest grade awarded</span></div></li></ol>
@@ -431,6 +423,81 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
 <footer class="foot-legal"><a href="/legal/">Legal notice &amp; privacy</a></footer>
 
   <script src="/assets/site.js?v=48281a17" defer></script>
+  <script>
+
+
+(function(){
+  var nav=document.querySelector('.fit-toc'), top=document.querySelector('header.bar'), root=document.documentElement;
+  if(!nav) return;
+  var h=decodeURIComponent(location.hash.slice(1));
+  if(/^doc-/.test(h)&&!document.getElementById(h)){
+    var t=document.getElementById(h.slice(4));
+    if(t){ history.replaceState(null,'','#'+t.id); t.scrollIntoView(); }
+  }
+  if(!top||!('IntersectionObserver' in window)) return;
+  var list=nav.querySelector('.toc'), items=[], live=[], so, cur={}, want=null;
+  [].forEach.call(nav.querySelectorAll('a[href^="#"]'),function(a){
+    var el=document.getElementById(a.getAttribute('href').slice(1));
+    if(el) items.push({a:a,el:el,doc:a.classList.contains('toc-d')});
+  });
+  if(!items.length) return;
+  var narrow=window.matchMedia('(max-width:999px)');
+  function keep(a){
+    if(narrow.matches){
+      var l=a.offsetLeft, r=l+a.offsetWidth, v=list.clientWidth, s=list.scrollLeft, pad=40;
+      if(l<s+pad) list.scrollLeft=Math.max(0,l-pad); else if(r>s+v-pad) list.scrollLeft=r-v+pad;
+    } else if(nav.scrollHeight>nav.clientHeight+2){
+      var y=a.offsetTop, b=y+a.offsetHeight, H=nav.clientHeight, st=nav.scrollTop, m=48;
+      if(y<st+m) nav.scrollTop=Math.max(0,y-m); else if(b>st+H-m) nav.scrollTop=b-H+m;
+    }
+  }
+  function edges(){
+    nav.classList.toggle('more-l',narrow.matches&&list.scrollLeft>4);
+    nav.classList.toggle('more-r',narrow.matches&&list.scrollLeft+list.clientWidth<list.scrollWidth-4);
+  }
+  list.addEventListener('scroll',edges,{passive:true});
+  function mark(d,s){
+    if(cur.d===d&&cur.s===s) return; cur={d:d,s:s};
+    items.forEach(function(q){
+      if(q===s) q.a.setAttribute('aria-current','location');
+      else if(q===d) q.a.setAttribute('aria-current',s?'true':'location');
+      else q.a.removeAttribute('aria-current');
+    });
+    if(s||d) keep((s||d).a);
+    edges();
+  }
+  function atEnd(){ return window.innerHeight+window.pageYOffset>=root.scrollHeight-4; }
+  function pick(){
+    var d=null, s=null;
+    if(atEnd()){
+      var last=(want&&want.el.getBoundingClientRect().top>0)?want:items[items.length-1];
+      if(last.doc) d=last;
+      else { s=last; for(var i=items.indexOf(last);i>=0;i--) if(items[i].doc){ d=items[i]; break; } }
+    } else {
+      items.forEach(function(q){ if(live.indexOf(q.el)>-1){ if(q.doc){ d=q; s=null; } else if(d&&d.el.contains(q.el)) s=q; } });
+    }
+    mark(d,s);
+  }
+  items.forEach(function(q){ q.a.addEventListener('click',function(){ want=q; setTimeout(pick,80); }); });
+  ['wheel','touchmove','keydown'].forEach(function(n){ window.addEventListener(n,function(){ want=null; },{passive:true}); });
+  function build(){
+    var t=Math.round(top.getBoundingClientRect().bottom), bar=narrow.matches?(list.getBoundingClientRect().height||44):0;
+    root.style.setProperty('--fit-top',t+'px');
+    if(so) so.disconnect(); live=[];
+    var stick=parseFloat(getComputedStyle(items[0].el).scrollMarginTop)||(t+bar+14);
+    var y=Math.round(stick)+10, bottom=Math.max(0,window.innerHeight-y-2);
+    so=new IntersectionObserver(function(es){
+      es.forEach(function(e){ var i=live.indexOf(e.target); if(e.isIntersecting){ if(i<0) live.push(e.target); } else if(i>-1) live.splice(i,1); });
+      pick();
+    },{rootMargin:'-'+y+'px 0px -'+bottom+'px 0px'});
+    items.forEach(function(q){ so.observe(q.el); });
+  }
+  var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(build,120); });
+  var tick=false; window.addEventListener('scroll',function(){ if(tick) return; tick=true;
+    requestAnimationFrame(function(){ tick=false; if(atEnd()) pick(); }); },{passive:true});
+  build();
+})();
+  </script>
   <script>
 
 
