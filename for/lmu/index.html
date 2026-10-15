@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-RemIvaq+XdzTo3oT03yuILQtFBVNkzIXtlcDe4YWOQs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-8eTXOsluTdYQHBp9DJU+d1vcbgUVZ/s/qe1Jk1EgOzQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Ludwig-Maximilians-Universität München · Stefan Herytash</title>
 <meta name="robots" content="noindex, nofollow">
@@ -67,12 +67,8 @@
     text-underline-offset:0.25em; }
   .deck-pdf::before{ content:""; position:absolute; inset:-0.8rem -0.1rem; }
   .deck-pdf:hover{ text-decoration-color:var(--accent); }
-  .deck-pages{ display:grid; grid-template-columns:minmax(0, 52rem); justify-content:center; align-content:start;
-    gap:0.75rem; padding:0 0.75rem 0.75rem; }
-  .deck-page{ display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:3px;
-    -webkit-user-drag:none; user-select:none; -webkit-touch-callout:none; }
-  html:not(.js) .deck{ display:grid; gap:1rem; max-width:36rem; }
-  html:not(.js) .deck-page ~ .deck-page{ display:none; }
+  .deck-doc{ padding:0.2rem 1.25rem 1.5rem; }
+  html:not(.js) .deck{ display:grid; gap:1rem; }
   html.js .deck{ --edge:1.375rem; --deck-h:max(24rem, calc(100svh - 7.75rem)); position:relative; height:var(--deck-h);
     overflow:hidden; overflow:clip; touch-action:pan-y pinch-zoom; }
   html.js .deck-card{ position:absolute; left:0; right:0; bottom:0; top:calc((var(--n) - 1) * var(--edge) + 4px);
@@ -81,9 +77,11 @@
     transform-origin:50% 0; transition:transform .3s cubic-bezier(.2, .7, .3, 1), opacity .3s ease; }
   html.js .deck-card::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:var(--paper);
     opacity:min(calc(var(--d) * 0.07), 0.42); transition:opacity .3s ease; }
-  html.js .deck-head, html.js .deck-pages{ position:relative; z-index:1; }
-  html.js .deck-pages{ flex:1; min-height:0; overflow-y:auto; overscroll-behavior-x:contain; touch-action:pan-y pinch-zoom; }
-  html.js .deck-pages:focus-visible{ outline-offset:-3px; }
+  html.js .deck-head, html.js .deck-doc{ position:relative; z-index:1; }
+  html.js .deck-doc{ flex:1; min-height:0; overflow-y:auto; overscroll-behavior-x:contain; touch-action:pan-y pinch-zoom; }
+  html.js .deck-doc:focus-visible{ outline-offset:-3px; }
+  
+  html.js .deck-card:not(.is-front) .deck-doc{ visibility:hidden; }
   html.js .deck-card:not(.is-front){ cursor:pointer; }
   html.js .deck-card:not(.is-front) .deck-n, html.js .deck-card:not(.is-front) .deck-pdf{ visibility:hidden; }
   html.js .deck-card:not(.is-front) .deck-label{ color:var(--ink-soft); }
@@ -99,7 +97,7 @@
   @media (max-width:719px){
     
     html.js .deck{ margin-inline:calc(0.4rem - var(--gutter)); }
-    html.js .deck-pages{ padding:0 0.45rem 0.45rem; gap:0.45rem; }
+    .deck-doc{ padding:0.1rem 0.9rem 1.2rem; }
     .deck-tabs{ flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin-inline:calc(-1 * var(--gutter)); padding-inline:var(--gutter);
       overscroll-behavior-x:contain; }
     .deck-tabs::-webkit-scrollbar{ display:none; }
@@ -440,8 +438,7 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
 
 
 (() => {
-  const fig = document.querySelector('.vis[data-vis="synthetic-participants"]');
-  if (!fig) return;
+  document.querySelectorAll('.vis[data-vis="synthetic-participants"]').forEach((fig) => {
   const t = JSON.parse(fig.dataset.table);
   const g = fig.querySelector('.sp-hot');
   const input = fig.querySelector('input[type=range]');
@@ -460,6 +457,7 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
   };
   input.addEventListener('input', draw);
   draw();
+  });
 })();
 
 

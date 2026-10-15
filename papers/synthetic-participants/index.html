@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-W7CZvlua3/hJ2RB0Dey4hfLQH7Wcdj+biBE1XMuPM+0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-vRYIih5mn35meOTEmkV7JBZkv7TSjvoag3Lwzs208AI='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Synthetic Participants Reproduce Effects They Cannot Replace · Stefan Herytash</title>
 <meta name="description" content="Synthetic Participants Reproduce Effects They Cannot Replace. Herytash, S.">
@@ -288,8 +288,7 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
   <script>
 
 (() => {
-  const fig = document.querySelector('.vis[data-vis="synthetic-participants"]');
-  if (!fig) return;
+  document.querySelectorAll('.vis[data-vis="synthetic-participants"]').forEach((fig) => {
   const t = JSON.parse(fig.dataset.table);
   const g = fig.querySelector('.sp-hot');
   const input = fig.querySelector('input[type=range]');
@@ -308,6 +307,7 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
   };
   input.addEventListener('input', draw);
   draw();
+  });
 })();
 
   </script>

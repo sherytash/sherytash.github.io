@@ -23,9 +23,9 @@
   cards.forEach((c, i) => {
     c.setAttribute('role', 'tabpanel');
     c.setAttribute('aria-labelledby', tabs[i].id);
-    const pages = c.querySelector('.deck-pages');
-    pages.setAttribute('role', 'region');
-    pages.setAttribute('aria-label', tabs[i].textContent);
+    const body = c.querySelector('.deck-doc');
+    body.setAttribute('role', 'region');
+    body.setAttribute('aria-label', tabs[i].textContent);
   });
 
   const reflow = el => void el.offsetWidth;
@@ -36,7 +36,7 @@
       c.classList.toggle('is-front', front);
       if (front) c.removeAttribute('aria-hidden'); else c.setAttribute('aria-hidden', 'true');
       c.querySelectorAll('a').forEach(a => { if (front) a.removeAttribute('tabindex'); else a.tabIndex = -1; });
-      c.querySelector('.deck-pages').tabIndex = front ? 0 : -1;
+      c.querySelector('.deck-doc').tabIndex = front ? 0 : -1;
     });
     tabs.forEach((t, k) => {
       t.setAttribute('aria-selected', k === cur ? 'true' : 'false');
@@ -119,13 +119,14 @@
   });
 
   let p = null;
-  deck.addEventListener('dragstart', e => e.preventDefault());
+  deck.addEventListener('dragstart', e => { if (!e.target.closest || !e.target.closest('.is-front .deck-doc')) e.preventDefault(); });
   deck.addEventListener('pointerdown', e => {
     if (e.button !== 0 || p) return;
     const card = e.target.closest('.deck-card');
     if (!card) return;
     p = { id: e.pointerId, x: e.clientX, y: e.clientY, card, drag: false, moved: 0,
-          w: deck.clientWidth, link: !!e.target.closest('a') };
+          w: deck.clientWidth, link: !!e.target.closest('a, button, input, summary'),
+          mouse: e.pointerType === 'mouse' };
   });
   deck.addEventListener('pointermove', e => {
     if (!p || e.pointerId !== p.id) return;
@@ -133,7 +134,7 @@
     p.moved = Math.max(p.moved, Math.hypot(dx, dy));
     if (!p.drag) {
       if (p.dead || p.moved < 10) return;
-      if (p.card !== cards[cur] || p.link || Math.abs(dx) < Math.abs(dy) * 1.2) { p.dead = true; return; }
+      if (p.mouse || p.card !== cards[cur] || p.link || Math.abs(dx) < Math.abs(dy) * 1.2) { p.dead = true; return; }
       p.drag = true;
       p.card.classList.add('deck-drag');
       try { deck.setPointerCapture(e.pointerId); } catch (err) {}
