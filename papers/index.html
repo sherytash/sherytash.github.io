@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-8eTXOsluTdYQHBp9DJU+d1vcbgUVZ/s/qe1Jk1EgOzQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-pVZpmJJDROPiC+PgNTE8qAR01KcoNGJpz3xiPoYWKQU='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Papers · Stefan Herytash</title>
+<title>Research · Stefan Herytash</title>
 <meta name="description" content="The papers of Stefan Herytash, WU Vienna, with their figures and abstracts.">
 <meta name="author" content="Stefan Herytash">
-<meta property="og:title" content="Papers · Stefan Herytash">
+<meta property="og:title" content="Research · Stefan Herytash">
 <meta property="og:description" content="The papers of Stefan Herytash, WU Vienna, with their figures and abstracts.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sherytash.github.io/papers/">
@@ -23,13 +23,17 @@
 <meta name="theme-color" content="#1D1C18" media="(prefers-color-scheme: dark)">
 <script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="/assets/fonts.css?v=aea717b2">
-<link rel="stylesheet" href="/assets/site.css?v=e4cf719a">
+<link rel="stylesheet" href="/assets/site.css?v=61d45083">
 <link rel="stylesheet" href="/assets/vis.css?v=b8df0bf5">
 <style>
   
   main{ max-width:68rem; margin:0 auto; padding:6.2rem var(--gutter) 3rem; }
   h1{ margin:0 0 1.6rem; font-family:var(--serif); font-weight:400; font-size:clamp(1.6rem, 1.2rem + 1.8vw, 2.3rem);
     line-height:1.18; letter-spacing:-0.01em; }
+  
+  .cv-key{ display:flex; flex-wrap:wrap; gap:0.4rem 1.4rem; margin:0; font-size:0.9rem; line-height:1.4; }
+  .cv-key .cv-cl{ color:var(--cl); }
+  .cv-key .cv-cl svg{ width:0.7rem; height:0.7rem; }
   .ps-group{ margin:2.2rem 0 0; }
   .ps-group h2{ margin:0 0 1rem; padding-top:1.2rem; border-top:1px solid var(--line); font-family:var(--mono);
     font-weight:400; font-size:0.6875rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-soft); }
@@ -76,6 +80,11 @@
 .vis[data-vis="fax-machine"] .fm-quiet{ fill:var(--vis-ref); }
 
 
+.vis[data-vis="matching-cost"] .mc-out{ fill:none; stroke:var(--vis-ref); stroke-width:0.9; stroke-dasharray:3 3; }
+.vis[data-vis="matching-cost"] .mc-arrow{ fill:none; stroke:var(--vis-teal); stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+.vis[data-vis="matching-cost"] .mc-move{ fill:var(--vis-teal); }
+
+
 .vis[data-vis="meta-science"] .ms-team{ fill:var(--vis-ref); opacity:.55; }
 .vis[data-vis="meta-science"] .ms-edge{ stroke:var(--vis-ref); stroke-width:0.6; opacity:.7; }
 .vis[data-vis="meta-science"] .ms-path{ fill:none; stroke:var(--vis-teal); stroke-width:1.8; stroke-linejoin:round; stroke-linecap:round; }
@@ -89,13 +98,22 @@
 .vis[data-vis="psych-201"] .pe-b{ fill:none; stroke:var(--vis-ink); stroke-width:1.2; }
 
 
+.vis[data-vis="reference-wage"] .rw-out{ fill:none; stroke:var(--vis-ref); stroke-width:0.9; stroke-dasharray:3 3; }
+.vis[data-vis="reference-wage"] .rw-arrow{ fill:none; stroke:var(--vis-teal); stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+.vis[data-vis="reference-wage"] .rw-glyph{ fill:none; stroke:var(--vis-teal); stroke-width:1.2; stroke-linecap:round; }
+
+
+.vis[data-vis="simulabs"] .vis-t{ fill:var(--ink); }
+.vis[data-vis="simulabs"] .vis-t-accent{ fill:var(--vis-teal); }
+
+
 .vis[data-vis="synthetic-participants"] .sp-zero{ fill:none; stroke:var(--vis-ref); stroke-width:1.5; }
 .vis[data-vis="synthetic-participants"] .sp-hot-line{ fill:none; stroke:var(--vis-hot); stroke-width:2.2; stroke-linejoin:round; stroke-dasharray:6 3; }
 html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
 
 
 </style>
-<meta name="twitter:title" content="Papers · Stefan Herytash">
+<meta name="twitter:title" content="Research · Stefan Herytash">
 <meta name="twitter:description" content="The papers of Stefan Herytash, WU Vienna, with their figures and abstracts.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:site_name" content="Stefan Herytash">
@@ -112,7 +130,8 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
   <a class="name" href="/">Stefan Herytash</a>
   <nav class="tabs" aria-label="Views">
     <a href="/" data-tab="map">Map</a>
-    <a href="/cv/" data-tab="cv" aria-current="page">CV</a>
+    <a href="/papers/" data-tab="research" aria-current="page">Research</a>
+    <a href="/cv/" data-tab="cv">CV</a>
     <a href="/studio/" data-tab="studio">Studio</a>
     <a class="tab-contact" href="#contact" aria-label="Contact"><svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true"><rect x="1" y="1.5" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 3l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span class="lbl">Contact</span></a>
     <button class="theme" type="button" aria-label="Switch to dark mode"><svg class="t-moon" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><path d="M15.6 12.4A6.6 6.6 0 0 1 7.6 4.4a6.6 6.6 0 1 0 8 8z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><svg class="t-sun" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 1.8v2.1M10 16.1v2.1M1.8 10h2.1M16.1 10h2.1M4.2 4.2l1.5 1.5M14.3 14.3l1.5 1.5M4.2 15.8l1.5-1.5M14.3 5.7l1.5-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
@@ -120,7 +139,8 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
 </header>
 
   <main id="main">
-    <h1>Papers</h1>
+    <h1>Research</h1>
+    <p class="cv-key" role="group" aria-label="Research themes"><span class="cv-cl cv-cl-ai"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg>AI behavioral simulation</span><span class="cv-cl cv-cl-sci"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg>Post-AI certification</span></p>
     <section class="ps-group" aria-labelledby="ps-0"><h2 id="ps-0">Forthcoming</h2><ul class="ps-list"><li class="ps-card"><h3><span class="cv-cl cv-cl-sci" title="Post-AI certification"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg><span class="vh">Post-AI certification</span></span><a href="/papers/meta-science/"><i>How Researchers&#x27; Analytical Decisions Impact Brand Price Elasticity Estimates: Insights from a Many-Analyst Study</i></a></h3><p class="ps-meta">Koll, O., Datta, H., … Herytash, S., … van Heerde, H. J. (265 authors) · International Journal of Research in Marketing (Academic Journal Guide 4).</p><figure class="vis" style="--fig:var(--cl-sci)" style="--fig:var(--cl-sci)" data-vis="meta-science" aria-label="One dataset, many paths. Options as the project lists them; teal, the path of Herytash’s team. No estimates are shown.">
 <svg class="vis-svg" viewBox="0 0 320 232" role="img" aria-labelledby="meta-science-vis-t meta-science-vis-d">
   <title id="meta-science-vis-t">One dataset, many paths</title>
@@ -237,7 +257,73 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
               <input id="synthetic-participants-vis-rho" type="range" min="0" max="90" step="1" value="50">
               <output for="synthetic-participants-vis-rho">ρ = <span class="vis-r">0.50</span></output>
             </div>
-          </figure></li></ul></section>
+          </figure></li><li class="ps-card"><h3><span><i>The Matching Cost of Pay Transparency: Regulation, Firm Strategic Response and Labor Market Outcomes</i></span></h3><p class="ps-meta">Herytash, S. · Formal model complete, empirical estimation in progress.</p><figure class="vis" style="--fig:var(--ink-soft)" style="--fig:var(--ink-soft)" data-vis="matching-cost" aria-label="Posted-range compression. The model&#x27;s prediction, not data: the narrower the posted range, the lower the match probability (Propositions 1 and 2).">
+<svg class="vis-svg" viewBox="0 0 320 214" role="img" aria-labelledby="matching-cost-t matching-cost-d">
+  <title id="matching-cost-t">Posted-range compression</title>
+  <desc id="matching-cost-d">Schematic of the model's prediction, not data. On a wage axis the firm can post any range without transparency, a narrower posted range under transparency, and a narrower one still when the internal-equity shadow cost is higher: the posted minimum rises and the posted maximum falls. A match forms only if the candidate accepts and the firm is willing, so the match probability falls with the width of the range.</desc>
+  <text class="vis-label" x="16" y="14">no transparency</text>
+  <rect class="vis-box-soft" x="16" y="20" width="288" height="28"/>
+  <text class="vis-label" x="16" y="70">transparency</text>
+  <rect class="mc-out" x="16" y="76" width="62" height="28"/><rect class="mc-out" x="242" y="76" width="62" height="28"/>
+  <rect class="vis-box-accent" x="78" y="76" width="164" height="28"/>
+  <text class="vis-label" x="47" y="88" text-anchor="middle">firm</text>
+  <text class="vis-label" x="47" y="100" text-anchor="middle">unwilling</text>
+  <text class="vis-label" x="273" y="88" text-anchor="middle">candidate</text>
+  <text class="vis-label" x="273" y="100" text-anchor="middle">declines</text>
+  <text class="vis-label" x="16" y="126">higher internal-equity shadow cost</text>
+  <rect class="mc-out" x="16" y="132" width="96" height="28"/><rect class="mc-out" x="208" y="132" width="96" height="28"/>
+  <rect class="vis-box-accent" x="112" y="132" width="96" height="28"/>
+  <path class="mc-arrow" d="M81 146 L109 146 M104 142.5 L109 146 L104 149.5"/><path class="mc-arrow" d="M239 146 L211 146 M216 142.5 L211 146 L216 149.5"/>
+  <text class="vis-label mc-move" x="16" y="177">posted minimum rises</text>
+  <text class="vis-label mc-move" x="304" y="177" text-anchor="end">posted maximum falls</text>
+  <line class="vis-axis" x1="16" y1="190" x2="304" y2="190"/>
+  <line class="vis-tick" x1="16" y1="190" x2="16" y2="194"/>
+  <line class="vis-tick" x1="304" y1="190" x2="304" y2="194"/>
+  <text class="vis-num" x="16" y="206" text-anchor="middle">0</text>
+  <text class="vis-num" x="304" y="206" text-anchor="middle">ȳ</text>
+  <text class="vis-label" x="160" y="207" text-anchor="middle">wage</text>
+</svg>
+</figure></li><li class="ps-card"><h3><span class="cv-cl cv-cl-ai" title="AI behavioral simulation"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg><span class="vh">AI behavioral simulation</span></span><span><i>SimuLabs: Auditable Simulation of Behavioral Experiments with Language Models, with Prediction-Powered Rectification</i></span></h3><p class="ps-meta">Herytash, S. · Prototype.</p><figure class="vis" style="--fig:var(--cl-ai)" style="--fig:var(--cl-ai)" data-vis="simulabs" aria-label="Auditable simulation of behavioral experiments, with prediction-powered rectification.">
+<svg class="vis-svg" viewBox="0 0 320 286" role="img" aria-labelledby="simulabs-vis-t simulabs-vis-d">
+  <title id="simulabs-vis-t">SimuLabs as one deterministic pipeline</title>
+  <desc id="simulabs-vis-d">Studies run from their original survey files on synthetic respondents. A prediction-powered rectifier, given a small human sample, returns an unbiased estimate whatever the simulator does, and every reported statistic is regenerated through the one deterministic pipeline.</desc>
+  <rect class="vis-line-soft" x="6" y="6" width="308" height="274" rx="9"/>
+  <text class="vis-label" x="18" y="26">one deterministic pipeline</text>
+  <rect class="vis-box" x="18" y="40" width="170" height="30" rx="5"/><text class="vis-t" x="103" y="59.2" text-anchor="middle">original survey files</text>
+  <path class="vis-arrow" d="M103 70 V92 M99 86 L103 92 L107 86"/>
+  <rect class="vis-box" x="18" y="92" width="170" height="30" rx="5"/><text class="vis-t" x="103" y="111.2" text-anchor="middle">synthetic respondents</text>
+  <path class="vis-arrow" d="M103 122 V144 M99 138 L103 144 L107 138"/>
+  <rect class="vis-box-accent" x="18" y="144" width="170" height="46" rx="5"/><text class="vis-t vis-t-accent" x="103" y="164.0" text-anchor="middle">rectifier</text><text class="vis-label" x="103" y="179.0" text-anchor="middle">prediction-powered</text>
+  <rect class="vis-box" x="216" y="144" width="88" height="46" rx="5"/>
+  <text class="vis-t" x="260.0" y="163.5" text-anchor="middle">small human</text>
+  <text class="vis-t" x="260.0" y="178.5" text-anchor="middle">sample</text>
+  <path class="vis-arrow" d="M216 167 H188 M194 163 L188 167 L194 171"/>
+  <path class="vis-arrow" d="M103 190 V236 M99 230 L103 236 L107 230"/>
+  <text class="vis-label" x="115" y="210">unbiased, whatever</text>
+  <text class="vis-label" x="115" y="224">the simulator does</text>
+  <rect class="vis-box" x="18" y="236" width="170" height="30" rx="5"/><text class="vis-t" x="103" y="255.2" text-anchor="middle">every reported statistic</text>
+</svg>
+</figure></li><li class="ps-card"><h3><span><i>The Platform Sets the Reference Wage: Salary Bands, Display Thresholds and Applicant Flows</i></span></h3><p class="ps-meta">Herytash, S.</p><figure class="vis" style="--fig:var(--ink-soft)" style="--fig:var(--ink-soft)" data-vis="reference-wage" aria-label="The display threshold. A design, not a result: jobs at firms just below and just above the threshold are compared.">
+<svg class="vis-svg" viewBox="0 0 320 158" role="img" aria-labelledby="reference-wage-t reference-wage-d">
+  <title id="reference-wage-t">The display threshold</title>
+  <desc id="reference-wage-d">The design, not a result. The horizontal axis is the number of salary reports for a job at a firm. Below the display threshold the platform shows no salary band; at and above it a band is shown. The comparison is between firms just below and just above the threshold.</desc>
+  <line class="vis-axis" x1="40" y1="30" x2="40" y2="134"/>
+  <line class="vis-axis" x1="40" y1="134" x2="306" y2="134"/>
+  <text class="vis-label" transform="translate(12 82) rotate(-90)" text-anchor="middle">reference wage</text>
+  <text class="vis-label" x="173" y="154" text-anchor="middle">salary reports for a job at a firm</text>
+  <rect class="rw-out" x="48" y="52" width="128" height="40"/>
+  <text class="vis-series vis-series-soft" x="112" y="76.5" text-anchor="middle">no band shown</text>
+  <rect class="vis-box-accent" x="176" y="52" width="130" height="40"/>
+  <path class="rw-glyph" d="M192 60 V84 M188 60 H196 M188 84 H196"/>
+  <circle class="vis-dot" cx="192" cy="72" r="2.4"/>
+  <text class="vis-series" x="206" y="76.5">band shown</text>
+  <line class="vis-line-soft" x1="176" y1="26" x2="176" y2="134"/>
+  <text class="vis-label" x="176" y="20" text-anchor="middle">display threshold</text>
+  <text class="vis-label" x="167" y="112" text-anchor="end">firms just below</text>
+  <text class="vis-label" x="185" y="112">firms just above</text>
+  <path class="rw-arrow" d="M130 124 L171 124 M166 120.5 L171 124 L166 127.5"/><path class="rw-arrow" d="M222 124 L181 124 M186 120.5 L181 124 L186 127.5"/>
+</svg>
+</figure></li></ul></section>
   </main>
 <aside class="sheet" id="contact" role="dialog" aria-modal="true" aria-labelledby="contact-h">
   <a class="close" href="#" aria-label="Close">&times;</a>
@@ -291,6 +377,9 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
 
   <script src="/assets/site.js?v=48281a17" defer></script>
   <script>
+
+
+
 
 
 
