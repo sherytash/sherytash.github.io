@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-kDRMMCDfz/70SGlvIJtr6KFAGcq8jCdnq0W0bHHRbDw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Research · Stefan Herytash</title>
+<meta name="description" content="The papers of Stefan Herytash, WU Vienna, with their figures and abstracts.">
+<meta name="author" content="Stefan Herytash">
+<meta property="og:title" content="Research · Stefan Herytash">
+<meta property="og:description" content="The papers of Stefan Herytash, WU Vienna, with their figures and abstracts.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sherytash.github.io/papers/">
+<meta property="og:image" content="https://sherytash.github.io/assets/og-card.png">
+<link rel="canonical" href="https://sherytash.github.io/papers/">
+<link rel="icon" href="/assets/favicon.svg?v=0bdbaa73" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.png?v=fde2f8b7" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=ede72b88">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#D8E4E2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1D1C18" media="(prefers-color-scheme: dark)">
+<script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
+<link rel="stylesheet" href="/assets/fonts.css?v=aea717b2">
+<link rel="stylesheet" href="/assets/site.css?v=61d45083">
+<link rel="stylesheet" href="/assets/vis.css?v=b8df0bf5">
+<style>
+  
+  main{ max-width:68rem; margin:0 auto; padding:6.2rem var(--gutter) 3rem; }
+  h1{ margin:0 0 1.6rem; font-family:var(--serif); font-weight:400; font-size:clamp(1.6rem, 1.2rem + 1.8vw, 2.3rem);
+    line-height:1.18; letter-spacing:-0.01em; }
+  
+  .cv-key{ display:flex; flex-wrap:wrap; gap:0.4rem 1.4rem; margin:0; font-size:0.9rem; line-height:1.4; }
+  .cv-key .cv-cl{ color:var(--cl); }
+  .cv-key .cv-cl svg{ width:0.7rem; height:0.7rem; }
+  .ps-group{ margin:2.2rem 0 0; }
+  .ps-group h2{ margin:0 0 1rem; padding-top:1.2rem; border-top:1px solid var(--line); font-family:var(--mono);
+    font-weight:400; font-size:0.6875rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-soft); }
+  .ps-list{ list-style:none; margin:0; padding:0; display:grid; gap:2rem 2.5rem; grid-template-columns:minmax(0, 1fr); }
+  .ps-card{ min-width:0; }
+  .ps-card h3{ margin:0 0 0.5rem; font-family:var(--serif); font-weight:400; font-size:1.3rem; line-height:1.25;
+    letter-spacing:-0.005em; display:flex; gap:0.55rem; align-items:baseline; }
+  .ps-card h3 i{ font-style:normal; }
+  .ps-card h3 .cv-cl{ flex:none; color:var(--cl, var(--ink-soft)); }
+  .ps-card h3 .cv-cl svg{ width:0.7rem; height:0.7rem; }
+  .ps-card h3 a{ color:inherit; text-decoration-color:var(--line-strong); text-underline-offset:0.2em; }
+  .ps-card h3 a:hover{ color:var(--accent); }
+  .ps-card h3 a:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:3px; }
+  .ps-meta{ margin:0; font-size:0.9rem; line-height:1.55; color:var(--ink-soft); }
+  .ps-meta .cv-g{ color:var(--accent); font-style:italic; font-family:var(--serif); font-size:1.04em; }
+  .ps-card .vis{ max-width:30rem; margin:0.9rem 0 0; }
+  @media (min-width:1000px){
+    .ps-list{ grid-template-columns:repeat(2, minmax(0, 1fr)); align-items:start; }
+  }
+  
+  @media (min-width:1600px){
+    main{ max-width:calc(100rem + 2 * var(--gutter)); }
+    .ps-list{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+  }
+  @media print{
+    main{ padding-top:0; }
+    .ps-card{ break-inside:avoid; }
+  }
+
+.vis[data-vis="ai-simulations"] .fc-q{ fill:none; stroke:var(--vis-ref); stroke-width:0.9; }
+.vis[data-vis="ai-simulations"] .fc-t{ fill:var(--ink); }
+.vis[data-vis="ai-simulations"] .fc-t-hot{ fill:var(--vis-teal); }
+.vis[data-vis="ai-simulations"] .fc-track{ fill:none; stroke:var(--vis-ink); stroke-width:0.75; }
+.vis[data-vis="ai-simulations"] .fc-fill{ fill:var(--vis-teal); }
+.vis[data-vis="ai-simulations"] .fc-fill-band{ fill:color-mix(in srgb, var(--vis-teal) 35%, var(--paper)); }
+.vis[data-vis="ai-simulations"] .fc-fill-soft{ fill:var(--vis-ink); }
+
+
+.vis[data-vis="fax-machine"] .fm-verdict{ stroke:var(--vis-ink); stroke-width:4; }
+.vis[data-vis="fax-machine"] .fm-err{ fill:none; stroke:var(--vis-teal); stroke-width:1; }
+.vis[data-vis="fax-machine"] .fm-curve{ fill:none; stroke:var(--vis-ink); stroke-width:1.1; }
+.vis[data-vis="fax-machine"] .fm-top{ fill:var(--vis-teal); opacity:0.45; }
+.vis[data-vis="fax-machine"] .fm-lead{ stroke:var(--vis-teal); stroke-width:0.75; }
+.vis[data-vis="fax-machine"] .fm-quiet{ fill:var(--vis-ref); }
+
+
+.vis[data-vis="matching-cost"] .mc-out{ fill:none; stroke:var(--vis-ref); stroke-width:0.9; stroke-dasharray:3 3; }
+.vis[data-vis="matching-cost"] .mc-arrow{ fill:none; stroke:var(--vis-teal); stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+.vis[data-vis="matching-cost"] .mc-move{ fill:var(--vis-teal); }
+
+
+.vis[data-vis="meta-science"] .ms-team{ fill:var(--vis-ref); opacity:.55; }
+.vis[data-vis="meta-science"] .ms-edge{ stroke:var(--vis-ref); stroke-width:0.6; opacity:.7; }
+.vis[data-vis="meta-science"] .ms-path{ fill:none; stroke:var(--vis-teal); stroke-width:1.8; stroke-linejoin:round; stroke-linecap:round; }
+.vis[data-vis="meta-science"] .ms-opt{ fill:var(--paper); stroke:var(--vis-ref); stroke-width:1; }
+.vis[data-vis="meta-science"] .ms-knock{ fill:var(--paper); }
+.vis[data-vis="meta-science"] .ms-row{ fill:var(--vis-ref); }
+.vis[data-vis="meta-science"] .ms-row.vis-series{ fill:var(--vis-teal); }
+
+
+.vis[data-vis="psych-201"] .pe-a{ fill:var(--vis-teal); fill-opacity:0.8; stroke:var(--paper); stroke-width:0.7; }
+.vis[data-vis="psych-201"] .pe-b{ fill:none; stroke:var(--vis-ink); stroke-width:1.2; }
+
+
+.vis[data-vis="simulabs"] .vis-t{ fill:var(--ink); }
+.vis[data-vis="simulabs"] .vis-t-accent{ fill:var(--vis-teal); }
+
+
+.vis[data-vis="synthetic-participants"] .sp-zero{ fill:none; stroke:var(--vis-ref); stroke-width:1.5; }
+.vis[data-vis="synthetic-participants"] .sp-hot-line{ fill:none; stroke:var(--vis-hot); stroke-width:2.2; stroke-linejoin:round; stroke-dasharray:6 3; }
+html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
+
+
+</style>
+<meta name="twitter:title" content="Research · Stefan Herytash">
+<meta name="twitter:description" content="The papers of Stefan Herytash, WU Vienna, with their figures and abstracts.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:site_name" content="Stefan Herytash">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Stefan Herytash, Assistant Professor at WU Vienna">
+<meta name="twitter:image" content="https://sherytash.github.io/assets/og-card.png">
+<meta name="twitter:image:alt" content="Stefan Herytash, Assistant Professor at WU Vienna">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="page-doc page-paper">
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="name" href="/">Stefan Herytash</a>
+  <nav class="tabs" aria-label="Views">
+    <a href="/" data-tab="map">Map</a>
+    <a href="/papers/" data-tab="research" aria-current="page">Research</a>
+    <a href="/cv/" data-tab="cv">CV</a>
+    <a href="/studio/" data-tab="studio">Studio</a>
+    <a class="tab-contact" href="#contact" aria-label="Contact"><svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true"><rect x="1" y="1.5" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 3l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span class="lbl">Contact</span></a>
+    <button class="theme" type="button" aria-label="Switch to dark mode"><svg class="t-moon" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><path d="M15.6 12.4A6.6 6.6 0 0 1 7.6 4.4a6.6 6.6 0 1 0 8 8z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><svg class="t-sun" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 1.8v2.1M10 16.1v2.1M1.8 10h2.1M16.1 10h2.1M4.2 4.2l1.5 1.5M14.3 14.3l1.5 1.5M4.2 15.8l1.5-1.5M14.3 5.7l1.5-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+  </nav>
+</header>
+
+  <main id="main">
+    <h1>Research</h1>
+    <p class="cv-key" role="group" aria-label="Research themes"><span class="cv-cl cv-cl-ai"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg>AI behavioral simulation</span><span class="cv-cl cv-cl-sci"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg>Post-AI certification</span></p>
+    <section class="ps-group" aria-labelledby="ps-0"><h2 id="ps-0">Forthcoming</h2><ul class="ps-list"><li class="ps-card"><h3><span class="cv-cl cv-cl-sci" title="Post-AI certification"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg><span class="vh">Post-AI certification</span></span><a href="/papers/meta-science/"><i>How Researchers&#x27; Analytical Decisions Impact Brand Price Elasticity Estimates: Insights from a Many-Analyst Study</i></a></h3><p class="ps-meta">Koll, O., Datta, H., … Herytash, S., … van Heerde, H. J. (265 authors) · International Journal of Research in Marketing (Academic Journal Guide 4).</p><figure class="vis" style="--fig:var(--cl-sci)" style="--fig:var(--cl-sci)" data-vis="meta-science" aria-label="One dataset, many paths. Options as the project lists them; teal, the path of Herytash’s team. No estimates are shown.">
+<svg class="vis-svg" viewBox="0 0 320 232" role="img" aria-labelledby="meta-science-vis-t meta-science-vis-d">
+  <title id="meta-science-vis-t">One dataset, many paths</title>
+  <desc id="meta-science-vis-d">156 independent teams analysed one household panel dataset to estimate brand price elasticities for 68 meat substitute products. Each chose its own path: the aggregation period (day, week, month or quarter), the level (country, or country and retailer), frequentist or Bayesian inference, and its own model. Herytash's team aggregated by week and country and estimated a log-log OLS model. The results varied considerably. The diagram shows the design, not the estimates.</desc>
+  <text class="vis-label ms-row" x="0" y="20">dataset</text>
+  <rect class="vis-box" x="80" y="5" width="238" height="22" rx="3"/>
+  <text class="vis-label" x="88" y="20">one household panel, 68 products</text>
+  <text class="vis-label ms-row" x="0" y="46">156 teams</text>
+  <text class="vis-series ms-row" x="0" y="64">Herytash</text>
+  <g><circle class="ms-team" cx="86" cy="42" r="1.9"/><circle class="ms-team" cx="92" cy="42" r="1.9"/><circle class="ms-team" cx="98" cy="42" r="1.9"/><circle class="ms-team" cx="104" cy="42" r="1.9"/><circle class="ms-team" cx="110" cy="42" r="1.9"/><circle class="ms-team" cx="116" cy="42" r="1.9"/><circle class="ms-team" cx="122" cy="42" r="1.9"/><circle class="ms-team" cx="128" cy="42" r="1.9"/><circle class="ms-team" cx="134" cy="42" r="1.9"/><circle class="ms-team" cx="140" cy="42" r="1.9"/><circle class="ms-team" cx="146" cy="42" r="1.9"/><circle class="ms-team" cx="152" cy="42" r="1.9"/><circle class="ms-team" cx="158" cy="42" r="1.9"/><circle class="ms-team" cx="164" cy="42" r="1.9"/><circle class="ms-team" cx="170" cy="42" r="1.9"/><circle class="ms-team" cx="176" cy="42" r="1.9"/><circle class="ms-team" cx="182" cy="42" r="1.9"/><circle class="ms-team" cx="188" cy="42" r="1.9"/><circle class="ms-team" cx="194" cy="42" r="1.9"/><circle class="ms-team" cx="200" cy="42" r="1.9"/><circle class="ms-team" cx="206" cy="42" r="1.9"/><circle class="ms-team" cx="212" cy="42" r="1.9"/><circle class="ms-team" cx="218" cy="42" r="1.9"/><circle class="ms-team" cx="224" cy="42" r="1.9"/><circle class="ms-team" cx="230" cy="42" r="1.9"/><circle class="ms-team" cx="236" cy="42" r="1.9"/><circle class="ms-team" cx="242" cy="42" r="1.9"/><circle class="ms-team" cx="248" cy="42" r="1.9"/><circle class="ms-team" cx="254" cy="42" r="1.9"/><circle class="ms-team" cx="260" cy="42" r="1.9"/><circle class="ms-team" cx="266" cy="42" r="1.9"/><circle class="ms-team" cx="272" cy="42" r="1.9"/><circle class="ms-team" cx="278" cy="42" r="1.9"/><circle class="ms-team" cx="284" cy="42" r="1.9"/><circle class="ms-team" cx="290" cy="42" r="1.9"/><circle class="ms-team" cx="296" cy="42" r="1.9"/><circle class="ms-team" cx="302" cy="42" r="1.9"/><circle class="ms-team" cx="308" cy="42" r="1.9"/><circle class="ms-team" cx="314" cy="42" r="1.9"/><circle class="ms-team" cx="86" cy="48" r="1.9"/><circle class="ms-team" cx="92" cy="48" r="1.9"/><circle class="ms-team" cx="98" cy="48" r="1.9"/><circle class="ms-team" cx="104" cy="48" r="1.9"/><circle class="ms-team" cx="110" cy="48" r="1.9"/><circle class="ms-team" cx="116" cy="48" r="1.9"/><circle class="ms-team" cx="122" cy="48" r="1.9"/><circle class="ms-team" cx="128" cy="48" r="1.9"/><circle class="ms-team" cx="134" cy="48" r="1.9"/><circle class="ms-team" cx="140" cy="48" r="1.9"/><circle class="ms-team" cx="146" cy="48" r="1.9"/><circle class="ms-team" cx="152" cy="48" r="1.9"/><circle class="ms-team" cx="158" cy="48" r="1.9"/><circle class="ms-team" cx="164" cy="48" r="1.9"/><circle class="ms-team" cx="170" cy="48" r="1.9"/><circle class="ms-team" cx="176" cy="48" r="1.9"/><circle class="ms-team" cx="182" cy="48" r="1.9"/><circle class="ms-team" cx="188" cy="48" r="1.9"/><circle class="ms-team" cx="194" cy="48" r="1.9"/><circle class="ms-team" cx="200" cy="48" r="1.9"/><circle class="ms-team" cx="206" cy="48" r="1.9"/><circle class="ms-team" cx="212" cy="48" r="1.9"/><circle class="ms-team" cx="218" cy="48" r="1.9"/><circle class="ms-team" cx="224" cy="48" r="1.9"/><circle class="ms-team" cx="230" cy="48" r="1.9"/><circle class="ms-team" cx="236" cy="48" r="1.9"/><circle class="ms-team" cx="242" cy="48" r="1.9"/><circle class="ms-team" cx="248" cy="48" r="1.9"/><circle class="ms-team" cx="254" cy="48" r="1.9"/><circle class="ms-team" cx="260" cy="48" r="1.9"/><circle class="ms-team" cx="266" cy="48" r="1.9"/><circle class="ms-team" cx="272" cy="48" r="1.9"/><circle class="ms-team" cx="278" cy="48" r="1.9"/><circle class="ms-team" cx="284" cy="48" r="1.9"/><circle class="ms-team" cx="290" cy="48" r="1.9"/><circle class="ms-team" cx="296" cy="48" r="1.9"/><circle class="ms-team" cx="302" cy="48" r="1.9"/><circle class="ms-team" cx="308" cy="48" r="1.9"/><circle class="ms-team" cx="314" cy="48" r="1.9"/><circle class="ms-team" cx="86" cy="54" r="1.9"/><circle class="ms-team" cx="92" cy="54" r="1.9"/><circle class="ms-team" cx="98" cy="54" r="1.9"/><circle class="ms-team" cx="104" cy="54" r="1.9"/><circle class="ms-team" cx="110" cy="54" r="1.9"/><circle class="ms-team" cx="116" cy="54" r="1.9"/><circle class="ms-team" cx="122" cy="54" r="1.9"/><circle class="ms-team" cx="128" cy="54" r="1.9"/><circle class="ms-team" cx="134" cy="54" r="1.9"/><circle class="ms-team" cx="140" cy="54" r="1.9"/><circle class="ms-team" cx="146" cy="54" r="1.9"/><circle class="ms-team" cx="152" cy="54" r="1.9"/><circle class="ms-team" cx="158" cy="54" r="1.9"/><circle class="ms-team" cx="164" cy="54" r="1.9"/><circle class="ms-team" cx="170" cy="54" r="1.9"/><circle class="ms-team" cx="176" cy="54" r="1.9"/><circle class="ms-team" cx="182" cy="54" r="1.9"/><circle class="ms-team" cx="188" cy="54" r="1.9"/><circle class="ms-team" cx="194" cy="54" r="1.9"/><circle class="ms-team" cx="200" cy="54" r="1.9"/><circle class="ms-team" cx="206" cy="54" r="1.9"/><circle class="ms-team" cx="212" cy="54" r="1.9"/><circle class="ms-team" cx="218" cy="54" r="1.9"/><circle class="ms-team" cx="224" cy="54" r="1.9"/><circle class="ms-team" cx="230" cy="54" r="1.9"/><circle class="ms-team" cx="236" cy="54" r="1.9"/><circle class="ms-team" cx="242" cy="54" r="1.9"/><circle class="ms-team" cx="248" cy="54" r="1.9"/><circle class="ms-team" cx="254" cy="54" r="1.9"/><circle class="ms-team" cx="260" cy="54" r="1.9"/><circle class="ms-team" cx="266" cy="54" r="1.9"/><circle class="ms-team" cx="272" cy="54" r="1.9"/><circle class="ms-team" cx="278" cy="54" r="1.9"/><circle class="ms-team" cx="284" cy="54" r="1.9"/><circle class="ms-team" cx="290" cy="54" r="1.9"/><circle class="ms-team" cx="296" cy="54" r="1.9"/><circle class="ms-team" cx="302" cy="54" r="1.9"/><circle class="ms-team" cx="308" cy="54" r="1.9"/><circle class="ms-team" cx="314" cy="54" r="1.9"/><circle class="ms-team" cx="86" cy="60" r="1.9"/><circle class="ms-team" cx="92" cy="60" r="1.9"/><circle class="ms-team" cx="98" cy="60" r="1.9"/><circle class="ms-team" cx="104" cy="60" r="1.9"/><circle class="ms-team" cx="110" cy="60" r="1.9"/><circle class="ms-team" cx="116" cy="60" r="1.9"/><circle class="ms-team" cx="122" cy="60" r="1.9"/><circle class="ms-team" cx="128" cy="60" r="1.9"/><circle class="ms-team" cx="134" cy="60" r="1.9"/><circle class="ms-team" cx="146" cy="60" r="1.9"/><circle class="ms-team" cx="152" cy="60" r="1.9"/><circle class="ms-team" cx="158" cy="60" r="1.9"/><circle class="ms-team" cx="164" cy="60" r="1.9"/><circle class="ms-team" cx="170" cy="60" r="1.9"/><circle class="ms-team" cx="176" cy="60" r="1.9"/><circle class="ms-team" cx="182" cy="60" r="1.9"/><circle class="ms-team" cx="188" cy="60" r="1.9"/><circle class="ms-team" cx="194" cy="60" r="1.9"/><circle class="ms-team" cx="200" cy="60" r="1.9"/><circle class="ms-team" cx="206" cy="60" r="1.9"/><circle class="ms-team" cx="212" cy="60" r="1.9"/><circle class="ms-team" cx="218" cy="60" r="1.9"/><circle class="ms-team" cx="224" cy="60" r="1.9"/><circle class="ms-team" cx="230" cy="60" r="1.9"/><circle class="ms-team" cx="236" cy="60" r="1.9"/><circle class="ms-team" cx="242" cy="60" r="1.9"/><circle class="ms-team" cx="248" cy="60" r="1.9"/><circle class="ms-team" cx="254" cy="60" r="1.9"/><circle class="ms-team" cx="260" cy="60" r="1.9"/><circle class="ms-team" cx="266" cy="60" r="1.9"/><circle class="ms-team" cx="272" cy="60" r="1.9"/><circle class="ms-team" cx="278" cy="60" r="1.9"/><circle class="ms-team" cx="284" cy="60" r="1.9"/><circle class="ms-team" cx="290" cy="60" r="1.9"/><circle class="ms-team" cx="296" cy="60" r="1.9"/><circle class="ms-team" cx="302" cy="60" r="1.9"/><circle class="ms-team" cx="308" cy="60" r="1.9"/><circle class="ms-team" cx="314" cy="60" r="1.9"/></g>
+  <line class="ms-edge" x1="86" y1="86" x2="86" y2="118"/><line class="ms-edge" x1="86" y1="86" x2="194" y2="118"/><line class="ms-edge" x1="140" y1="86" x2="86" y2="118"/><line class="ms-edge" x1="140" y1="86" x2="194" y2="118"/><line class="ms-edge" x1="194" y1="86" x2="86" y2="118"/><line class="ms-edge" x1="194" y1="86" x2="194" y2="118"/><line class="ms-edge" x1="248" y1="86" x2="86" y2="118"/><line class="ms-edge" x1="248" y1="86" x2="194" y2="118"/><line class="ms-edge" x1="86" y1="118" x2="86" y2="150"/><line class="ms-edge" x1="86" y1="118" x2="194" y2="150"/><line class="ms-edge" x1="194" y1="118" x2="86" y2="150"/><line class="ms-edge" x1="194" y1="118" x2="194" y2="150"/><line class="ms-edge" x1="86" y1="150" x2="86" y2="182"/><line class="ms-edge" x1="194" y1="150" x2="86" y2="182"/>
+  <path class="ms-path" d="M140 60 L140 86 L140 102 L86 102 L86 118 L86 150 L86 182 L86 196"/>
+  <circle class="vis-dot" cx="140" cy="60" r="2.6"/>
+  <text class="vis-label ms-row" x="0" y="90">period</text><circle class="ms-opt" cx="86" cy="86" r="3"/><rect class="ms-knock" x="90" y="78" width="24.6" height="12" rx="2"/><text class="vis-label vis-halo" x="93" y="90">day</text><circle class="vis-dot" cx="140" cy="86" r="3"/><rect class="ms-knock" x="144" y="78" width="30.8" height="12" rx="2"/><text class="vis-series vis-halo" x="147" y="90">week</text><circle class="ms-opt" cx="194" cy="86" r="3"/><rect class="ms-knock" x="198" y="78" width="37" height="12" rx="2"/><text class="vis-label vis-halo" x="201" y="90">month</text><circle class="ms-opt" cx="248" cy="86" r="3"/><rect class="ms-knock" x="252" y="78" width="49.4" height="12" rx="2"/><text class="vis-label vis-halo" x="255" y="90">quarter</text><text class="vis-label ms-row" x="0" y="122">level</text><circle class="vis-dot" cx="86" cy="118" r="3"/><rect class="ms-knock" x="90" y="110" width="49.4" height="12" rx="2"/><text class="vis-series vis-halo" x="93" y="122">country</text><circle class="ms-opt" cx="194" cy="118" r="3"/><rect class="ms-knock" x="198" y="110" width="130" height="12" rx="2"/><text class="vis-label vis-halo" x="201" y="122">country and retailer</text><text class="vis-label ms-row" x="0" y="154">inference</text><circle class="vis-dot" cx="86" cy="150" r="3"/><rect class="ms-knock" x="90" y="142" width="74.2" height="12" rx="2"/><text class="vis-series vis-halo" x="93" y="154">frequentist</text><circle class="ms-opt" cx="194" cy="150" r="3"/><rect class="ms-knock" x="198" y="142" width="55.6" height="12" rx="2"/><text class="vis-label vis-halo" x="201" y="154">Bayesian</text><text class="vis-label ms-row" x="0" y="186">model</text><circle class="vis-dot" cx="86" cy="182" r="3"/><rect class="ms-knock" x="90" y="174" width="235.4" height="12" rx="2"/><text class="vis-series vis-halo" x="93" y="186">the team’s own; Herytash: log–log OLS</text>
+  <text class="vis-label ms-row" x="0" y="214">result</text>
+  <text class="vis-label" x="80" y="214">elasticities for 68 products per team:</text>
+  <text class="vis-label" x="80" y="228">considerable variation in results</text>
+</svg>
+</figure></li></ul></section>
+    <section class="ps-group" aria-labelledby="ps-1"><h2 id="ps-1">Under Review</h2><ul class="ps-list"><li class="ps-card"><h3><span class="cv-cl cv-cl-ai" title="AI behavioral simulation"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg><span class="vh">AI behavioral simulation</span></span><a href="/papers/ai-simulations/"><i>When and How to Integrate AI Simulations into Behavioral Experimentation</i></a></h3><p class="ps-meta">Herytash, S. · Revise &amp; Resubmit at International Journal of Research in Marketing (Academic Journal Guide 4).</p><figure class="vis" style="--fig:var(--cl-ai)" style="--fig:var(--cl-ai)" data-vis="ai-simulations" aria-label="Decision flowchart for choosing among LLM-only, hybrid and human-only designs. Bars: cost against the human-only budget. The 2–33% saving is the paper’s illustration at alignments 0.25 to 0.65; the alignment is measured in a pilot, not assumed.">
+<svg class="vis-svg" viewBox="0 0 320 262" role="img" aria-labelledby="ai-simulations-vis-t ai-simulations-vis-d">
+  <title id="ai-simulations-vis-t">Decision flowchart for choosing between LLM-only, hybrid and human-only designs</title>
+  <desc id="ai-simulations-vis-d">If only the direction of an effect is needed, use the LLM simulation alone: it costs about nothing and ranks, nothing more. If the magnitude is needed, estimate the human–LLM alignment in a pilot. Above 0.10 use the hybrid prediction-powered design, which is unbiased and costs 2 to 33 percent less than a human-only study under the paper's illustrative alignments; otherwise use humans only, at the full budget.</desc>
+  <rect class="fc-q" x="2" y="18" width="126" height="24" rx="12"/><text class="vis-label" x="65" y="34" text-anchor="middle">Direction only?</text>
+  <rect class="fc-q" x="2" y="82" width="126" height="24" rx="12"/><text class="vis-label" x="65" y="98" text-anchor="middle">Estimate ρ̃ in a pilot</text>
+  <rect class="fc-q" x="2" y="142" width="126" height="24" rx="12"/><text class="vis-label" x="65" y="158" text-anchor="middle">ρ̃ &gt; 0.10?</text>
+  <path class="vis-arrow" d="M128 30 H155"/><path class="vis-arrow" d="M155 26.5 L159 30 L155 33.5"/>
+  <text class="vis-label vis-halo" x="144" y="26" text-anchor="middle">yes</text>
+  <path class="vis-arrow" d="M65 42 V77"/><path class="vis-arrow" d="M61.5 77 L65 81 L68.5 77"/>
+  <text class="vis-label vis-halo" x="73" y="68">no, magnitude needed</text>
+  <path class="vis-arrow" d="M65 106 V137"/><path class="vis-arrow" d="M61.5 137 L65 141 L68.5 137"/>
+  <path class="vis-arrow" d="M128 154 H155"/><path class="vis-arrow" d="M155 150.5 L159 154 L155 157.5"/>
+  <text class="vis-label vis-halo" x="144" y="150" text-anchor="middle">yes</text>
+  <path class="vis-arrow" d="M65 166 V224 H155"/><path class="vis-arrow" d="M155 220.5 L159 224 L155 227.5"/>
+  <text class="vis-label vis-halo" x="73" y="186">no</text>
+  <rect class="vis-box" x="160" y="2" width="158" height="56" rx="2"/><text class="vis-label fc-t" x="169" y="19">LLM only</text><text class="vis-label" x="169" y="34">ranking only, about $0</text><rect class="fc-track" x="169" y="44" width="140" height="6"/><rect class="fc-fill-soft" x="169" y="44" width="2" height="6"/>
+  <rect class="vis-box-accent" x="160" y="126" width="158" height="56" rx="2"/><text class="vis-label fc-t fc-t-hot" x="169" y="143">Hybrid design</text><text class="vis-label" x="169" y="158">unbiased, 2–33% cheaper</text><rect class="fc-track" x="169" y="168" width="140" height="6"/><rect class="fc-fill-band" x="169" y="168" width="136.8" height="6"/><rect class="fc-fill" x="169" y="168" width="94.4" height="6"/>
+  <rect class="vis-box" x="160" y="196" width="158" height="56" rx="2"/><text class="vis-label fc-t" x="169" y="213">Humans only</text><text class="vis-label" x="169" y="228">gold standard, full budget</text><rect class="fc-track" x="169" y="238" width="140" height="6"/><rect class="fc-fill-soft" x="169" y="238" width="140" height="6"/>
+</svg>
+</figure></li><li class="ps-card"><h3><span class="cv-cl cv-cl-sci" title="Post-AI certification"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg><span class="vh">Post-AI certification</span></span><a href="/papers/fax/"><i>After the Fax Machine Burns: Journal Certification When Everything Is Published</i></a></h3><p class="ps-meta">Herytash, S. · Under review at Management Science (Financial Times 50; Academic Journal Guide 4*) as a Discussion Paper, in response to Bhargava et al. (2026) and Terwiesch (2026).</p><figure class="vis" style="--fig:var(--cl-sci)" style="--fig:var(--cl-sci)" data-vis="fax-machine" aria-label="What the verdict discards. Standard normal prior over quality, panel error variance equal to the prior variance, acceptance rate 20%; quality is the expected quality of a reading list drawn from each set.">
+<svg class="vis-svg" viewBox="0 0 320 230" role="img" aria-labelledby="fax-vis-t fax-vis-d">
+  <title id="fax-vis-t">What the verdict discards</title>
+  <desc id="fax-vis-d">The distribution of the panel estimate with the acceptance threshold at the top 20%. The verdict publishes one bit above the threshold and nothing below it; the grade publishes the estimate and its error on every paper. The accepted set has expected quality 0.99; the top 5% ranked by grade has 1.46.</desc>
+  <text class="vis-label" x="0" y="30">verdict</text>
+  <line class="fm-verdict" x1="214.6" y1="26" x2="308" y2="26"/>
+  <text class="vis-label fm-bit" x="261.3" y="17" text-anchor="middle">accepted: one bit</text>
+  <text class="vis-label fm-quiet" x="133.3" y="30" text-anchor="middle">no public trace</text>
+  <text class="vis-series" x="0" y="74">grade</text>
+  <path class="fm-err" data-m="95.6" data-dy="-4" d="M66.5 66 H124.7 M66.5 63.5 V68.5 M124.7 63.5 V68.5"/><circle class="vis-dot" cx="95.6" cy="66" r="2.6"/><path class="fm-err" data-m="136.4" data-dy="4" d="M107.3 74 H165.5 M107.3 71.5 V76.5 M165.5 71.5 V76.5"/><circle class="vis-dot" cx="136.4" cy="74" r="2.6"/><path class="fm-err" data-m="182.9" data-dy="-4" d="M153.8 66 H212 M153.8 63.5 V68.5 M212 63.5 V68.5"/><circle class="vis-dot" cx="182.9" cy="66" r="2.6"/><path class="fm-err" data-m="229.5" data-dy="4" d="M200.4 74 H258.5 M200.4 71.5 V76.5 M258.5 71.5 V76.5"/><circle class="vis-dot" cx="229.5" cy="74" r="2.6"/><path class="fm-err" data-m="270.2" data-dy="-4" d="M241.1 66 H299.3 M241.1 63.5 V68.5 M299.3 63.5 V68.5"/><circle class="vis-dot" cx="270.2" cy="66" r="2.6"/>
+  <text class="vis-series" x="180" y="56" text-anchor="middle">estimate and its error, on every paper</text>
+  <line class="vis-guide-line fm-g1" x1="214.6" y1="20" x2="214.6" y2="32"/>
+  <line class="vis-guide-line fm-g2" x1="214.6" y1="78" x2="214.6" y2="200"/>
+  <path class="vis-area-soft fm-acc" d="M214.6 200 L214.6 144.6 L215.8 145.9 L217 147.2 L218.1 148.6 L219.3 149.9 L220.5 151.3 L221.6 152.7 L222.8 154 L224 155.4 L225.1 156.7 L226.3 158.1 L227.5 159.4 L228.6 160.7 L229.8 162 L231 163.3 L232.1 164.6 L233.3 165.9 L234.5 167.1 L235.6 168.3 L236.8 169.5 L238 170.7 L239.1 171.9 L240.3 173 L241.5 174.1 L242.6 175.2 L243.8 176.3 L245 177.3 L246.1 178.3 L247.3 179.3 L248.5 180.2 L249.6 181.1 L250.8 182 L252 182.9 L253.1 183.7 L254.3 184.5 L255.5 185.3 L256.6 186.1 L257.8 186.8 L259 187.5 L260.1 188.2 L261.3 188.8 L262.5 189.4 L263.6 190 L264.8 190.6 L266 191.1 L267.1 191.6 L268.3 192.1 L269.5 192.6 L270.6 193 L271.8 193.5 L273 193.9 L274.2 194.2 L275.3 194.6 L276.5 195 L277.7 195.3 L278.8 195.6 L280 195.9 L281.2 196.2 L282.3 196.4 L283.5 196.7 L284.7 196.9 L285.8 197.1 L287 197.3 L288.2 197.5 L289.3 197.7 L290.5 197.9 L291.7 198 L292.8 198.2 L294 198.3 L295.2 198.4 L296.3 198.5 L297.5 198.7 L298.7 198.8 L299.8 198.9 L301 199 L302.2 199 L303.3 199.1 L304.5 199.2 L305.7 199.3 L306.8 199.3 L308 199.4 L308 200 Z"/>
+  <path class="fm-top" d="M247.7 200 L247.7 179.6 L248.4 180.2 L249.2 180.8 L249.9 181.4 L250.7 181.9 L251.4 182.5 L252.2 183.1 L252.9 183.6 L253.7 184.1 L254.5 184.6 L255.2 185.1 L256 185.6 L256.7 186.1 L257.5 186.6 L258.2 187 L259 187.5 L259.7 187.9 L260.5 188.3 L261.2 188.8 L262 189.2 L262.8 189.6 L263.5 189.9 L264.3 190.3 L265 190.7 L265.8 191 L266.5 191.3 L267.3 191.7 L268 192 L268.8 192.3 L269.5 192.6 L270.3 192.9 L271 193.2 L271.8 193.4 L272.6 193.7 L273.3 194 L274.1 194.2 L274.8 194.5 L275.6 194.7 L276.3 194.9 L277.1 195.1 L277.8 195.3 L278.6 195.5 L279.3 195.7 L280.1 195.9 L280.9 196.1 L281.6 196.3 L282.4 196.4 L283.1 196.6 L283.9 196.7 L284.6 196.9 L285.4 197 L286.1 197.2 L286.9 197.3 L287.6 197.4 L288.4 197.5 L289.1 197.7 L289.9 197.8 L290.7 197.9 L291.4 198 L292.2 198.1 L292.9 198.2 L293.7 198.3 L294.4 198.3 L295.2 198.4 L295.9 198.5 L296.7 198.6 L297.4 198.7 L298.2 198.7 L299 198.8 L299.7 198.9 L300.5 198.9 L301.2 199 L302 199 L302.7 199.1 L303.5 199.1 L304.2 199.2 L305 199.2 L305.7 199.3 L306.5 199.3 L307.2 199.3 L308 199.4 L308 200 Z"/>
+  <path class="fm-curve" d="M52 199.4 L53.1 199.3 L54.1 199.3 L55.2 199.2 L56.3 199.1 L57.3 199.1 L58.4 199 L59.5 198.9 L60.5 198.8 L61.6 198.7 L62.7 198.6 L63.7 198.5 L64.8 198.4 L65.9 198.3 L66.9 198.2 L68 198.1 L69.1 197.9 L70.1 197.8 L71.2 197.6 L72.3 197.4 L73.3 197.3 L74.4 197.1 L75.5 196.9 L76.5 196.7 L77.6 196.4 L78.7 196.2 L79.7 195.9 L80.8 195.7 L81.9 195.4 L82.9 195.1 L84 194.8 L85.1 194.5 L86.1 194.2 L87.2 193.8 L88.3 193.4 L89.3 193 L90.4 192.6 L91.5 192.2 L92.5 191.8 L93.6 191.3 L94.7 190.8 L95.7 190.3 L96.8 189.8 L97.9 189.2 L98.9 188.7 L100 188.1 L101.1 187.5 L102.1 186.8 L103.2 186.2 L104.3 185.5 L105.3 184.8 L106.4 184.1 L107.5 183.3 L108.5 182.5 L109.6 181.7 L110.7 180.9 L111.7 180.1 L112.8 179.2 L113.9 178.3 L114.9 177.4 L116 176.4 L117.1 175.5 L118.1 174.5 L119.2 173.5 L120.3 172.5 L121.3 171.4 L122.4 170.4 L123.5 169.3 L124.5 168.2 L125.6 167 L126.7 165.9 L127.7 164.8 L128.8 163.6 L129.9 162.4 L130.9 161.2 L132 160 L133.1 158.8 L134.1 157.6 L135.2 156.3 L136.3 155.1 L137.3 153.9 L138.4 152.6 L139.5 151.4 L140.5 150.1 L141.6 148.9 L142.7 147.7 L143.7 146.4 L144.8 145.2 L145.9 144 L146.9 142.8 L148 141.6 L149.1 140.5 L150.1 139.3 L151.2 138.2 L152.3 137.1 L153.3 136 L154.4 134.9 L155.5 133.9 L156.5 132.9 L157.6 131.9 L158.7 130.9 L159.7 130 L160.8 129.2 L161.9 128.3 L162.9 127.5 L164 126.8 L165.1 126 L166.1 125.4 L167.2 124.7 L168.3 124.2 L169.3 123.6 L170.4 123.1 L171.5 122.7 L172.5 122.3 L173.6 122 L174.7 121.7 L175.7 121.4 L176.8 121.3 L177.9 121.1 L178.9 121 L180 121 L181.1 121 L182.1 121.1 L183.2 121.3 L184.3 121.4 L185.3 121.7 L186.4 122 L187.5 122.3 L188.5 122.7 L189.6 123.1 L190.7 123.6 L191.7 124.2 L192.8 124.7 L193.9 125.4 L194.9 126 L196 126.8 L197.1 127.5 L198.1 128.3 L199.2 129.2 L200.3 130 L201.3 130.9 L202.4 131.9 L203.5 132.9 L204.5 133.9 L205.6 134.9 L206.7 136 L207.7 137.1 L208.8 138.2 L209.9 139.3 L210.9 140.5 L212 141.6 L213.1 142.8 L214.1 144 L215.2 145.2 L216.3 146.4 L217.3 147.7 L218.4 148.9 L219.5 150.1 L220.5 151.4 L221.6 152.6 L222.7 153.9 L223.7 155.1 L224.8 156.3 L225.9 157.6 L226.9 158.8 L228 160 L229.1 161.2 L230.1 162.4 L231.2 163.6 L232.3 164.8 L233.3 165.9 L234.4 167 L235.5 168.2 L236.5 169.3 L237.6 170.4 L238.7 171.4 L239.7 172.5 L240.8 173.5 L241.9 174.5 L242.9 175.5 L244 176.4 L245.1 177.4 L246.1 178.3 L247.2 179.2 L248.3 180.1 L249.3 180.9 L250.4 181.7 L251.5 182.5 L252.5 183.3 L253.6 184.1 L254.7 184.8 L255.7 185.5 L256.8 186.2 L257.9 186.8 L258.9 187.5 L260 188.1 L261.1 188.7 L262.1 189.2 L263.2 189.8 L264.3 190.3 L265.3 190.8 L266.4 191.3 L267.5 191.8 L268.5 192.2 L269.6 192.6 L270.7 193 L271.7 193.4 L272.8 193.8 L273.9 194.2 L274.9 194.5 L276 194.8 L277.1 195.1 L278.1 195.4 L279.2 195.7 L280.3 195.9 L281.3 196.2 L282.4 196.4 L283.5 196.7 L284.5 196.9 L285.6 197.1 L286.7 197.3 L287.7 197.4 L288.8 197.6 L289.9 197.8 L290.9 197.9 L292 198.1 L293.1 198.2 L294.1 198.3 L295.2 198.4 L296.3 198.5 L297.3 198.6 L298.4 198.7 L299.5 198.8 L300.5 198.9 L301.6 199 L302.7 199.1 L303.7 199.1 L304.8 199.2 L305.9 199.3 L306.9 199.3 L308 199.4"/>
+  <line class="vis-axis" x1="52" y1="200" x2="308" y2="200"/>
+  <line class="vis-tick" x1="63.6" y1="200" x2="63.6" y2="204"/><text class="vis-num" x="63.6" y="216" text-anchor="middle">-4</text><line class="vis-tick" x1="121.8" y1="200" x2="121.8" y2="204"/><text class="vis-num" x="121.8" y="216" text-anchor="middle">-2</text><line class="vis-tick" x1="180" y1="200" x2="180" y2="204"/><text class="vis-num" x="180" y="216" text-anchor="middle">0</text><line class="vis-tick" x1="238.2" y1="200" x2="238.2" y2="204"/><text class="vis-num" x="238.2" y="216" text-anchor="middle">2</text><line class="vis-tick" x1="296.4" y1="200" x2="296.4" y2="204"/><text class="vis-num" x="296.4" y="216" text-anchor="middle">4</text>
+  <text class="vis-label fm-th" x="210.6" y="92" text-anchor="end">θ</text>
+  <text class="vis-label fm-l1" x="220.6" y="92">accepted, 20%:</text>
+  <text class="vis-label fm-l2" x="220.6" y="105">quality 0.99</text>
+  <text class="vis-series fm-l3" x="220.6" y="124">top 5% by grade:</text>
+  <text class="vis-series fm-l4" x="220.6" y="137">quality 1.46</text>
+  <line class="fm-lead" x1="257.7" y1="142" x2="257.7" y2="189.9"/>
+  <text class="vis-label" x="180" y="226" text-anchor="middle">panel estimate Q̄</text>
+</svg>
+</figure></li><li class="ps-card"><h3><span class="cv-cl cv-cl-ai" title="AI behavioral simulation"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg><span class="vh">AI behavioral simulation</span></span><a href="/papers/psych-201/"><i>Post-training Makes Large Language Models Less Human-like</i></a></h3><p class="ps-meta">Binz, M., Akata, E., … Herytash, S., … Schulz, E. (79 authors) · arXiv:2605.07632. Introduces the Psych-201 dataset.</p><figure class="vis" style="--fig:var(--cl-ai)" style="--fig:var(--cl-ai)" data-vis="psych-201" aria-label="Experiment embeddings. Experiments in Psych-201 (filled) cover more of the space than Psych-101 (open); first two principal components of the experiment embeddings, from the paper. Psych-201: 208,021 participants, 25,906,599 behavioural responses.">
+<svg class="vis-svg" viewBox="0 0 320 176" role="img" aria-labelledby="psych-201-vis-t psych-201-vis-d">
+  <title id="psych-201-vis-t">Experiment embeddings</title>
+  <desc id="psych-201-vis-d">Scatter of experiments on the first two principal components of their embeddings: 101 Psych-201 experiments as filled dots and 44 Psych-101 experiments as open rings. The filled dots cover a wider area of the plane than the rings. Digitised from the paper's figure.</desc>
+  <path class="vis-axis" d="M34 6 V150 H316"/>
+  <line class="vis-tick" x1="47.2" y1="150" x2="47.2" y2="154"/><text class="vis-num" x="47.2" y="166" text-anchor="middle">−4</text><line class="vis-tick" x1="152.6" y1="150" x2="152.6" y2="154"/><text class="vis-num" x="152.6" y="166" text-anchor="middle">0</text><line class="vis-tick" x1="258" y1="150" x2="258" y2="154"/><text class="vis-num" x="258" y="166" text-anchor="middle">4</text><line class="vis-tick" x1="30" y1="119.5" x2="34" y2="119.5"/><text class="vis-num" x="26" y="123.3" text-anchor="end">−4</text><line class="vis-tick" x1="30" y1="64.2" x2="34" y2="64.2"/><text class="vis-num" x="26" y="68" text-anchor="end">0</text><line class="vis-tick" x1="30" y1="8.8" x2="34" y2="8.8"/><text class="vis-num" x="26" y="12.6" text-anchor="end">4</text>
+  <text class="vis-label" x="175" y="174" text-anchor="middle">PC1</text>
+  <text class="vis-label" transform="translate(9 78) rotate(-90)" text-anchor="middle">PC2</text>
+  <g class="pe-a"><circle cx="49.3" cy="74.8" r="3.0"/><circle cx="49.8" cy="32.9" r="3.0"/><circle cx="49.8" cy="32.9" r="3.0"/><circle cx="50.6" cy="38.3" r="3.0"/><circle cx="51.4" cy="25.9" r="3.0"/><circle cx="51.4" cy="16.9" r="3.0"/><circle cx="51.7" cy="23.2" r="3.0"/><circle cx="52.7" cy="81.2" r="3.0"/><circle cx="61.1" cy="143.5" r="3.0"/><circle cx="61.1" cy="54.7" r="3.0"/><circle cx="63.8" cy="89.8" r="3.0"/><circle cx="63.8" cy="30.1" r="3.0"/><circle cx="67.7" cy="24.4" r="3.0"/><circle cx="68.3" cy="42" r="3.0"/><circle cx="71.7" cy="42.4" r="3.0"/><circle cx="72.5" cy="36.3" r="3.0"/><circle cx="76.7" cy="61" r="3.0"/><circle cx="79.9" cy="19" r="3.0"/><circle cx="81.4" cy="78.6" r="3.0"/><circle cx="83.5" cy="31.6" r="3.0"/><circle cx="84.9" cy="90.6" r="3.0"/><circle cx="93.6" cy="116.1" r="3.0"/><circle cx="94.1" cy="47.4" r="3.0"/><circle cx="96.5" cy="58.3" r="3.0"/><circle cx="102" cy="53.2" r="3.0"/><circle cx="102.3" cy="126.7" r="3.0"/><circle cx="103.3" cy="24.3" r="3.0"/><circle cx="106.5" cy="37.8" r="3.0"/><circle cx="109.4" cy="138.5" r="3.0"/><circle cx="114.1" cy="57.5" r="3.0"/><circle cx="114.4" cy="58.1" r="3.0"/><circle cx="114.6" cy="130.3" r="3.0"/><circle cx="116" cy="35.5" r="3.0"/><circle cx="122" cy="93.8" r="3.0"/><circle cx="123.6" cy="19.3" r="3.0"/><circle cx="125.5" cy="67.2" r="3.0"/><circle cx="125.7" cy="34.5" r="3.0"/><circle cx="126" cy="22.8" r="3.0"/><circle cx="127" cy="73.3" r="3.0"/><circle cx="130.7" cy="53.5" r="3.0"/><circle cx="131.3" cy="23.4" r="3.0"/><circle cx="131.8" cy="77.3" r="3.0"/><circle cx="135.5" cy="63.5" r="3.0"/><circle cx="136.5" cy="34.1" r="3.0"/><circle cx="138.1" cy="60.6" r="3.0"/><circle cx="138.6" cy="62.9" r="3.0"/><circle cx="139.7" cy="73.2" r="3.0"/><circle cx="141.5" cy="111.9" r="3.0"/><circle cx="143.1" cy="98.2" r="3.0"/><circle cx="143.1" cy="59.7" r="3.0"/><circle cx="143.9" cy="78.3" r="3.0"/><circle cx="143.9" cy="78.3" r="3.0"/><circle cx="144.7" cy="142" r="3.0"/><circle cx="146.3" cy="72.7" r="3.0"/><circle cx="149.2" cy="85.5" r="3.0"/><circle cx="149.2" cy="45.2" r="3.0"/><circle cx="150.8" cy="72.7" r="3.0"/><circle cx="153.1" cy="61.4" r="3.0"/><circle cx="160.5" cy="105.4" r="3.0"/><circle cx="160.8" cy="74.1" r="3.0"/><circle cx="161" cy="94.3" r="3.0"/><circle cx="162.3" cy="81" r="3.0"/><circle cx="168.4" cy="97.4" r="3.0"/><circle cx="169.2" cy="82.6" r="3.0"/><circle cx="171" cy="67.5" r="3.0"/><circle cx="173.2" cy="62.2" r="3.0"/><circle cx="174.2" cy="14.7" r="3.0"/><circle cx="175.8" cy="51.6" r="3.0"/><circle cx="176.8" cy="38.8" r="3.0"/><circle cx="177.1" cy="90" r="3.0"/><circle cx="177.1" cy="62.5" r="3.0"/><circle cx="178.2" cy="73.2" r="3.0"/><circle cx="180" cy="100.3" r="3.0"/><circle cx="181.3" cy="19.8" r="3.0"/><circle cx="188.4" cy="109.8" r="3.0"/><circle cx="189.2" cy="87.3" r="3.0"/><circle cx="190" cy="74.4" r="3.0"/><circle cx="193.2" cy="71.2" r="3.0"/><circle cx="196.6" cy="69.4" r="3.0"/><circle cx="196.9" cy="97.4" r="3.0"/><circle cx="200.6" cy="98.6" r="3.0"/><circle cx="201.6" cy="102.4" r="3.0"/><circle cx="203.7" cy="88" r="3.0"/><circle cx="205.8" cy="61.2" r="3.0"/><circle cx="215.9" cy="60.1" r="3.0"/><circle cx="216.1" cy="54.7" r="3.0"/><circle cx="216.1" cy="53.1" r="3.0"/><circle cx="224" cy="66" r="3.0"/><circle cx="229.3" cy="42.7" r="3.0"/><circle cx="236.9" cy="36.6" r="3.0"/><circle cx="238.5" cy="80.4" r="3.0"/><circle cx="243.8" cy="65.1" r="3.0"/><circle cx="244.3" cy="62.1" r="3.0"/><circle cx="245.9" cy="58.5" r="3.0"/><circle cx="254.1" cy="58.1" r="3.0"/><circle cx="260.7" cy="51.1" r="3.0"/><circle cx="264.3" cy="63.3" r="3.0"/><circle cx="266.7" cy="50.2" r="3.0"/><circle cx="274.1" cy="34.2" r="3.0"/><circle cx="279.1" cy="32.4" r="3.0"/><circle cx="279.1" cy="32.4" r="3.0"/></g>
+  <g class="pe-b"><circle cx="78.8" cy="50.3" r="3.0"/><circle cx="98.6" cy="39.5" r="3.0"/><circle cx="102.5" cy="98.2" r="3.0"/><circle cx="102.8" cy="43.2" r="3.0"/><circle cx="104.6" cy="89.4" r="3.0"/><circle cx="105.2" cy="39.8" r="3.0"/><circle cx="112" cy="105.3" r="3.0"/><circle cx="122.3" cy="58.8" r="3.0"/><circle cx="123.9" cy="66.2" r="3.0"/><circle cx="126.5" cy="94.2" r="3.0"/><circle cx="127.8" cy="78.6" r="3.0"/><circle cx="130.5" cy="82.7" r="3.0"/><circle cx="133.9" cy="82.2" r="3.0"/><circle cx="134.7" cy="39.8" r="3.0"/><circle cx="134.7" cy="34.9" r="3.0"/><circle cx="136" cy="81.2" r="3.0"/><circle cx="141.3" cy="84.6" r="3.0"/><circle cx="141.5" cy="44.4" r="3.0"/><circle cx="142.6" cy="80.6" r="3.0"/><circle cx="145.7" cy="55.2" r="3.0"/><circle cx="149.7" cy="71.2" r="3.0"/><circle cx="152.3" cy="91.8" r="3.0"/><circle cx="160" cy="86.4" r="3.0"/><circle cx="161.6" cy="57.1" r="3.0"/><circle cx="165.5" cy="68.3" r="3.0"/><circle cx="166.8" cy="53.8" r="3.0"/><circle cx="168.7" cy="49.8" r="3.0"/><circle cx="169.2" cy="67.5" r="3.0"/><circle cx="170.5" cy="62.1" r="3.0"/><circle cx="181.6" cy="95.2" r="3.0"/><circle cx="185.8" cy="74" r="3.0"/><circle cx="207.2" cy="74.4" r="3.0"/><circle cx="208.5" cy="51.8" r="3.0"/><circle cx="214.5" cy="87.3" r="3.0"/><circle cx="216.4" cy="67.2" r="3.0"/><circle cx="220.6" cy="30.9" r="3.0"/><circle cx="222.2" cy="50.3" r="3.0"/><circle cx="236.9" cy="55.6" r="3.0"/><circle cx="246.9" cy="64.6" r="3.0"/><circle cx="248" cy="63" r="3.0"/><circle cx="252.2" cy="53.2" r="3.0"/><circle cx="253" cy="32.9" r="3.0"/><circle cx="254.9" cy="45.6" r="3.0"/><circle cx="305.2" cy="24.3" r="3.0"/></g>
+  <circle class="pe-a" cx="238" cy="120" r="3.0"/><text class="vis-label" x="247" y="123.8">Psych-201</text><circle class="pe-b" cx="238" cy="135" r="3.0"/><text class="vis-label" x="247" y="138.8">Psych-101</text>
+</svg>
+</figure></li></ul></section>
+    <section class="ps-group" aria-labelledby="ps-2"><h2 id="ps-2">Conference Papers (Accepted)</h2><ul class="ps-list"><li class="ps-card"><h3><span class="cv-cl cv-cl-sci" title="Post-AI certification"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg><span class="vh">Post-AI certification</span></span><a href="/papers/threshold-migration/"><i>Threshold Migration to the Patient: Consumer Wearables, the Divided Gatekeeping Jurisdiction, and the Redistribution of Access</i></a></h3><p class="ps-meta">Herytash, S. · Accepted at ANZAM 2026, Health Management and Organisation stream, University of Newcastle.</p><figure class="vis" style="--fig:var(--cl-sci)" style="--fig:var(--cl-sci)" data-vis="threshold-migration" aria-label="Staggered launch of atrial-fibrillation detection. Date the Apple Watch ECG app and irregular-rhythm notification became available.">
+<svg class="vis-svg" viewBox="0 0 320 242" role="img" aria-labelledby="threshold-migration-vis-t threshold-migration-vis-d">
+  <title id="threshold-migration-vis-t">Staggered launch of atrial-fibrillation detection</title>
+  <desc id="threshold-migration-vis-d">Launch dates of the Apple Watch ECG app and irregular-rhythm notification in 9 jurisdictions (19 European countries counted as one), staggered from 6 Dec 2018 in the United States to 26 Apr 2021 in Australia and overlapping the COVID-19 period of March 2020 to June 2021.</desc>
+  <rect class="vis-area-soft" x="203" y="16" width="73.3" height="202"/><text class="vis-label" x="239.6" y="12" text-anchor="middle">COVID-19</text><line class="vis-tick" x1="84" y1="218" x2="84" y2="222"/><text class="vis-num" x="84" y="234" text-anchor="middle">2018</text><line class="vis-tick" x1="139" y1="218" x2="139" y2="222"/><text class="vis-num" x="139" y="234" text-anchor="middle">2019</text><line class="vis-tick" x1="194" y1="218" x2="194" y2="222"/><text class="vis-num" x="194" y="234" text-anchor="middle">2020</text><line class="vis-tick" x1="249" y1="218" x2="249" y2="222"/><text class="vis-num" x="249" y="234" text-anchor="middle">2021</text><line class="vis-tick" x1="304" y1="218" x2="304" y2="222"/><text class="vis-num" x="304" y="234" text-anchor="middle">2022</text><line class="vis-axis" x1="84" y1="218" x2="304" y2="218"/><text class="vis-label" x="74" y="35" text-anchor="end">United States</text><line class="vis-guide-line" x1="84" y1="31" x2="135.1" y2="31"/><line class="vis-line" x1="135.1" y1="31" x2="304" y2="31"/><circle class="vis-dot" cx="135.1" cy="31" r="3.4"/><text class="vis-num" x="134.1" y="25" text-anchor="start">6 Dec 2018</text><text class="vis-label" x="74" y="57" text-anchor="end">Europe (19)</text><line class="vis-guide-line" x1="84" y1="53" x2="151.8" y2="53"/><line class="vis-line" x1="151.8" y1="53" x2="304" y2="53"/><circle class="vis-dot" cx="151.8" cy="53" r="3.4"/><text class="vis-num" x="150.8" y="47" text-anchor="start">27 Mar 2019</text><text class="vis-label" x="74" y="79" text-anchor="end">Hong Kong</text><line class="vis-guide-line" x1="84" y1="75" x2="151.8" y2="75"/><line class="vis-line" x1="151.8" y1="75" x2="304" y2="75"/><circle class="vis-dot" cx="151.8" cy="75" r="3.4"/><text class="vis-num" x="150.8" y="69" text-anchor="start">27 Mar 2019</text><text class="vis-label" x="74" y="101" text-anchor="end">Brazil</text><line class="vis-guide-line" x1="84" y1="97" x2="223.5" y2="97"/><line class="vis-line" x1="223.5" y1="97" x2="304" y2="97"/><circle class="vis-dot" cx="223.5" cy="97" r="3.4"/><text class="vis-num" x="222.5" y="91" text-anchor="start">15 Jul 2020</text><text class="vis-label" x="74" y="123" text-anchor="end">Saudi Arabia</text><line class="vis-guide-line" x1="84" y1="119" x2="232.8" y2="119"/><line class="vis-line" x1="232.8" y1="119" x2="304" y2="119"/><circle class="vis-dot" cx="232.8" cy="119" r="3.4"/><text class="vis-num" x="231.8" y="113" text-anchor="start">Sep 2020</text><text class="vis-label" x="74" y="145" text-anchor="end">South Korea</text><line class="vis-guide-line" x1="84" y1="141" x2="241.9" y2="141"/><line class="vis-line" x1="241.9" y1="141" x2="304" y2="141"/><circle class="vis-dot" cx="241.9" cy="141" r="3.4"/><text class="vis-num" x="240.9" y="135" text-anchor="start">Nov 2020</text><text class="vis-label" x="74" y="167" text-anchor="end">Taiwan</text><line class="vis-guide-line" x1="84" y1="163" x2="246.4" y2="163"/><line class="vis-line" x1="246.4" y1="163" x2="304" y2="163"/><circle class="vis-dot" cx="246.4" cy="163" r="3.4"/><text class="vis-num" x="247.4" y="157" text-anchor="end">15 Dec 2020</text><text class="vis-label" x="74" y="189" text-anchor="end">Japan</text><line class="vis-guide-line" x1="84" y1="185" x2="252.8" y2="185"/><line class="vis-line" x1="252.8" y1="185" x2="304" y2="185"/><circle class="vis-dot" cx="252.8" cy="185" r="3.4"/><text class="vis-num" x="253.8" y="179" text-anchor="end">26 Jan 2021</text><text class="vis-label" x="74" y="211" text-anchor="end">Australia</text><line class="vis-guide-line" x1="84" y1="207" x2="266.3" y2="207"/><line class="vis-line" x1="266.3" y1="207" x2="304" y2="207"/><circle class="vis-dot" cx="266.3" cy="207" r="3.4"/><text class="vis-num" x="267.3" y="201" text-anchor="end">26 Apr 2021</text>
+</svg>
+</figure></li></ul></section>
+    <section class="ps-group" aria-labelledby="ps-3"><h2 id="ps-3">In Preparation</h2><ul class="ps-list"><li class="ps-card"><h3><span class="cv-cl cv-cl-ai" title="AI behavioral simulation"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg><span class="vh">AI behavioral simulation</span></span><a href="/papers/synthetic-participants/"><i>Synthetic Participants Reproduce Effects They Cannot Replace</i></a></h3><p class="ps-meta">Herytash, S.</p><figure class="vis" style="--fig:var(--cl-ai)" style="--fig:var(--cl-ai)" data-vis="synthetic-participants" aria-label="The ceiling on synthetic respondents. The saving stops at ρ², however many synthetic respondents are added; ρ is the correlation, within a study, between a human’s response and the simulator’s response for that human. The slider sets the reader’s ρ." data-table='{&quot;g&quot;:[14.0,14.75,15.54,16.36,17.22,18.12,19.06,20.04,21.07,22.14,23.25,24.41,25.62,26.87,28.17,29.52,30.92,32.36,33.86,35.41,37.0,38.64,40.33,42.07,43.85,45.68,47.55,49.46,51.41,53.4,55.43,57.49,59.58,61.69,63.83,65.99,68.17,70.37,72.57,74.78,77.0,79.22,81.43,83.63,85.83,88.01,90.17,92.31,94.42,96.51,98.57,100.6,102.59,104.54,106.45,108.32,110.15,111.93,113.67,115.36,117.0,118.59,120.14,121.64,123.08,124.48,125.83,127.13,128.38,129.59,130.75,131.86,132.93,133.96,134.94,135.88,136.78,137.64,138.46,139.25,140.0,140.72,141.4,142.05,142.67,143.26,143.82,144.35,144.86,145.34,145.8,146.24,146.65,147.04,147.42,147.77,148.1,148.42,148.72,149.01,149.28,149.54,149.78,150.01,150.23,150.43,150.63,150.81,150.99,151.15,151.31,151.46,151.6,151.73,151.85,151.97,152.09,152.19,152.29,152.39,152.48,152.56,152.64,152.72,152.79,152.85,152.92,152.98,153.03,153.09,153.14,153.19,153.23,153.27,153.32,153.35,153.39,153.42,153.46,153.49,153.51,153.54,153.57,153.59,153.61,153.64,153.66,153.68,153.69,153.71,153.73,153.74,153.76,153.77,153.78,153.79,153.81,153.82,153.83,153.84,153.85],&quot;pct&quot;:{&quot;0.00&quot;:0,&quot;0.01&quot;:0,&quot;0.02&quot;:0,&quot;0.03&quot;:0,&quot;0.04&quot;:0,&quot;0.05&quot;:0,&quot;0.06&quot;:0,&quot;0.07&quot;:0,&quot;0.08&quot;:1,&quot;0.09&quot;:1,&quot;0.10&quot;:1,&quot;0.11&quot;:1,&quot;0.12&quot;:1,&quot;0.13&quot;:2,&quot;0.14&quot;:2,&quot;0.15&quot;:2,&quot;0.16&quot;:3,&quot;0.17&quot;:3,&quot;0.18&quot;:3,&quot;0.19&quot;:4,&quot;0.20&quot;:4,&quot;0.21&quot;:4,&quot;0.22&quot;:5,&quot;0.23&quot;:5,&quot;0.24&quot;:6,&quot;0.25&quot;:6,&quot;0.26&quot;:7,&quot;0.27&quot;:7,&quot;0.28&quot;:8,&quot;0.29&quot;:8,&quot;0.30&quot;:9,&quot;0.31&quot;:10,&quot;0.32&quot;:10,&quot;0.33&quot;:11,&quot;0.34&quot;:12,&quot;0.35&quot;:12,&quot;0.36&quot;:13,&quot;0.37&quot;:14,&quot;0.38&quot;:14,&quot;0.39&quot;:15,&quot;0.40&quot;:16,&quot;0.41&quot;:17,&quot;0.42&quot;:18,&quot;0.43&quot;:18,&quot;0.44&quot;:19,&quot;0.45&quot;:20,&quot;0.46&quot;:21,&quot;0.47&quot;:22,&quot;0.48&quot;:23,&quot;0.49&quot;:24,&quot;0.50&quot;:25,&quot;0.51&quot;:26,&quot;0.52&quot;:27,&quot;0.53&quot;:28,&quot;0.54&quot;:29,&quot;0.55&quot;:30,&quot;0.56&quot;:31,&quot;0.57&quot;:32,&quot;0.58&quot;:34,&quot;0.59&quot;:35,&quot;0.60&quot;:36,&quot;0.61&quot;:37,&quot;0.62&quot;:38,&quot;0.63&quot;:40,&quot;0.64&quot;:41,&quot;0.65&quot;:42,&quot;0.66&quot;:44,&quot;0.67&quot;:45,&quot;0.68&quot;:46,&quot;0.69&quot;:48,&quot;0.70&quot;:49,&quot;0.71&quot;:50,&quot;0.72&quot;:52,&quot;0.73&quot;:53,&quot;0.74&quot;:55,&quot;0.75&quot;:56,&quot;0.76&quot;:58,&quot;0.77&quot;:59,&quot;0.78&quot;:61,&quot;0.79&quot;:62,&quot;0.80&quot;:64,&quot;0.81&quot;:66,&quot;0.82&quot;:67,&quot;0.83&quot;:69,&quot;0.84&quot;:71,&quot;0.85&quot;:72,&quot;0.86&quot;:74,&quot;0.87&quot;:76,&quot;0.88&quot;:77,&quot;0.89&quot;:79,&quot;0.90&quot;:81},&quot;gn9&quot;:138.6}'>
+<svg class="vis-svg" viewBox="0 0 320 224" role="img" aria-labelledby="synthetic-participants-vis-t synthetic-participants-vis-d">
+  <title id="synthetic-participants-vis-t">The ceiling on synthetic respondents</title>
+  <desc id="synthetic-participants-vis-d">Humans a study still needs, as a share of a human-only study, against the number of synthetic respondents per human. The share falls as the synthetic corpus grows and stops at 1 minus rho squared: at rho = 0 nothing is saved, at rho = 0.3 the saving stops at 9%, at rho = 0.71 at half. Nine synthetic respondents per human already deliver 90% of the attainable saving.</desc>
+  <line class="vis-axis" x1="44" y1="28" x2="44" y2="182"/>
+  <line class="vis-axis" x1="44" y1="182" x2="236" y2="182"/>
+  <line class="vis-tick" x1="44" y1="182" x2="44" y2="186"/><text class="vis-num" x="44" y="198" text-anchor="middle">0.1</text><line class="vis-tick" x1="92" y1="182" x2="92" y2="186"/><text class="vis-num" x="92" y="198" text-anchor="middle">1</text><line class="vis-tick" x1="140" y1="182" x2="140" y2="186"/><text class="vis-num" x="140" y="198" text-anchor="middle">10</text><line class="vis-tick" x1="188" y1="182" x2="188" y2="186"/><text class="vis-num" x="188" y="198" text-anchor="middle">100</text><line class="vis-tick" x1="236" y1="182" x2="236" y2="186"/><text class="vis-num" x="236" y="198" text-anchor="middle">1,000</text><line class="vis-tick" x1="40" y1="182" x2="44" y2="182"/><text class="vis-num" x="37" y="185.6" text-anchor="end">0%</text><line class="vis-tick" x1="40" y1="143.5" x2="44" y2="143.5"/><text class="vis-num" x="37" y="147.1" text-anchor="end">25%</text><line class="vis-tick" x1="40" y1="105" x2="44" y2="105"/><text class="vis-num" x="37" y="108.6" text-anchor="end">50%</text><line class="vis-tick" x1="40" y1="66.5" x2="44" y2="66.5"/><text class="vis-num" x="37" y="70.1" text-anchor="end">75%</text><line class="vis-tick" x1="40" y1="28" x2="44" y2="28"/><text class="vis-num" x="37" y="31.6" text-anchor="end">100%</text>
+  <text class="vis-label" x="140" y="220" text-anchor="middle">synthetic respondents per human (N/n)</text>
+  <text class="vis-label" transform="translate(10 105) rotate(-90)" text-anchor="middle">humans still needed</text>
+  <line class="vis-guide-line" x1="137.8" y1="182" x2="137.8" y2="40.5"/>
+  <path class="sp-zero" d="M44 28 L45.2 28 L46.4 28 L47.6 28 L48.8 28 L50 28 L51.2 28 L52.4 28 L53.6 28 L54.8 28 L56 28 L57.2 28 L58.4 28 L59.6 28 L60.8 28 L62 28 L63.2 28 L64.4 28 L65.6 28 L66.8 28 L68 28 L69.2 28 L70.4 28 L71.6 28 L72.8 28 L74 28 L75.2 28 L76.4 28 L77.6 28 L78.8 28 L80 28 L81.2 28 L82.4 28 L83.6 28 L84.8 28 L86 28 L87.2 28 L88.4 28 L89.6 28 L90.8 28 L92 28 L93.2 28 L94.4 28 L95.6 28 L96.8 28 L98 28 L99.2 28 L100.4 28 L101.6 28 L102.8 28 L104 28 L105.2 28 L106.4 28 L107.6 28 L108.8 28 L110 28 L111.2 28 L112.4 28 L113.6 28 L114.8 28 L116 28 L117.2 28 L118.4 28 L119.6 28 L120.8 28 L122 28 L123.2 28 L124.4 28 L125.6 28 L126.8 28 L128 28 L129.2 28 L130.4 28 L131.6 28 L132.8 28 L134 28 L135.2 28 L136.4 28 L137.6 28 L138.8 28 L140 28 L141.2 28 L142.4 28 L143.6 28 L144.8 28 L146 28 L147.2 28 L148.4 28 L149.6 28 L150.8 28 L152 28 L153.2 28 L154.4 28 L155.6 28 L156.8 28 L158 28 L159.2 28 L160.4 28 L161.6 28 L162.8 28 L164 28 L165.2 28 L166.4 28 L167.6 28 L168.8 28 L170 28 L171.2 28 L172.4 28 L173.6 28 L174.8 28 L176 28 L177.2 28 L178.4 28 L179.6 28 L180.8 28 L182 28 L183.2 28 L184.4 28 L185.6 28 L186.8 28 L188 28 L189.2 28 L190.4 28 L191.6 28 L192.8 28 L194 28 L195.2 28 L196.4 28 L197.6 28 L198.8 28 L200 28 L201.2 28 L202.4 28 L203.6 28 L204.8 28 L206 28 L207.2 28 L208.4 28 L209.6 28 L210.8 28 L212 28 L213.2 28 L214.4 28 L215.6 28 L216.8 28 L218 28 L219.2 28 L220.4 28 L221.6 28 L222.8 28 L224 28 L225.2 28 L226.4 28 L227.6 28 L228.8 28 L230 28 L231.2 28 L232.4 28 L233.6 28 L234.8 28 L236 28"/><line class="vis-line-soft" x1="44" y1="41.9" x2="236" y2="41.9"/><path class="vis-line" d="M44 29.3 L45.2 29.3 L46.4 29.4 L47.6 29.5 L48.8 29.5 L50 29.6 L51.2 29.7 L52.4 29.8 L53.6 29.9 L54.8 30 L56 30.1 L57.2 30.2 L58.4 30.3 L59.6 30.4 L60.8 30.5 L62 30.7 L63.2 30.8 L64.4 30.9 L65.6 31 L66.8 31.2 L68 31.3 L69.2 31.5 L70.4 31.6 L71.6 31.8 L72.8 31.9 L74 32.1 L75.2 32.3 L76.4 32.5 L77.6 32.6 L78.8 32.8 L80 33 L81.2 33.2 L82.4 33.4 L83.6 33.6 L84.8 33.7 L86 33.9 L87.2 34.1 L88.4 34.3 L89.6 34.5 L90.8 34.7 L92 34.9 L93.2 35.1 L94.4 35.3 L95.6 35.5 L96.8 35.7 L98 35.9 L99.2 36.1 L100.4 36.3 L101.6 36.5 L102.8 36.7 L104 36.9 L105.2 37.1 L106.4 37.2 L107.6 37.4 L108.8 37.6 L110 37.7 L111.2 37.9 L112.4 38.1 L113.6 38.2 L114.8 38.4 L116 38.5 L117.2 38.7 L118.4 38.8 L119.6 38.9 L120.8 39.1 L122 39.2 L123.2 39.3 L124.4 39.4 L125.6 39.6 L126.8 39.7 L128 39.8 L129.2 39.9 L130.4 40 L131.6 40.1 L132.8 40.1 L134 40.2 L135.2 40.3 L136.4 40.4 L137.6 40.5 L138.8 40.5 L140 40.6 L141.2 40.7 L142.4 40.7 L143.6 40.8 L144.8 40.8 L146 40.9 L147.2 40.9 L148.4 41 L149.6 41 L150.8 41.1 L152 41.1 L153.2 41.2 L154.4 41.2 L155.6 41.2 L156.8 41.3 L158 41.3 L159.2 41.3 L160.4 41.4 L161.6 41.4 L162.8 41.4 L164 41.4 L165.2 41.5 L166.4 41.5 L167.6 41.5 L168.8 41.5 L170 41.5 L171.2 41.6 L172.4 41.6 L173.6 41.6 L174.8 41.6 L176 41.6 L177.2 41.6 L178.4 41.6 L179.6 41.7 L180.8 41.7 L182 41.7 L183.2 41.7 L184.4 41.7 L185.6 41.7 L186.8 41.7 L188 41.7 L189.2 41.7 L190.4 41.7 L191.6 41.7 L192.8 41.8 L194 41.8 L195.2 41.8 L196.4 41.8 L197.6 41.8 L198.8 41.8 L200 41.8 L201.2 41.8 L202.4 41.8 L203.6 41.8 L204.8 41.8 L206 41.8 L207.2 41.8 L208.4 41.8 L209.6 41.8 L210.8 41.8 L212 41.8 L213.2 41.8 L214.4 41.8 L215.6 41.8 L216.8 41.8 L218 41.8 L219.2 41.8 L220.4 41.8 L221.6 41.8 L222.8 41.8 L224 41.8 L225.2 41.8 L226.4 41.8 L227.6 41.8 L228.8 41.8 L230 41.8 L231.2 41.8 L232.4 41.8 L233.6 41.8 L234.8 41.8 L236 41.8"/><line class="vis-line-soft" x1="44" y1="105" x2="236" y2="105"/><path class="vis-line" d="M44 35 L45.2 35.4 L46.4 35.8 L47.6 36.2 L48.8 36.6 L50 37.1 L51.2 37.5 L52.4 38 L53.6 38.5 L54.8 39.1 L56 39.6 L57.2 40.2 L58.4 40.8 L59.6 41.4 L60.8 42.1 L62 42.8 L63.2 43.5 L64.4 44.2 L65.6 44.9 L66.8 45.7 L68 46.5 L69.2 47.3 L70.4 48.2 L71.6 49 L72.8 49.9 L74 50.8 L75.2 51.8 L76.4 52.7 L77.6 53.7 L78.8 54.7 L80 55.7 L81.2 56.7 L82.4 57.8 L83.6 58.8 L84.8 59.9 L86 61 L87.2 62.1 L88.4 63.2 L89.6 64.3 L90.8 65.4 L92 66.5 L93.2 67.6 L94.4 68.7 L95.6 69.8 L96.8 70.9 L98 72 L99.2 73.1 L100.4 74.2 L101.6 75.2 L102.8 76.3 L104 77.3 L105.2 78.3 L106.4 79.3 L107.6 80.3 L108.8 81.2 L110 82.2 L111.2 83.1 L112.4 84 L113.6 84.8 L114.8 85.7 L116 86.5 L117.2 87.3 L118.4 88.1 L119.6 88.8 L120.8 89.5 L122 90.2 L123.2 90.9 L124.4 91.6 L125.6 92.2 L126.8 92.8 L128 93.4 L129.2 93.9 L130.4 94.5 L131.6 95 L132.8 95.5 L134 95.9 L135.2 96.4 L136.4 96.8 L137.6 97.2 L138.8 97.6 L140 98 L141.2 98.4 L142.4 98.7 L143.6 99 L144.8 99.3 L146 99.6 L147.2 99.9 L148.4 100.2 L149.6 100.4 L150.8 100.7 L152 100.9 L153.2 101.1 L154.4 101.3 L155.6 101.5 L156.8 101.7 L158 101.9 L159.2 102.1 L160.4 102.2 L161.6 102.4 L162.8 102.5 L164 102.6 L165.2 102.8 L166.4 102.9 L167.6 103 L168.8 103.1 L170 103.2 L171.2 103.3 L172.4 103.4 L173.6 103.5 L174.8 103.6 L176 103.7 L177.2 103.7 L178.4 103.8 L179.6 103.9 L180.8 103.9 L182 104 L183.2 104 L184.4 104.1 L185.6 104.1 L186.8 104.2 L188 104.2 L189.2 104.3 L190.4 104.3 L191.6 104.4 L192.8 104.4 L194 104.4 L195.2 104.5 L196.4 104.5 L197.6 104.5 L198.8 104.5 L200 104.6 L201.2 104.6 L202.4 104.6 L203.6 104.6 L204.8 104.7 L206 104.7 L207.2 104.7 L208.4 104.7 L209.6 104.7 L210.8 104.7 L212 104.8 L213.2 104.8 L214.4 104.8 L215.6 104.8 L216.8 104.8 L218 104.8 L219.2 104.8 L220.4 104.8 L221.6 104.8 L222.8 104.9 L224 104.9 L225.2 104.9 L226.4 104.9 L227.6 104.9 L228.8 104.9 L230 104.9 L231.2 104.9 L232.4 104.9 L233.6 104.9 L234.8 104.9 L236 104.9"/><circle class="vis-dot" cx="137.8" cy="40.5" r="3"/><circle class="vis-dot" cx="137.8" cy="97.3" r="3"/>
+  <g class="sp-hot" data-x0="44" data-x1="236" data-t="28" data-lx0="-1" data-lx1="3" data-xn9="137.8">
+    <path class="sp-hot-line" d="M44 31.5 L45.2 31.7 L46.4 31.9 L47.6 32.1 L48.8 32.3 L50 32.5 L51.2 32.8 L52.4 33 L53.6 33.3 L54.8 33.5 L56 33.8 L57.2 34.1 L58.4 34.4 L59.6 34.7 L60.8 35 L62 35.4 L63.2 35.7 L64.4 36.1 L65.6 36.5 L66.8 36.9 L68 37.2 L69.2 37.7 L70.4 38.1 L71.6 38.5 L72.8 39 L74 39.4 L75.2 39.9 L76.4 40.4 L77.6 40.9 L78.8 41.4 L80 41.9 L81.2 42.4 L82.4 42.9 L83.6 43.4 L84.8 44 L86 44.5 L87.2 45 L88.4 45.6 L89.6 46.1 L90.8 46.7 L92 47.2 L93.2 47.8 L94.4 48.4 L95.6 48.9 L96.8 49.5 L98 50 L99.2 50.5 L100.4 51.1 L101.6 51.6 L102.8 52.1 L104 52.6 L105.2 53.1 L106.4 53.6 L107.6 54.1 L108.8 54.6 L110 55.1 L111.2 55.5 L112.4 56 L113.6 56.4 L114.8 56.8 L116 57.2 L117.2 57.6 L118.4 58 L119.6 58.4 L120.8 58.8 L122 59.1 L123.2 59.5 L124.4 59.8 L125.6 60.1 L126.8 60.4 L128 60.7 L129.2 61 L130.4 61.2 L131.6 61.5 L132.8 61.7 L134 62 L135.2 62.2 L136.4 62.4 L137.6 62.6 L138.8 62.8 L140 63 L141.2 63.2 L142.4 63.4 L143.6 63.5 L144.8 63.7 L146 63.8 L147.2 64 L148.4 64.1 L149.6 64.2 L150.8 64.3 L152 64.5 L153.2 64.6 L154.4 64.7 L155.6 64.8 L156.8 64.9 L158 64.9 L159.2 65 L160.4 65.1 L161.6 65.2 L162.8 65.3 L164 65.3 L165.2 65.4 L166.4 65.4 L167.6 65.5 L168.8 65.6 L170 65.6 L171.2 65.7 L172.4 65.7 L173.6 65.7 L174.8 65.8 L176 65.8 L177.2 65.9 L178.4 65.9 L179.6 65.9 L180.8 66 L182 66 L183.2 66 L184.4 66 L185.6 66.1 L186.8 66.1 L188 66.1 L189.2 66.1 L190.4 66.2 L191.6 66.2 L192.8 66.2 L194 66.2 L195.2 66.2 L196.4 66.2 L197.6 66.3 L198.8 66.3 L200 66.3 L201.2 66.3 L202.4 66.3 L203.6 66.3 L204.8 66.3 L206 66.3 L207.2 66.3 L208.4 66.4 L209.6 66.4 L210.8 66.4 L212 66.4 L213.2 66.4 L214.4 66.4 L215.6 66.4 L216.8 66.4 L218 66.4 L219.2 66.4 L220.4 66.4 L221.6 66.4 L222.8 66.4 L224 66.4 L225.2 66.4 L226.4 66.4 L227.6 66.4 L228.8 66.4 L230 66.4 L231.2 66.5 L232.4 66.5 L233.6 66.5 L234.8 66.5 L236 66.5"/>
+    <circle class="vis-dot-hot sp-hot-dot" cx="137.8" cy="62.6" r="3"/>
+    <text class="vis-val vis-val-hot vis-halo sp-hot-r" x="51" y="162">ρ = 0.50</text>
+    <text class="vis-val vis-val-hot vis-halo sp-hot-s" x="51" y="175">saves 25%</text>
+  </g>
+  <text class="vis-label" x="242" y="14">ρ = 0</text>
+  <text class="vis-label" x="242" y="26">nothing saved</text>
+  <text class="vis-series" x="242" y="40.9">ρ = 0.3</text>
+  <text class="vis-series" x="242" y="52.9">saves 9%</text>
+  <text class="vis-series" x="242" y="104">ρ = 0.71</text>
+  <text class="vis-series" x="242" y="116">saves half</text>
+  <text class="vis-label vis-halo" x="142.8" y="163.5">N = 9n buys</text>
+  <text class="vis-label vis-halo" x="142.8" y="176.5">90% of the saving</text>
+</svg>
+<div class="vis-control">
+              <label class="vh" for="synthetic-participants-vis-rho">correlation between a human’s response and the simulator’s response (ρ)</label>
+              <input id="synthetic-participants-vis-rho" type="range" min="0" max="90" step="1" value="50">
+              <output for="synthetic-participants-vis-rho">ρ = <span class="vis-r">0.50</span></output>
+            </div>
+          </figure></li><li class="ps-card"><h3><span><i>The Matching Cost of Pay Transparency: Regulation, Firm Strategic Response and Labor Market Outcomes</i></span></h3><p class="ps-meta">Herytash, S. · Formal model complete, empirical estimation in progress.</p><figure class="vis" style="--fig:var(--ink-soft)" style="--fig:var(--ink-soft)" data-vis="matching-cost" aria-label="Posted-range compression. The model&#x27;s prediction, not data: the narrower the posted range, the lower the match probability (Propositions 1 and 2).">
+<svg class="vis-svg" viewBox="0 0 320 214" role="img" aria-labelledby="matching-cost-t matching-cost-d">
+  <title id="matching-cost-t">Posted-range compression</title>
+  <desc id="matching-cost-d">Schematic of the model's prediction, not data. On a wage axis the firm can post any range without transparency, a narrower posted range under transparency, and a narrower one still when the internal-equity shadow cost is higher: the posted minimum rises and the posted maximum falls. A match forms only if the candidate accepts and the firm is willing, so the match probability falls with the width of the range.</desc>
+  <text class="vis-label" x="16" y="14">no transparency</text>
+  <rect class="vis-box-soft" x="16" y="20" width="288" height="28"/>
+  <text class="vis-label" x="16" y="70">transparency</text>
+  <rect class="mc-out" x="16" y="76" width="62" height="28"/><rect class="mc-out" x="242" y="76" width="62" height="28"/>
+  <rect class="vis-box-accent" x="78" y="76" width="164" height="28"/>
+  <text class="vis-label" x="47" y="88" text-anchor="middle">firm</text>
+  <text class="vis-label" x="47" y="100" text-anchor="middle">unwilling</text>
+  <text class="vis-label" x="273" y="88" text-anchor="middle">candidate</text>
+  <text class="vis-label" x="273" y="100" text-anchor="middle">declines</text>
+  <text class="vis-label" x="16" y="126">higher internal-equity shadow cost</text>
+  <rect class="mc-out" x="16" y="132" width="96" height="28"/><rect class="mc-out" x="208" y="132" width="96" height="28"/>
+  <rect class="vis-box-accent" x="112" y="132" width="96" height="28"/>
+  <path class="mc-arrow" d="M81 146 L109 146 M104 142.5 L109 146 L104 149.5"/><path class="mc-arrow" d="M239 146 L211 146 M216 142.5 L211 146 L216 149.5"/>
+  <text class="vis-label mc-move" x="16" y="177">posted minimum rises</text>
+  <text class="vis-label mc-move" x="304" y="177" text-anchor="end">posted maximum falls</text>
+  <line class="vis-axis" x1="16" y1="190" x2="304" y2="190"/>
+  <line class="vis-tick" x1="16" y1="190" x2="16" y2="194"/>
+  <line class="vis-tick" x1="304" y1="190" x2="304" y2="194"/>
+  <text class="vis-num" x="16" y="206" text-anchor="middle">0</text>
+  <text class="vis-num" x="304" y="206" text-anchor="middle">ȳ</text>
+  <text class="vis-label" x="160" y="207" text-anchor="middle">wage</text>
+</svg>
+</figure></li><li class="ps-card"><h3><span class="cv-cl cv-cl-ai" title="AI behavioral simulation"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg><span class="vh">AI behavioral simulation</span></span><span><i>SimuLabs: Auditable Simulation of Behavioral Experiments with Language Models, with Prediction-Powered Rectification</i></span></h3><p class="ps-meta">Herytash, S. · Prototype.</p><figure class="vis" style="--fig:var(--cl-ai)" style="--fig:var(--cl-ai)" data-vis="simulabs" aria-label="Auditable simulation of behavioral experiments, with prediction-powered rectification.">
+<svg class="vis-svg" viewBox="0 0 320 286" role="img" aria-labelledby="simulabs-vis-t simulabs-vis-d">
+  <title id="simulabs-vis-t">SimuLabs as one deterministic pipeline</title>
+  <desc id="simulabs-vis-d">Studies run from their original survey files on synthetic respondents. A prediction-powered rectifier, given a small human sample, returns an unbiased estimate whatever the simulator does, and every reported statistic is regenerated through the one deterministic pipeline.</desc>
+  <rect class="vis-line-soft" x="6" y="6" width="308" height="274" rx="9"/>
+  <text class="vis-label" x="18" y="26">one deterministic pipeline</text>
+  <rect class="vis-box" x="18" y="40" width="170" height="30" rx="5"/><text class="vis-t" x="103" y="59.2" text-anchor="middle">original survey files</text>
+  <path class="vis-arrow" d="M103 70 V92 M99 86 L103 92 L107 86"/>
+  <rect class="vis-box" x="18" y="92" width="170" height="30" rx="5"/><text class="vis-t" x="103" y="111.2" text-anchor="middle">synthetic respondents</text>
+  <path class="vis-arrow" d="M103 122 V144 M99 138 L103 144 L107 138"/>
+  <rect class="vis-box-accent" x="18" y="144" width="170" height="46" rx="5"/><text class="vis-t vis-t-accent" x="103" y="164.0" text-anchor="middle">rectifier</text><text class="vis-label" x="103" y="179.0" text-anchor="middle">prediction-powered</text>
+  <rect class="vis-box" x="216" y="144" width="88" height="46" rx="5"/>
+  <text class="vis-t" x="260.0" y="163.5" text-anchor="middle">small human</text>
+  <text class="vis-t" x="260.0" y="178.5" text-anchor="middle">sample</text>
+  <path class="vis-arrow" d="M216 167 H188 M194 163 L188 167 L194 171"/>
+  <path class="vis-arrow" d="M103 190 V236 M99 230 L103 236 L107 230"/>
+  <text class="vis-label" x="115" y="210">unbiased, whatever</text>
+  <text class="vis-label" x="115" y="224">the simulator does</text>
+  <rect class="vis-box" x="18" y="236" width="170" height="30" rx="5"/><text class="vis-t" x="103" y="255.2" text-anchor="middle">every reported statistic</text>
+</svg>
+</figure></li></ul></section>
+  </main>
+<aside class="sheet" id="contact" role="dialog" aria-modal="true" aria-labelledby="contact-h">
+  <a class="close" href="#" aria-label="Close">&times;</a>
+  <p class="sheet-eyebrow" id="contact-h">Contact</p>
+  <div class="whoami" role="group" aria-label="I am a">
+    <button class="whobtn active" type="button" data-who="research" aria-pressed="true">Researcher</button>
+    <button class="whobtn" type="button" data-who="student" aria-pressed="false">Student</button>
+    <button class="whobtn" type="button" data-who="industry" aria-pressed="false">Industry</button>
+  </div>
+  <div class="who-panel" id="who-panel" aria-live="polite">
+    <p>I&rsquo;m always glad to hear from potential collaborators.</p>
+  </div>
+  <form class="cform" id="cform" method="POST">
+    <input type="hidden" name="_subject" id="form-subject" value="Website: research">
+    <input type="hidden" name="_next" value="/?sent=1#contact">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    <div class="frow">
+      <label class="vh" for="f-name">Your name</label>
+      <input required id="f-name" name="name" placeholder="Name" autocomplete="name">
+      <label class="vh" for="f-email">Your email address</label>
+      <input required id="f-email" type="email" name="email" placeholder="Email" autocomplete="email">
+    </div>
+    <div class="fwhen" id="f-when-wrap" hidden>
+      <label for="f-when">Preferred days and times (optional)</label>
+      <input id="f-when" name="preferred_times" placeholder="Wednesday, 4 pm" autocomplete="off" disabled>
+    </div>
+    <label class="vh" for="f-msg">Your message</label>
+    <textarea required id="f-msg" name="message" rows="4" placeholder="Your message"></textarea>
+    <div class="frow frow-end">
+      <button class="btn" type="submit">Send message</button>
+      <button class="linkbtn" type="button" id="show-email">Show email</button>
+    </div>
+    <span class="form-sent" id="form-sent" hidden>Message sent.</span>
+  </form>
+  <div class="finder" role="group" aria-labelledby="finder-h">
+    <p class="finder-h" id="finder-h">Find our connection</p>
+    <div class="frow">
+      <input id="finder-name" placeholder="Your name or institution" aria-label="Your name or institution" autocomplete="name" enterkeyhint="search">
+      <button class="btn btn-ghost" id="finder-go" type="button">Search</button>
+    </div>
+    <script id="finder-stays" type="application/json">[["Vienna University of Technology", "2016–2019"], ["Erste Group Bank", "2019"], ["University of Zurich", "2019–2021"], ["University Hospital Zurich", "2020"], ["Open Learning Space Zurich", "2020–2021"], ["UNIQA Insurance Group", "2021–2022"], ["LMU Munich", "2022–2026"], ["EM Lyon Business School", "2023"], ["University of Copenhagen", "2025"], ["WU Vienna", "since 2026"]]</script>
+    <script id="finder-places" type="application/json">[["Assistant Professor, WU Vienna", "2026–", "vienna", "WU Vienna"], ["Mathematician, UNIQA Insurance Group", "2021–2022", "vienna", "UNIQA Insurance Group"], ["Mathematician, Erste Group Bank", "2019", "vienna", "Erste Group Bank"], ["BSc in Mathematics, Vienna University of Technology", "2016–2019", "vienna", "Vienna University of Technology"], ["PhD in Management, LMU Munich", "2022–2026", "munich", "LMU Munich"], ["Research and Teaching Assistant, LMU Munich", "2022–2025", "munich", "LMU Munich"], ["Participant, Munich Summer Institute", "May 2024", "munich", ""], ["Master of Research in Business, LMU Munich", "2022–2024", "munich", "LMU Munich"], ["MSc in Mathematics, University of Zurich", "2019–2021", "zurich", "University of Zurich"], ["Tutor, Open Learning Space Zurich", "2020–2021", "zurich", "Open Learning Space Zurich"], ["Research Assistant, University Hospital Zurich", "2020", "zurich", "University Hospital Zurich"], ["Instructor, Analyzing Markets, EM Lyon Business School", "Jan 2023", "lyon", "EM Lyon Business School"], ["Participant, Strategic Management Society Annual Conference", "Oct 2026", "berlin", ""], ["Doctoral Summer School on AI, League of European Research Universities, University of Copenhagen", "Jun 2025", "copenhagen", "University of Copenhagen"], ["Participant, Dialogues on Digital, Stockholm School of Economics", "Oct 2026", "stockholm", "Stockholm School of Economics"], ["Participant, European Marketing Academy Fall Conference", "Sep 2025", "istanbul", ""], ["Visiting Scholar, Scandinavian Consortium for Organizational Research, Stanford University", "Jan–Mar 2027", "stanford", "Stanford University"], ["Presenter, Open and User Innovation Conference, Harvard Business School", "Jul 2026", "boston", "Harvard Business School"], ["Academy of Management Annual Meeting", "Jul–Aug 2026", "philadelphia", ""], ["Participant, Quantitative Marketing and Economics Conference, University of Chicago", "Aug 2025", "chicago", "University of Chicago"], ["Participant, Inaugural New Data Conference, Chicago Booth School of Business", "May 2025", "chicago", "Chicago Booth School of Business"], ["Presenter, Academy of Marketing Science Annual Conference", "May 2025", "montreal", ""], ["Presenter, American Marketing Association Winter Academic Conference", "Feb 2025", "phoenix", ""], ["Presenter, Global Marketing Conference", "Jul 2025", "hongkong", ""]]</script>
+    <script id="finder-colleague" type="application/json">{"wu": {"one": "We are colleagues at WU Vienna.", "edge": "Colleagues at WU Vienna"}, "lmu-som": {"one": "We were colleagues at LMU Munich.", "edge": "Colleagues at LMU Munich"}}</script>
+    <div class="finder-out" id="finder-out" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+  <p class="sheet-legal"><a href="/legal/">Legal notice &amp; privacy</a></p>
+</aside>
+
+<footer class="foot-legal"><a href="/legal/">Legal notice &amp; privacy</a></footer>
+
+  <script src="/assets/site.js?v=48281a17" defer></script>
+  <script>
+
+
+
+
+
+
+
+(() => {
+  document.querySelectorAll('.vis[data-vis="synthetic-participants"]').forEach((fig) => {
+  const t = JSON.parse(fig.dataset.table);
+  const g = fig.querySelector('.sp-hot');
+  const input = fig.querySelector('input[type=range]');
+  const out = fig.querySelector('output .vis-r');
+  const line = g.querySelector('.sp-hot-line'), dot = g.querySelector('.sp-hot-dot'), tr = g.querySelector('.sp-hot-r'), ts = g.querySelector('.sp-hot-s');
+  const x0 = parseFloat(g.dataset.x0), x1 = parseFloat(g.dataset.x1), top = parseFloat(g.dataset.t);
+  const n = t.g.length - 1;
+  const xs = t.g.map((_, k) => (x0 + k / n * (x1 - x0)).toFixed(1));
+  const draw = () => {
+    const r = Math.round(parseFloat(input.value)) / 100, r2 = r * r, key = r.toFixed(2);
+    line.setAttribute('d', 'M' + t.g.map((v, k) => xs[k] + ' ' + (top + r2 * v).toFixed(1)).join(' L'));
+    dot.setAttribute('cy', (top + r2 * t.gn9).toFixed(1));
+    tr.textContent = 'ρ = ' + key;
+    ts.textContent = 'saves ' + t.pct[key] + '%';
+    out.textContent = key;
+  };
+  input.addEventListener('input', draw);
+  draw();
+  });
+})();
+
+
+  </script>
+</body>
+</html>
