@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sounding like AI Costs Ratings, Even for Strong Papers · Stefan Herytash</title>
+<meta name="description" content="Sounding like AI Costs Ratings, Even for Strong Papers. Herytash, S. · Under review at Research Policy (Financial Times 50; Academic Journal Guide 4*) as a Research Note.">
+<meta name="author" content="Stefan Herytash">
+<meta property="og:title" content="Sounding like AI Costs Ratings, Even for Strong Papers · Stefan Herytash">
+<meta property="og:description" content="Sounding like AI Costs Ratings, Even for Strong Papers. Herytash, S. · Under review at Research Policy (Financial Times 50; Academic Journal Guide 4*) as a Research Note.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sherytash.github.io/papers/ai-sounding/">
+<meta property="og:image" content="https://sherytash.github.io/assets/og-card.png">
+<link rel="canonical" href="https://sherytash.github.io/papers/ai-sounding/">
+<link rel="icon" href="/assets/favicon.svg?v=0bdbaa73" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.png?v=fde2f8b7" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=ede72b88">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#D8E4E2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1D1C18" media="(prefers-color-scheme: dark)">
+<script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
+<link rel="stylesheet" href="/assets/fonts.css?v=aea717b2">
+<link rel="stylesheet" href="/assets/site.css?v=61d45083">
+<link rel="stylesheet" href="/assets/vis.css?v=b8df0bf5">
+<style>
+  
+  main{ max-width:68rem; margin:0 auto; padding:6.2rem var(--gutter) 3rem; }
+  .pp-eye{ margin:0; display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem 0.8rem;
+    font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
+  .pp-eye .cv-cl{ color:var(--cl, var(--ink-soft)); letter-spacing:0.1em; }
+  .pp-eye .cv-cl svg{ width:0.62rem; height:0.62rem; }
+  .pp-year{ color:var(--accent); }
+  h1{ margin:0.7rem 0 0.6rem; font-family:var(--serif); font-weight:400; font-size:clamp(1.6rem, 1.2rem + 1.8vw, 2.3rem);
+    line-height:1.18; letter-spacing:-0.01em; max-width:30ch; }
+  h1 i{ font-style:normal; }
+  .pp-meta{ margin:0; max-width:40rem; font-size:0.95rem; line-height:1.55; color:var(--ink-soft); }
+  .pp-meta .cv-g{ color:var(--accent); font-style:italic; font-family:var(--serif); font-size:1.04em; }
+  .pp-meta a{ color:inherit; text-decoration-color:var(--line-strong); text-underline-offset:0.2em; }
+  .pp-meta a:hover{ color:var(--accent); }
+  .pp-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem 1.4rem; margin:1.1rem 0 0; }
+  .pp-actions .cv-cite{ margin:0; font-size:0.78rem; }
+  .pp-actions .cv-pop{ flex-basis:100%; }
+  .pp-body{ margin-top:1.8rem; padding-top:1.6rem; border-top:1px solid var(--line); display:grid; gap:1.6rem 2.5rem; }
+  .pp-body .vis{ max-width:30rem; }
+  .pp-abs{ max-width:40rem; }
+  .pp-abs h2{ margin:0 0 0.8rem; font-family:var(--mono); font-weight:400; font-size:0.6875rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--ink-soft); }
+  .pp-abs p{ margin:0 0 1rem; font-size:1.02rem; line-height:1.65; }
+  .pp-abs p:last-child{ margin-bottom:0; }
+  .pp-abs b{ font-weight:600; }
+  .pp-nav{ margin:2.2rem 0 0; padding-top:1rem; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:0.5rem 1.6rem; }
+  .pp-nav a{ display:inline-flex; align-items:center; min-height:44px; font-size:0.86rem; color:var(--ink-soft);
+    text-decoration:none; }
+  .pp-nav a:hover{ color:var(--accent); text-decoration:underline; text-underline-offset:0.25em; }
+  @media (min-width:1000px){
+    .pp-body{ grid-template-columns:minmax(0, 40rem) minmax(18rem, 30rem); align-items:start; }
+    .pp-body .vis{ grid-column:2; grid-row:1; position:sticky; top:5.2rem; }
+    .pp-abs{ grid-column:1; grid-row:1; }
+    .pp-body.no-abs{ grid-template-columns:minmax(0, 30rem); }
+    .pp-body.no-abs .vis{ grid-column:1; position:static; }
+  }
+  
+  @media (min-width:1360px){
+    main{ max-width:calc(78rem + 2 * var(--gutter)); }
+    .pp-body{ grid-template-columns:minmax(0, 40rem) minmax(18rem, 34rem); justify-content:space-between; }
+    .pp-body .vis{ max-width:34rem; width:100%; }
+    .pp-body.no-abs{ grid-template-columns:minmax(0, 34rem); }
+  }
+  @media print{ .pp-actions, .pp-nav{ display:none; } }
+
+</style>
+<meta property="og:image:alt" content="Sounding like AI Costs Ratings, Even for Strong Papers">
+<meta name="twitter:image" content="https://sherytash.github.io/assets/og-card.png">
+<meta name="twitter:image:alt" content="Sounding like AI Costs Ratings, Even for Strong Papers">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://sherytash.github.io/#person",
+      "name": "Stefan Herytash",
+      "alternateName": "Dr. Stefan Herytash",
+      "jobTitle": "Assistant Professor",
+      "url": "https://sherytash.github.io/",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://sherytash.github.io/assets/portrait-web.jpg"
+      },
+      "description": "Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the way knowledge is produced and judged: when language models can simulate how people behave, and how work should be certified after AI, from peer review to theses.",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Institute for Strategy, Technology and Organization",
+        "parentOrganization": {
+          "@type": "CollegeOrUniversity",
+          "name": "WU Vienna",
+          "alternateName": "Vienna University of Economics and Business",
+          "url": "https://www.wu.ac.at/"
+        }
+      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "LMU Munich",
+          "url": "https://www.lmu.de/"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Zurich",
+          "url": "https://www.uzh.ch/"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "TU Wien",
+          "url": "https://www.tuwien.at/"
+        }
+      ],
+      "knowsAbout": [
+        "Post-AI certification",
+        "AI behavioral simulation",
+        "AI and how knowledge is produced and judged",
+        "Large language models as simulated research participants",
+        "Synthetic respondents in behavioral experiments",
+        "Science of science",
+        "Journal certification and peer review",
+        "Consumer behavior",
+        "Behavioral experiments in marketing",
+        "Marketing",
+        "Strategy",
+        "Innovation",
+        "Pay transparency and labor markets",
+        "Consumer wearables and health management"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/stefan-herytash-606437253/",
+        "https://www.wu.ac.at/en/ifsto/institut/team/dr-stefan-herytash",
+        "https://orcid.org/0000-0002-6642-4397"
+      ],
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "ORCID",
+        "value": "https://orcid.org/0000-0002-6642-4397"
+      }
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Sounding like AI Costs Ratings, Even for Strong Papers",
+      "name": "Sounding like AI Costs Ratings, Even for Strong Papers",
+      "url": "https://sherytash.github.io/papers/ai-sounding/",
+      "inLanguage": "en",
+      "author": {
+        "@id": "https://sherytash.github.io/#person"
+      },
+      "abstract": "Journals and conferences now treat text that reads as written by large language models (LLMs) as a sign of weak work. We test this premise with all 50,243 submissions to the International Conference on Learning Representations (ICLR) from 2021 to 2026 and their reviews. Before LLMs were available, papers that used the vocabulary typical of LLM text were rated like any other; from 2024 on, the same vocabulary costs ratings, with a sharp break on two measures available for every year and a penalty on a commercial detector in 2026. The penalty reaches papers that another reviewer rates highly, and most of it remains within the same authors. LLM-modified text is widespread at every rating level, in about 10% to 42% of abstracts from 2024 to 2026. On the same paper, confident reviewers mark AI-sounding text down more than their co-reviewers do. In decisions, the rating gap is worth about 12 percentage points of a fully AI-sounding paper's chance of acceptance. At equal ratings in 2021 to 2025 the committee adds no penalty, but authors withdraw such papers more often. Strong and weak work alike is now written with AI, and reviewers penalise its style even where other reviewers judge the work strong.",
+      "datePublished": "2026"
+    }
+  ]
+}
+</script>
+<meta name="twitter:title" content="Sounding like AI Costs Ratings, Even for Strong Papers · Stefan Herytash">
+<meta name="twitter:description" content="Sounding like AI Costs Ratings, Even for Strong Papers. Herytash, S. · Under review at Research Policy (Financial Times 50; Academic Journal Guide 4*) as a Research Note.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:site_name" content="Stefan Herytash">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="page-doc page-paper">
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="name" href="/">Stefan Herytash</a>
+  <nav class="tabs" aria-label="Views">
+    <a href="/" data-tab="map">Map</a>
+    <a href="/papers/" data-tab="research" aria-current="page">Research</a>
+    <a href="/cv/" data-tab="cv">CV</a>
+    <a href="/studio/" data-tab="studio">Studio</a>
+    <a class="tab-contact" href="#contact" aria-label="Contact"><svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true"><rect x="1" y="1.5" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 3l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span class="lbl">Contact</span></a>
+    <button class="theme" type="button" aria-label="Switch to dark mode"><svg class="t-moon" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><path d="M15.6 12.4A6.6 6.6 0 0 1 7.6 4.4a6.6 6.6 0 1 0 8 8z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><svg class="t-sun" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 1.8v2.1M10 16.1v2.1M1.8 10h2.1M16.1 10h2.1M4.2 4.2l1.5 1.5M14.3 14.3l1.5 1.5M4.2 15.8l1.5-1.5M14.3 5.7l1.5-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+  </nav>
+</header>
+
+  <main id="main">
+    <p class="pp-eye"><span class="cv-cl cv-cl-sci"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg>Post-AI certification</span><span class="pp-year">2026</span></p>
+    <h1><i>Sounding like AI Costs Ratings, Even for Strong Papers</i></h1>
+    <p class="pp-meta">Herytash, S. · Under review at Research Policy (Financial Times 50; Academic Journal Guide 4*) as a Research Note.</p>
+    <div class="pp-actions"><a class="btn" href="#contact" data-ask="Sounding like AI Costs Ratings, Even for Strong Papers">Ask for the manuscript</a><button class="cv-cite" type="button" hidden aria-expanded="false" data-bib="@unpublished{herytash2026sounding,
+  author = {Herytash, S.},
+  title = {{Sounding like AI Costs Ratings, Even for Strong Papers}},
+  year = {2026},
+  note = {Working paper}
+}" data-apa="Herytash, S. (2026). Sounding like AI Costs Ratings, Even for Strong Papers [Working paper]." data-it="Sounding like AI Costs Ratings, Even for Strong Papers" aria-label="Cite"><span class="cv-cite-w">Cite</span></button><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=preprint&amp;rft.atitle=Sounding%20like%20AI%20Costs%20Ratings%2C%20Even%20for%20Strong%20Papers&amp;rft.date=2026&amp;rft.au=Herytash%2C%20S."></span></div>
+    <div class="pp-body">
+<figure class="vis" style="--fig:var(--cl-sci)" style="--fig:var(--cl-sci)" data-vis="ai-sounding" aria-label="The AI-sounding text penalty among strong papers. Slope per SD of the LLM-style vocabulary score, papers rated 8 or more by a held-out reviewer; 95% intervals.">
+<svg class="vis-svg" viewBox="0 0 320 202" role="img" aria-labelledby="ai-sounding-vis-t ai-sounding-vis-d">
+  <title id="ai-sounding-vis-t">The AI-sounding text penalty among strong papers, ICLR 2021 to 2026</title>
+  <desc id="ai-sounding-vis-d">Slope of the other reviewers' mean rating, in standard deviations, per standard deviation of the LLM-style vocabulary score, for papers a held-out reviewer rated 8 or more: 2021 +0.112, 2022 +0.078, 2023 +0.017, 2024 -0.071, 2025 -0.053, 2026 -0.062. Close to zero before ChatGPT, negative from 2024 on.</desc>
+  <rect class="vis-area-soft" x="44" y="14" width="132" height="162"/><text class="vis-label" x="172" y="170" text-anchor="end">before ChatGPT</text><line class="vis-tick" x1="40" y1="165.9" x2="44" y2="165.9"/><text class="vis-num" x="37" y="169.9" text-anchor="end">−0.1</text><line class="vis-axis" x1="44" y1="115.2" x2="308" y2="115.2"/><text class="vis-num" x="37" y="119.2" text-anchor="end">0</text><line class="vis-tick" x1="40" y1="64.6" x2="44" y2="64.6"/><text class="vis-num" x="37" y="68.6" text-anchor="end">+0.1</text><line class="vis-axis" x1="44" y1="14" x2="44" y2="176"/><line class="vis-line-soft" x1="66" y1="14" x2="66" y2="173.7"/><path class="vis-arrow" d="M63 19 L66 14 L69 19"/><circle class="vis-dot-soft" cx="66" cy="58.6" r="3.6"/><text class="vis-num" x="66" y="192" text-anchor="middle">2021</text><line class="vis-line-soft" x1="110" y1="25.2" x2="110" y2="126.4"/><circle class="vis-dot-soft" cx="110" cy="75.8" r="3.6"/><text class="vis-num" x="110" y="192" text-anchor="middle">2022</text><line class="vis-line-soft" x1="154" y1="64" x2="154" y2="149.3"/><circle class="vis-dot-soft" cx="154" cy="106.6" r="3.6"/><text class="vis-num" x="154" y="192" text-anchor="middle">2023</text><line class="vis-line" x1="198" y1="133.3" x2="198" y2="169.1"/><circle class="vis-dot" cx="198" cy="151.2" r="3.6"/><text class="vis-num" x="198" y="192" text-anchor="middle">2024</text><line class="vis-line" x1="242" y1="130.2" x2="242" y2="154"/><circle class="vis-dot" cx="242" cy="142.1" r="3.6"/><text class="vis-num" x="242" y="192" text-anchor="middle">2025</text><line class="vis-line" x1="286" y1="134.7" x2="286" y2="158.5"/><circle class="vis-dot" cx="286" cy="146.6" r="3.6"/><text class="vis-num" x="286" y="192" text-anchor="middle">2026</text><text class="vis-label" x="242" y="107.2" text-anchor="middle">penalty from 2024</text>
+</svg>
+</figure>
+<section class="pp-abs" aria-labelledby="abs-h"><h2 id="abs-h">Abstract</h2><p>Journals and conferences now treat text that reads as written by large language models (LLMs) as a sign of weak work. We test this premise with all 50,243 submissions to the International Conference on Learning Representations (ICLR) from 2021 to 2026 and their reviews. Before LLMs were available, papers that used the vocabulary typical of LLM text were rated like any other; from 2024 on, the same vocabulary costs ratings, with a sharp break on two measures available for every year and a penalty on a commercial detector in 2026. The penalty reaches papers that another reviewer rates highly, and most of it remains within the same authors. LLM-modified text is widespread at every rating level, in about 10% to 42% of abstracts from 2024 to 2026. On the same paper, confident reviewers mark AI-sounding text down more than their co-reviewers do. In decisions, the rating gap is worth about 12 percentage points of a fully AI-sounding paper's chance of acceptance. At equal ratings in 2021 to 2025 the committee adds no penalty, but authors withdraw such papers more often. Strong and weak work alike is now written with AI, and reviewers penalise its style even where other reviewers judge the work strong.</p></section>
+    </div>
+    <nav class="pp-nav" aria-label="More papers">
+      <a href="/cv/#paper-ai-sounding">This paper on the CV</a>
+      <a href="/papers/">All papers</a>
+    </nav>
+  </main>
+<aside class="sheet" id="contact" role="dialog" aria-modal="true" aria-labelledby="contact-h">
+  <a class="close" href="#" aria-label="Close">&times;</a>
+  <p class="sheet-eyebrow" id="contact-h">Contact</p>
+  <div class="whoami" role="group" aria-label="I am a">
+    <button class="whobtn active" type="button" data-who="research" aria-pressed="true">Researcher</button>
+    <button class="whobtn" type="button" data-who="student" aria-pressed="false">Student</button>
+    <button class="whobtn" type="button" data-who="industry" aria-pressed="false">Industry</button>
+  </div>
+  <div class="who-panel" id="who-panel" aria-live="polite">
+    <p>I&rsquo;m always glad to hear from potential collaborators.</p>
+  </div>
+  <form class="cform" id="cform" method="POST">
+    <input type="hidden" name="_subject" id="form-subject" value="Website: research">
+    <input type="hidden" name="_next" value="/?sent=1#contact">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    <div class="frow">
+      <label class="vh" for="f-name">Your name</label>
+      <input required id="f-name" name="name" placeholder="Name" autocomplete="name">
+      <label class="vh" for="f-email">Your email address</label>
+      <input required id="f-email" type="email" name="email" placeholder="Email" autocomplete="email">
+    </div>
+    <div class="fwhen" id="f-when-wrap" hidden>
+      <label for="f-when">Preferred days and times (optional)</label>
+      <input id="f-when" name="preferred_times" placeholder="Wednesday, 4 pm" autocomplete="off" disabled>
+    </div>
+    <label class="vh" for="f-msg">Your message</label>
+    <textarea required id="f-msg" name="message" rows="4" placeholder="Your message"></textarea>
+    <div class="frow frow-end">
+      <button class="btn" type="submit">Send message</button>
+      <button class="linkbtn" type="button" id="show-email">Show email</button>
+    </div>
+    <span class="form-sent" id="form-sent" hidden>Message sent.</span>
+  </form>
+  <div class="finder" role="group" aria-labelledby="finder-h">
+    <p class="finder-h" id="finder-h">Find our connection</p>
+    <div class="frow">
+      <input id="finder-name" placeholder="Your name or institution" aria-label="Your name or institution" autocomplete="name" enterkeyhint="search">
+      <button class="btn btn-ghost" id="finder-go" type="button">Search</button>
+    </div>
+    <script id="finder-stays" type="application/json">[["Vienna University of Technology", "2016–2019"], ["Erste Group Bank", "2019"], ["University of Zurich", "2019–2021"], ["University Hospital Zurich", "2020"], ["Open Learning Space Zurich", "2020–2021"], ["UNIQA Insurance Group", "2021–2022"], ["LMU Munich", "2022–2026"], ["EM Lyon Business School", "2023"], ["University of Copenhagen", "2025"], ["WU Vienna", "since 2026"]]</script>
+    <script id="finder-places" type="application/json">[["Assistant Professor, WU Vienna", "2026–", "vienna", "WU Vienna"], ["Mathematician, UNIQA Insurance Group", "2021–2022", "vienna", "UNIQA Insurance Group"], ["Mathematician, Erste Group Bank", "2019", "vienna", "Erste Group Bank"], ["BSc in Mathematics, Vienna University of Technology", "2016–2019", "vienna", "Vienna University of Technology"], ["PhD in Management, LMU Munich", "2022–2026", "munich", "LMU Munich"], ["Research and Teaching Assistant, LMU Munich", "2022–2025", "munich", "LMU Munich"], ["Participant, Munich Summer Institute", "May 2024", "munich", ""], ["Master of Research in Business, LMU Munich", "2022–2024", "munich", "LMU Munich"], ["MSc in Mathematics, University of Zurich", "2019–2021", "zurich", "University of Zurich"], ["Tutor, Open Learning Space Zurich", "2020–2021", "zurich", "Open Learning Space Zurich"], ["Research Assistant, University Hospital Zurich", "2020", "zurich", "University Hospital Zurich"], ["Instructor, Analyzing Markets, EM Lyon Business School", "Jan 2023", "lyon", "EM Lyon Business School"], ["Participant, Strategic Management Society Annual Conference", "Oct 2026", "berlin", ""], ["Doctoral Summer School on AI, League of European Research Universities, University of Copenhagen", "Jun 2025", "copenhagen", "University of Copenhagen"], ["Participant, Dialogues on Digital, Stockholm School of Economics", "Oct 2026", "stockholm", "Stockholm School of Economics"], ["Participant, European Marketing Academy Fall Conference", "Sep 2025", "istanbul", ""], ["Visiting Scholar, Scandinavian Consortium for Organizational Research, Stanford University", "Jan–Mar 2027", "stanford", "Stanford University"], ["Presenter, Open and User Innovation Conference, Harvard Business School", "Jul 2026", "boston", "Harvard Business School"], ["Academy of Management Annual Meeting", "Jul–Aug 2026", "philadelphia", ""], ["Participant, Quantitative Marketing and Economics Conference, University of Chicago", "Aug 2025", "chicago", "University of Chicago"], ["Participant, Inaugural New Data Conference, Chicago Booth School of Business", "May 2025", "chicago", "Chicago Booth School of Business"], ["Presenter, Academy of Marketing Science Annual Conference", "May 2025", "montreal", ""], ["Presenter, American Marketing Association Winter Academic Conference", "Feb 2025", "phoenix", ""], ["Presenter, Global Marketing Conference", "Jul 2025", "hongkong", ""]]</script>
+    <script id="finder-colleague" type="application/json">{"wu": {"one": "We are colleagues at WU Vienna.", "edge": "Colleagues at WU Vienna"}, "lmu-som": {"one": "We were colleagues at LMU Munich.", "edge": "Colleagues at LMU Munich"}}</script>
+    <div class="finder-out" id="finder-out" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+  <p class="sheet-legal"><a href="/legal/">Legal notice &amp; privacy</a></p>
+</aside>
+
+<footer class="foot-legal"><a href="/legal/">Legal notice &amp; privacy</a></footer>
+
+  <script src="/assets/site.js?v=48281a17" defer></script>
+  <script src="/assets/cite.js?v=3026ed91" defer></script>
+  <script>
+
+  </script>
+</body>
+</html>

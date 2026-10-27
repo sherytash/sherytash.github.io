@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-kDRMMCDfz/70SGlvIJtr6KFAGcq8jCdnq0W0bHHRbDw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-pVZpmJJDROPiC+PgNTE8qAR01KcoNGJpz3xiPoYWKQU='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Research · Stefan Herytash</title>
 <meta name="description" content="The papers of Stefan Herytash, WU Vienna, with their figures and abstracts.">
@@ -70,6 +70,7 @@
 .vis[data-vis="ai-simulations"] .fc-fill{ fill:var(--vis-teal); }
 .vis[data-vis="ai-simulations"] .fc-fill-band{ fill:color-mix(in srgb, var(--vis-teal) 35%, var(--paper)); }
 .vis[data-vis="ai-simulations"] .fc-fill-soft{ fill:var(--vis-ink); }
+
 
 
 .vis[data-vis="fax-machine"] .fm-verdict{ stroke:var(--vis-ink); stroke-width:4; }
@@ -200,6 +201,12 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
   <text class="vis-series fm-l4" x="220.6" y="137">quality 1.46</text>
   <line class="fm-lead" x1="257.7" y1="142" x2="257.7" y2="189.9"/>
   <text class="vis-label" x="180" y="226" text-anchor="middle">panel estimate Q̄</text>
+</svg>
+</figure></li><li class="ps-card"><h3><span class="cv-cl cv-cl-sci" title="Post-AI certification"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg><span class="vh">Post-AI certification</span></span><a href="/papers/ai-sounding/"><i>Sounding like AI Costs Ratings, Even for Strong Papers</i></a></h3><p class="ps-meta">Herytash, S. · Under review at Research Policy (Financial Times 50; Academic Journal Guide 4*) as a Research Note.</p><figure class="vis" style="--fig:var(--cl-sci)" style="--fig:var(--cl-sci)" data-vis="ai-sounding" aria-label="The AI-sounding text penalty among strong papers. Slope per SD of the LLM-style vocabulary score, papers rated 8 or more by a held-out reviewer; 95% intervals.">
+<svg class="vis-svg" viewBox="0 0 320 202" role="img" aria-labelledby="ai-sounding-vis-t ai-sounding-vis-d">
+  <title id="ai-sounding-vis-t">The AI-sounding text penalty among strong papers, ICLR 2021 to 2026</title>
+  <desc id="ai-sounding-vis-d">Slope of the other reviewers' mean rating, in standard deviations, per standard deviation of the LLM-style vocabulary score, for papers a held-out reviewer rated 8 or more: 2021 +0.112, 2022 +0.078, 2023 +0.017, 2024 -0.071, 2025 -0.053, 2026 -0.062. Close to zero before ChatGPT, negative from 2024 on.</desc>
+  <rect class="vis-area-soft" x="44" y="14" width="132" height="162"/><text class="vis-label" x="172" y="170" text-anchor="end">before ChatGPT</text><line class="vis-tick" x1="40" y1="165.9" x2="44" y2="165.9"/><text class="vis-num" x="37" y="169.9" text-anchor="end">−0.1</text><line class="vis-axis" x1="44" y1="115.2" x2="308" y2="115.2"/><text class="vis-num" x="37" y="119.2" text-anchor="end">0</text><line class="vis-tick" x1="40" y1="64.6" x2="44" y2="64.6"/><text class="vis-num" x="37" y="68.6" text-anchor="end">+0.1</text><line class="vis-axis" x1="44" y1="14" x2="44" y2="176"/><line class="vis-line-soft" x1="66" y1="14" x2="66" y2="173.7"/><path class="vis-arrow" d="M63 19 L66 14 L69 19"/><circle class="vis-dot-soft" cx="66" cy="58.6" r="3.6"/><text class="vis-num" x="66" y="192" text-anchor="middle">2021</text><line class="vis-line-soft" x1="110" y1="25.2" x2="110" y2="126.4"/><circle class="vis-dot-soft" cx="110" cy="75.8" r="3.6"/><text class="vis-num" x="110" y="192" text-anchor="middle">2022</text><line class="vis-line-soft" x1="154" y1="64" x2="154" y2="149.3"/><circle class="vis-dot-soft" cx="154" cy="106.6" r="3.6"/><text class="vis-num" x="154" y="192" text-anchor="middle">2023</text><line class="vis-line" x1="198" y1="133.3" x2="198" y2="169.1"/><circle class="vis-dot" cx="198" cy="151.2" r="3.6"/><text class="vis-num" x="198" y="192" text-anchor="middle">2024</text><line class="vis-line" x1="242" y1="130.2" x2="242" y2="154"/><circle class="vis-dot" cx="242" cy="142.1" r="3.6"/><text class="vis-num" x="242" y="192" text-anchor="middle">2025</text><line class="vis-line" x1="286" y1="134.7" x2="286" y2="158.5"/><circle class="vis-dot" cx="286" cy="146.6" r="3.6"/><text class="vis-num" x="286" y="192" text-anchor="middle">2026</text><text class="vis-label" x="242" y="107.2" text-anchor="middle">penalty from 2024</text>
 </svg>
 </figure></li><li class="ps-card"><h3><span class="cv-cl cv-cl-ai" title="AI behavioral simulation"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg><span class="vh">AI behavioral simulation</span></span><a href="/papers/psych-201/"><i>Post-training Makes Large Language Models Less Human-like</i></a></h3><p class="ps-meta">Binz, M., Akata, E., … Herytash, S., … Schulz, E. (79 authors) · arXiv:2605.07632. Introduces the Psych-201 dataset.</p><figure class="vis" style="--fig:var(--cl-ai)" style="--fig:var(--cl-ai)" data-vis="psych-201" aria-label="Experiment embeddings. Experiments in Psych-201 (filled) cover more of the space than Psych-101 (open); first two principal components of the experiment embeddings, from the paper. Psych-201: 208,021 participants, 25,906,599 behavioural responses.">
 <svg class="vis-svg" viewBox="0 0 320 176" role="img" aria-labelledby="psych-201-vis-t psych-201-vis-d">
@@ -352,6 +359,7 @@ html:not(.js) .vis[data-vis="synthetic-participants"] .sp-hot{ display:none; }
 
   <script src="/assets/site.js?v=48281a17" defer></script>
   <script>
+
 
 
 
