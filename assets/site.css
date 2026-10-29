@@ -195,9 +195,6 @@ border-radius:999px; padding:0 0.95rem; min-height:40px; cursor:pointer;
 .whobtn.active{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
 @media (max-width:720px){ .whobtn{ min-height:44px; } }      
 html:not(.js) .whoami{ display:none; }
-.who-panel{ font-family:var(--serif); font-size:1.08rem; line-height:1.5; }
-.who-panel p{ margin:0 0 0.8rem; }
-.who-panel .ask-row{ display:flex; flex-wrap:wrap; gap:0.5rem; }
 .cform{ display:flex; flex-direction:column; gap:0.6rem; margin-top:1.1rem; }
 html:not(.js) .cmail{ display:none; }
 .frow{ display:flex; gap:0.6rem; align-items:center; }

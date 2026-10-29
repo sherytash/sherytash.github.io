@@ -5,22 +5,11 @@
 const E = 'dGEuY2EudXdAaHNhdHlyZWgubmFmZXRz';
 const addr = () => atob(E).split('').reverse().join('');
 
-const btn = document.getElementById('show-email');
-const reveal = () => {
-const b = document.getElementById('show-email');
-if (!b) return;
-const a = document.createElement('a');
-a.className = 'mailto';
-a.textContent = addr();
-a.href = 'mailto:' + addr();
-b.replaceWith(a);
-};
-if (btn) btn.addEventListener('click', reveal);
 window.mailSubject = 'Website: research';
 window.mailGreet = 'Dear Stefan,';
 window.writeMail = (subject, start, greet) => {
 location.href = 'mailto:' + addr() + '?subject=' + encodeURIComponent(subject || window.mailSubject) +
-'&body=' + encodeURIComponent((greet || window.mailGreet) + '\n\n' + (start || ''));
+'&body=' + encodeURIComponent((greet || window.mailGreet) + '\n\n' + (start || '') + '\n\nBest regards,\n');
 };
 const wm = document.getElementById('write-mail');
 if (wm) wm.addEventListener('click', e => { e.preventDefault(); window.writeMail(); });
@@ -91,32 +80,18 @@ if (canInert && isOpen() && (e.target === document.body || e.target === document
 })();
 
 (() => {
-const panel = document.getElementById('who-panel');
-if (!panel) return;
+if (!document.querySelector('.whobtn')) return;
 const T = {
-research: { s: 'Website: research', g: 'Dear Stefan,',
-p: '<p>I&rsquo;m always glad to hear from potential collaborators.</p>',
-t: 'Name and institution: \nWhat it is about (collaboration, seminar, review, a paper of yours): \n' +
-'Details: \nTimeline: \n' },
-student: { s: 'Website: student', g: 'Dear Stefan Herytash,',
-p: '<p>If you want to write your thesis with me, get in touch.</p>',
-t: 'Name: \nProgramme and semester: \nWhat it is about (thesis, course, reference letter, other): \n' +
-'My question or topic: \nWhy this topic (for a thesis): \nTimeline or deadline: \n' +
-'Preferred days and times for a meeting: Wednesday, 4 pm\n\n' +
-'(For a thesis or a reference letter: CV and transcript attached)\n' },
-industry: { s: 'Website: industry', g: 'Dear Stefan,',
-p: '<p>I take on selected consulting projects and talks.</p>',
-t: 'Name and company: \nWhat it is about (project, talk): \nThe question you want answered: \nTimeline: \n' },
+research: { s: 'Website: research', g: 'Dear Stefan,' },
+student: { s: 'Website: student', g: 'Dear Stefan Herytash,' },
+industry: { s: 'Website: industry', g: 'Dear Stefan,' },
 };
 const pick = who => {
 document.querySelectorAll('.whobtn').forEach(x => {
 x.classList.toggle('active', x.dataset.who === who);
 x.setAttribute('aria-pressed', x.dataset.who === who ? 'true' : 'false');
 });
-const r = T[who];
-panel.innerHTML = r.p + '<p class="ask-row"><a class="btn btn-ghost" id="use-template" href="#contact">Use the template</a></p>';
-window.mailSubject = r.s; window.mailGreet = r.g;
-document.getElementById('use-template').addEventListener('click', e => { e.preventDefault(); window.writeMail(r.s, r.t); });
+window.mailSubject = T[who].s; window.mailGreet = T[who].g;
 };
 window.pickWho = who => { if (T[who]) pick(who); };
 document.querySelectorAll('.whobtn').forEach(b => b.addEventListener('click', () => pick(b.dataset.who)));
