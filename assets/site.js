@@ -16,30 +16,14 @@
     b.replaceWith(a);
   };
   if (btn) btn.addEventListener('click', reveal);
-  const form = document.getElementById('cform');
-  if (form) {
-    form.addEventListener('submit', () => {
-      form.action = 'https://formsubmit.co/' + addr();
-      const next = form.querySelector('input[name="_next"]');
-      if (next) next.value = location.origin + location.pathname + '?sent=1#contact';
-    });
-  }
-  window.wireThesis = () => {
-    const tm = document.getElementById('thesis-mail');
-    if (tm) {
-      tm.addEventListener('click', () => {
-        tm.href = 'mailto:' + addr() +
-          '?subject=' + encodeURIComponent('Thesis supervision inquiry') +
-          '&body=' + encodeURIComponent(
-            'Dear Professor Herytash,\n\n' +
-            'Programme and semester: \n' +
-            'The question I care about: \n' +
-            'Why this topic: \n' +
-            'Timeline: \n\n' +
-            '(CV and transcript attached)\n');
-      });
-    }
+  window.mailSubject = 'Website: research';
+  window.mailGreet = 'Dear Stefan,';
+  window.writeMail = (subject, start, greet) => {
+    location.href = 'mailto:' + addr() + '?subject=' + encodeURIComponent(subject || window.mailSubject) +
+      '&body=' + encodeURIComponent((greet || window.mailGreet) + '\n\n' + (start || ''));
   };
+  const wm = document.getElementById('write-mail');
+  if (wm) wm.addEventListener('click', e => { e.preventDefault(); window.writeMail(); });
 })();
 
 (() => {
@@ -108,72 +92,35 @@
 
 (() => {
   const panel = document.getElementById('who-panel');
-  const subj = document.getElementById('form-subject');
-  const when = document.getElementById('f-when');
-  const whenWrap = document.getElementById('f-when-wrap');
   if (!panel) return;
   const T = {
-    research: { s: 'Website: research',
-      h: '<p>I&rsquo;m always glad to hear from potential collaborators.</p>' +
-         '<p class="ask-row"><a class="btn btn-ghost" id="seminar-ask" href="#contact">Invite me for a seminar</a>' +
-         '<a class="btn btn-ghost" id="review-ask" href="#contact">Ask me to review</a></p>' },
-    student: { s: 'Website: thesis supervision inquiry',
-      h: '<p>If you want to write your thesis with me, get in touch.</p>' +
-         '<p><a class="btn btn-ghost" id="thesis-mail" href="#contact">Use the thesis inquiry template</a></p>' },
-    industry: { s: 'Website: industry',
-      h: '<p>I take on selected consulting projects and talks.</p>' },
+    research: { s: 'Website: research', g: 'Dear Stefan,',
+      p: '<p>I&rsquo;m always glad to hear from potential collaborators.</p>',
+      t: 'Name and institution: \nWhat it is about (collaboration, seminar, review, a paper of yours): \n' +
+         'Details: \nTimeline: \n' },
+    student: { s: 'Website: student', g: 'Dear Stefan Herytash,',
+      p: '<p>If you want to write your thesis with me, get in touch.</p>',
+      t: 'Name: \nProgramme and semester: \nWhat it is about (thesis, course, reference letter, other): \n' +
+         'My question or topic: \nWhy this topic (for a thesis): \nTimeline or deadline: \n' +
+         'Preferred days and times for a meeting: Wednesday, 4 pm\n\n' +
+         '(For a thesis or a reference letter: CV and transcript attached)\n' },
+    industry: { s: 'Website: industry', g: 'Dear Stefan,',
+      p: '<p>I take on selected consulting projects and talks.</p>',
+      t: 'Name and company: \nWhat it is about (project, talk): \nThe question you want answered: \nTimeline: \n' },
   };
   const pick = who => {
     document.querySelectorAll('.whobtn').forEach(x => {
       x.classList.toggle('active', x.dataset.who === who);
       x.setAttribute('aria-pressed', x.dataset.who === who ? 'true' : 'false');
     });
-    panel.innerHTML = T[who].h;
-    if (subj) subj.value = T[who].s;
-    if (when && whenWrap) {
-      whenWrap.hidden = who !== 'student';
-      when.disabled = who !== 'student';
-      if (who === 'student' && !when.value) when.value = 'Wednesday, 4 pm';
-    }
-    wireThesis();
-    wireSeminar();
-    wireAsk('review-ask', 'Website: review request', 'I would like to ask you to review a manuscript for ');
-  };
-  const wireAsk = (id, subject, start) => {
-    const b = document.getElementById(id);
-    if (!b) return;
-    b.addEventListener('click', e => {
-      e.preventDefault();
-      if (subj) subj.value = subject;
-      const msg = document.getElementById('f-msg');
-      if (msg) {
-        if (!msg.value) msg.value = start;
-        msg.focus();
-        msg.setSelectionRange(msg.value.length, msg.value.length);
-      }
-    });
-  };
-  const wireSeminar = () => {
-    const b = document.getElementById('seminar-ask');
-    if (!b) return;
-    b.addEventListener('click', e => {
-      e.preventDefault();
-      if (subj) subj.value = 'Website: seminar invitation';
-      const msg = document.getElementById('f-msg');
-      if (msg) {
-        if (!msg.value) msg.value = 'I would like to invite you to give a research seminar at ';
-        msg.focus();
-        msg.setSelectionRange(msg.value.length, msg.value.length);
-      }
-    });
+    const r = T[who];
+    panel.innerHTML = r.p + '<p class="ask-row"><a class="btn btn-ghost" id="use-template" href="#contact">Use the template</a></p>';
+    window.mailSubject = r.s; window.mailGreet = r.g;
+    document.getElementById('use-template').addEventListener('click', e => { e.preventDefault(); window.writeMail(r.s, r.t); });
   };
   window.pickWho = who => { if (T[who]) pick(who); };
   document.querySelectorAll('.whobtn').forEach(b => b.addEventListener('click', () => pick(b.dataset.who)));
   pick('research');
-  if (new URLSearchParams(location.search).get('sent')) {
-    const ok = document.getElementById('form-sent');
-    if (ok) ok.hidden = false;
-  }
 })();
 
 
@@ -981,11 +928,10 @@
 })();
 
 (() => {
-  document.querySelectorAll('a[data-ask]').forEach(a => a.addEventListener('click', () => {
-    if (window.pickWho) window.pickWho('research');
-    const subj = document.getElementById('form-subject');
-    if (subj) subj.value = 'Website: manuscript request, ' + a.dataset.ask;
-    const msg = document.getElementById('f-msg');
-    if (msg && !msg.value) msg.value = 'I would like to read the manuscript of “' + a.dataset.ask + '”.';
+  document.querySelectorAll('a[data-ask]').forEach(a => a.addEventListener('click', e => {
+    if (!window.writeMail) return;
+    e.preventDefault();
+    window.writeMail('Website: manuscript request, ' + a.dataset.ask,
+      'I would like to read the manuscript of “' + a.dataset.ask + '”.', 'Dear Stefan,');
   }));
 })();

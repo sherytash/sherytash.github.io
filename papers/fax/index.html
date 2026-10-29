@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-rSEjyS/Xq/7Amr5de7l2QdG9/gyeKNsbjBlaeQXW7aA='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-rSEjyS/Xq/7Amr5de7l2QdG9/gyeKNsbjBlaeQXW7aA='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>After the Fax Machine Burns: Journal Certification When Everything Is Published · Stefan Herytash</title>
 <meta name="description" content="After the Fax Machine Burns: Journal Certification When Everything Is Published. Herytash, S. · Under review at Management Science (Financial Times 50; Academic Journal Guide 4*) as a Discussion Paper, in response to Bhargava et al. (2026) and Terwiesch (2026).">
@@ -23,8 +23,8 @@
 <meta name="theme-color" content="#1D1C18" media="(prefers-color-scheme: dark)">
 <script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="/assets/fonts.css?v=aea717b2">
-<link rel="stylesheet" href="/assets/site.css?v=61d45083">
-<link rel="stylesheet" href="/assets/vis.css?v=b8df0bf5">
+<link rel="stylesheet" href="/assets/site.css?v=da7a7113">
+<link rel="stylesheet" href="/assets/vis.css?v=56ed819a">
 <style>
   
   main{ max-width:68rem; margin:0 auto; padding:6.2rem var(--gutter) 3rem; }
@@ -265,29 +265,11 @@ html:not(.js) .vis[data-vis="fax-machine"] .fm-inst{ display:none; }
   <div class="who-panel" id="who-panel" aria-live="polite">
     <p>I&rsquo;m always glad to hear from potential collaborators.</p>
   </div>
-  <form class="cform" id="cform" method="POST">
-    <input type="hidden" name="_subject" id="form-subject" value="Website: research">
-    <input type="hidden" name="_next" value="/?sent=1#contact">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-    <div class="frow">
-      <label class="vh" for="f-name">Your name</label>
-      <input required id="f-name" name="name" placeholder="Name" autocomplete="name">
-      <label class="vh" for="f-email">Your email address</label>
-      <input required id="f-email" type="email" name="email" placeholder="Email" autocomplete="email">
-    </div>
-    <div class="fwhen" id="f-when-wrap" hidden>
-      <label for="f-when">Preferred days and times (optional)</label>
-      <input id="f-when" name="preferred_times" placeholder="Wednesday, 4 pm" autocomplete="off" disabled>
-    </div>
-    <label class="vh" for="f-msg">Your message</label>
-    <textarea required id="f-msg" name="message" rows="4" placeholder="Your message"></textarea>
-    <div class="frow frow-end">
-      <button class="btn" type="submit">Send message</button>
-      <button class="linkbtn" type="button" id="show-email">Show email</button>
-    </div>
-    <span class="form-sent" id="form-sent" hidden>Message sent.</span>
-  </form>
+  
+  <div class="frow frow-end cmail">
+    <a class="btn" id="write-mail" href="#contact">Write an email</a>
+    <button class="linkbtn" type="button" id="show-email">Show email</button>
+  </div>
   <div class="finder" role="group" aria-labelledby="finder-h">
     <p class="finder-h" id="finder-h">Find our connection</p>
     <div class="frow">
@@ -304,7 +286,7 @@ html:not(.js) .vis[data-vis="fax-machine"] .fm-inst{ display:none; }
 
 <footer class="foot-legal"><a href="/legal/">Legal notice &amp; privacy</a></footer>
 
-  <script src="/assets/site.js?v=48281a17" defer></script>
+  <script src="/assets/site.js?v=ca1aa2ae" defer></script>
   <script src="/assets/cite.js?v=3026ed91" defer></script>
   <script>
 

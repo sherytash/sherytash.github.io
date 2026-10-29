@@ -75,10 +75,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   display:flex; justify-content:space-between; align-items:center; gap:1rem;
   padding:calc(0.9rem + env(safe-area-inset-top)) var(--gutter) 0.9rem;
 }
-.page-doc .bar{ background:var(--paper); background:color-mix(in srgb, var(--paper) 92%, transparent);
-  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
-body:has(.sheet:target, .panel:target) .bar{ background:var(--paper); background:color-mix(in srgb, var(--paper) 92%, transparent);
-  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+
+.page-doc .bar{ background:var(--paper); border-bottom:1px solid var(--line); }
+body:has(.sheet:target, .panel:target) .bar{ background:var(--paper); border-bottom:1px solid var(--line); }
 .page-map .bar{ pointer-events:none; }
 .page-map .bar > *{ pointer-events:auto; }
 .name{ font-family:var(--serif); font-size:1.12rem; color:var(--ink); text-decoration:none; white-space:nowrap; }
@@ -200,7 +199,7 @@ html:not(.js) .whoami{ display:none; }
 .who-panel p{ margin:0 0 0.8rem; }
 .who-panel .ask-row{ display:flex; flex-wrap:wrap; gap:0.5rem; }
 .cform{ display:flex; flex-direction:column; gap:0.6rem; margin-top:1.1rem; }
-html:not(.js) .cform, html:not(.js) #show-email{ display:none; }
+html:not(.js) .cmail{ display:none; }
 .frow{ display:flex; gap:0.6rem; align-items:center; }
 .frow-end{ justify-content:space-between; }
 .frow input{ flex:1; min-width:0; }
