@@ -141,7 +141,7 @@ if (tints.has(key)) return tints.get(key);
 let first = Infinity, c = null;
 for (const id in CITY) if (CITY[id] === iso && idx.has(id)) first = Math.min(first, idx.get(id));
 if (first < Infinity) {
-const f = N > 1 ? first / (N - 1) : 1, a = rgbOf(imgOn ? COL.iOld : COL.vOld), b = rgbOf(imgOn ? COL.iNew : COL.vNew);
+const f = N > 1 ? first / (N - 1) : 1, a = rgbOf(COL.iOld), b = rgbOf(COL.iNew);
 c = 'rgb(' + a.map((v, k) => Math.round(v + (b[k] - v) * f)).join(',') + ')';
 }
 tints.set(key, c);
@@ -247,10 +247,6 @@ for (const r of nightEdge) { ctx.beginPath(); traceCap(r); ctx.fill('evenodd'); 
 if (nightFullA) { ctx.globalAlpha = nightFullA; ctx.beginPath(); ctx.arc(OX, OY, RR, 0, TAU); ctx.fill(); }
 ctx.globalAlpha = 1;
 }
-function nightLakes() {
-if (nightEdge.length) { ctx.save(); ctx.clip(); nightFill(); ctx.restore(); }
-else if (nightFullA) { ctx.fillStyle = COL.night; ctx.globalAlpha = nightFullA; ctx.fill(); ctx.globalAlpha = 1; }
-}
 function ground(land, lakes, rivers) {
 if (imgOn) {
 ctx.beginPath(); land.forEach(trace); ctx.lineWidth = 0.6; ctx.strokeStyle = COL.iBorder; ctx.stroke();
@@ -263,15 +259,13 @@ ctx.globalAlpha = 1; ctx.lineWidth = 1.2; ctx.strokeStyle = c; ctx.stroke();
 ctx.beginPath(); rivers.forEach(trace); ctx.lineWidth = 0.8; ctx.strokeStyle = COL.iRiver; ctx.stroke();
 return;
 }
-ctx.beginPath(); land.forEach(trace);
-ctx.fillStyle = COL.land; ctx.fill(); ctx.lineWidth = 0.55; ctx.strokeStyle = COL.border; ctx.stroke();
+ctx.beginPath(); land.forEach(trace); ctx.lineWidth = 0.7; ctx.strokeStyle = COL.limb; ctx.stroke();
 (land.groups || []).forEach(g => {
 const c = tintOf(g.iso); if (!c) return;
-ctx.beginPath(); g.rings.forEach(trace); ctx.fillStyle = c; ctx.fill(); ctx.strokeStyle = COL.vEdge; ctx.stroke();
+ctx.beginPath(); g.rings.forEach(trace); ctx.fillStyle = c; ctx.globalAlpha = 0.35; ctx.fill();
+ctx.globalAlpha = 0.55; ctx.lineWidth = 2.6; ctx.strokeStyle = 'rgba(20,16,8,1)'; ctx.stroke();
+ctx.globalAlpha = 1; ctx.lineWidth = 1.2; ctx.strokeStyle = c; ctx.stroke();
 });
-ctx.beginPath(); lakes.forEach(trace); ctx.fillStyle = COL.sea; ctx.fill();
-nightLakes();
-ctx.beginPath(); rivers.forEach(trace); ctx.lineWidth = 0.9; ctx.strokeStyle = COL.water; ctx.stroke();
 }
 function draw() {
 basis();
@@ -284,7 +278,6 @@ ctx.lineJoin = 'round'; ctx.lineCap = 'round';
 if (glOn) earth(W, H);
 if (!imgOn) {
 ctx.beginPath(); ctx.arc(OX, OY, RR, 0, TAU); ctx.fillStyle = COL.sea; ctx.fill();
-ctx.beginPath(); LAND.grat.forEach(trace); ctx.strokeStyle = COL.grat; ctx.lineWidth = 0.6; ctx.stroke();
 nightSplit();
 nightFill();
 }
@@ -1414,8 +1407,7 @@ later(0);
 const MOVES = ['scroll', 'wheel', 'pointerdown', 'touchstart', 'keydown'];
 const firstMove = () => { MOVES.forEach(t => removeEventListener(t, firstMove, true)); loadFine(); };
 MOVES.forEach(t => addEventListener(t, firstMove, { capture: true, passive: true }));
-const afterPaint = () => requestAnimationFrame(() => setTimeout(loadEarth, 0));
-document.readyState === 'complete' ? afterPaint() : addEventListener('load', afterPaint);
+requestAnimationFrame(() => setTimeout(loadEarth, 0));
 document.readyState === 'complete' ? setTimeout(takePending, 450) : addEventListener('load', () => setTimeout(takePending, 450));
 };
 if (window.GLOBE_LAND) boot(); else addEventListener('DOMContentLoaded', boot);
