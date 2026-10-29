@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Globe · Stefan Herytash</title>
+<meta name="description" content="Where Stefan Herytash has lived, studied, worked and spoken, on a globe.">
+<meta name="author" content="Stefan Herytash">
+<meta property="og:title" content="Globe · Stefan Herytash">
+<meta property="og:description" content="Where Stefan Herytash has lived, studied, worked and spoken, on a globe.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sherytash.github.io/globe/">
+<meta property="og:image" content="https://sherytash.github.io/assets/og-card.png">
+<link rel="canonical" href="https://sherytash.github.io/globe/">
+<link rel="icon" href="/assets/favicon.svg?v=0bdbaa73" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.png?v=fde2f8b7" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=ede72b88">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#D8E4E2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1D1C18" media="(prefers-color-scheme: dark)">
+<script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
+<link rel="stylesheet" href="/assets/fonts.css?v=aea717b2">
+<link rel="stylesheet" href="/assets/site.css?v=2dcd37a0">
+<link rel="stylesheet" href="/assets/vis.css?v=c63e6f43">
+<style>
+
+body.page-map{ min-height:100%; }
+
+
+.stage{ position:fixed; top:4.6rem; left:0; right:0; bottom:var(--base-h); z-index:0; }
+
+#globe{ position:fixed; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
+
+#globe-gl{ position:fixed; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
+#globe-gl.in{ opacity:0; transition:opacity .7s ease; }
+#globe-gl.in.on{ opacity:1; }   
+
+#globe-first{ position:fixed; z-index:-1; pointer-events:none; display:block;
+width:calc((100vh - 120px) * 0.9 * 3000 / 2900); height:calc((100vh - 120px) * 0.9 * 3000 / 2900);
+left:calc(63.75vw - (100vh - 120px) * 0.45 * 3000 / 2900); top:calc(50vh + 8px - (100vh - 120px) * 0.45 * 3000 / 2900); }
+#globe-first .gf-sea{ fill:var(--globe-sea); }
+#globe-first .gf-grat{ fill:none; stroke:var(--map-grat); stroke-width:.6; vector-effect:non-scaling-stroke; }
+#globe-first .gf-land{ fill:var(--globe-land); stroke:var(--map-border); stroke-width:.55; vector-effect:non-scaling-stroke; stroke-linejoin:round; }
+#globe-first .gf-visit{ fill:var(--visit-old); stroke:var(--visit-edge); stroke-width:.55; vector-effect:non-scaling-stroke; stroke-linejoin:round; }
+#globe-first .gf-lake{ fill:var(--globe-sea); stroke:none; }
+#globe-first .gf-river{ fill:none; stroke:var(--river); stroke-width:.9; vector-effect:non-scaling-stroke; }
+#globe-first .gf-shade{ fill:url(#gf-shade); }
+#globe-first .gf-limb{ fill:none; stroke:var(--globe-limb); stroke-width:1; vector-effect:non-scaling-stroke; }
+#globe[width] ~ #globe-first{ display:none; }
+@media (max-width:719px){
+#globe-first{ width:calc((100vw - 73px) * 3000 / 2900); height:calc((100vw - 73px) * 3000 / 2900);
+left:calc(45.6vw - (100vw - 73px) * 0.5 * 3000 / 2900); top:calc(50vh + 142px - (100vw - 73px) * 0.5 * 3000 / 2900); }
+}
+#map{ position:absolute; inset:0; display:block; width:100%; height:100%; overflow:visible; cursor:grab; touch-action:pan-y; }
+#map.dragging{ cursor:grabbing; }
+html:has(#map.dragging){ -webkit-user-select:none; user-select:none; }     
+
+
+
+:root{ --map-border:#D0C8B2; --map-grat:#C8D7D4; --trip:#6A5F8A; --you:#8A5A00; --base-h:calc(2.9rem + env(safe-area-inset-bottom));
+--globe-sea:var(--paper); --globe-limb:#9AB0AC; --globe-shade:rgba(33,69,76,0.12); --globe-land:var(--land); --globe-night:rgba(16,44,50,0.12);
+--visit-old:#CFDBC2; --visit-new:#A7C3A0; --visit-edge:#809E7C; --river:#76A8B1; --river-ink:#22505E;
+--globe-atm:#8CBFE0; --globe-lights:#FFD08A; --globe-img-night:rgba(0,0,0,0.78);
+--img-border:rgba(255,255,255,0.32); --img-river:rgba(160,214,230,0.6); --img-visit-old:#F8DFA0; --img-visit-new:#F2B544; }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){ --map-border:#466C73; --map-grat:#1D3A41; --trip:#D2C7EC; --you:#E8B54A;
+--globe-limb:#3E5F66; --globe-shade:rgba(2,10,12,0.5); --globe-land:#2B4D55; --globe-night:rgba(2,10,12,0.38);
+--visit-old:#495C4D; --visit-new:#526954; --visit-edge:#74937B; --river:#5E9AA6; --river-ink:#C8E8EF;
+--globe-atm:#6FA6D2; --globe-lights:#FFC978; --globe-img-night:rgba(0,0,0,0.88);
+--img-border:rgba(255,255,255,0.28); --img-river:rgba(140,200,220,0.55); --img-visit-old:#F8DFA0; --img-visit-new:#F2B544; } }
+:root[data-theme="dark"]{ --map-border:#466C73; --map-grat:#1D3A41; --trip:#D2C7EC; --you:#E8B54A; --globe-limb:#3E5F66; --globe-shade:rgba(2,10,12,0.5); --globe-night:rgba(2,10,12,0.38);
+--globe-land:#2B4D55; --visit-old:#495C4D; --visit-new:#526954; --visit-edge:#74937B; --river:#5E9AA6; --river-ink:#C8E8EF;
+--globe-atm:#6FA6D2; --globe-lights:#FFC978; --globe-img-night:rgba(0,0,0,0.88);
+--img-border:rgba(255,255,255,0.28); --img-river:rgba(140,200,220,0.55); --img-visit-old:#F8DFA0; --img-visit-new:#F2B544; }
+
+.rv{ font:italic 400 11.5px/1 var(--serif); letter-spacing:0.02em; fill:var(--river-ink); pointer-events:none; }
+.rv.off, .rivers.off, .path-on .rivers{ display:none; }
+
+.imagery .lab, .imagery .lab-now, .imagery .rt-name, .imagery .rt-inst{ stroke-opacity:0.9; stroke-width:3px; }
+.imagery .rv{ paint-order:stroke; stroke:var(--paper); stroke-opacity:0.85; stroke-width:2.5px; stroke-linejoin:round; }
+.imagery .dot{ stroke:var(--paper); stroke-width:1.4px; }
+.imagery .pin-trip .dot{ stroke:var(--trip); stroke-width:1.8px; }
+.pin, .chip, .stopcard{ --kc:color-mix(in srgb, var(--accent) var(--tm, 100%), var(--paper)); }
+@supports not (color:color-mix(in srgb,red,blue)){ .pin, .chip, .stopcard{ --kc:var(--accent); } }
+
+
+.pin.back, .lab-a.back, .leader.back, .lab-hits a.back, .lab-now.back, .rt-node.back, .rt-you.back{ display:none; }
+
+.pin.tuck, .lab-now.tuck{ display:none; }
+
+
+.pin, .chip, .lab{ touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.pin{ cursor:pointer; outline:none; }
+.dot{ fill:var(--kc); stroke:var(--accent); stroke-width:1px; vector-effect:non-scaling-stroke; transition:transform .2s ease; transform-box:fill-box; transform-origin:center; }
+.ring{ fill:none; stroke:var(--accent); opacity:0; transition:opacity .25s ease; }
+.pin:focus-visible .dot{ transform:scale(1.25); }
+.pin:focus-visible .ring, .pin.on .ring{ opacity:0.65; }
+
+@media (hover:hover){
+.pin:hover .dot{ transform:scale(1.25); }
+.pin:hover .ring{ opacity:0.65; }
+}
+.pulse{ fill:var(--accent); opacity:0; pointer-events:none; }
+
+.pin-trip .dot{ fill:var(--paper); fill:color-mix(in srgb, var(--paper) 70%, transparent); stroke:var(--trip); stroke-width:1.8px; }
+.pin-trip .ring{ stroke:var(--trip); }
+.pin-trip .pulse{ fill:var(--trip); }
+.hit{ fill:transparent; }
+.pin:focus-visible .hit{ stroke:var(--accent); stroke-width:1.5px; vector-effect:non-scaling-stroke; }
+
+.now-ring{ fill:none; stroke:var(--now); }
+.halo{ fill:var(--now); opacity:0; }
+@media (prefers-reduced-motion:no-preference){
+@keyframes halo{ 0%{ opacity:0.35; transform:scale(1); } 100%{ opacity:0; transform:scale(3.2); } }
+@keyframes pulse{ 0%{ opacity:0.4; transform:scale(0.7); } 100%{ opacity:0; transform:scale(2.6); } }
+.js.at-now .halo{ transform-box:fill-box; transform-origin:center; animation:halo 3s ease-out 3; }
+.js:not(.at-now) .pin-now.on .pulse{ transform-box:fill-box; transform-origin:center; animation:pulse 2.4s ease-out 3; }
+.js .pin.on:not(.pin-now) .pulse{ transform-box:fill-box; transform-origin:center; animation:pulse 2.4s ease-out 3; }
+}
+
+.js:not(.at-now) .now-ring{ opacity:0.4; }
+.js:not(.at-now) .lab-now{ opacity:0.5; }
+.lab-now{ font-family:var(--sans); font-weight:600; fill:var(--now); letter-spacing:0.06em; pointer-events:none;
+paint-order:stroke; stroke:var(--paper); stroke-opacity:0.7; stroke-linejoin:round; }
+.lab{ font-family:var(--sans); font-weight:500; fill:var(--ink-soft); letter-spacing:0.01em; cursor:pointer;
+paint-order:stroke; stroke:var(--paper); stroke-opacity:0.7; stroke-linejoin:round; }
+.lab-a{ cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent; }
+.lab-trip{ font-style:italic; fill:var(--trip); fill:color-mix(in srgb, var(--trip) 80%, var(--ink)); }
+.lab-trip.on{ fill:var(--ink); }
+.lab.off{ display:none; }
+.lab.off.peek{ display:inline; fill:var(--ink); }
+.lab.on{ fill:var(--ink); }
+.leader{ stroke:var(--ink-soft); fill:none; pointer-events:none; }
+.leader.off{ display:none; }
+.lab-hit{ fill:transparent; stroke:none; }
+.lab-hit.off{ display:none; }
+@media (min-width:720px){ .lab-hit{ display:none; } }
+
+
+
+.path-on .lab, .path-on .lab-now, .path-on .leader, .path-on .lab-hit{ display:none !important; }
+#route{ pointer-events:none; }
+.rt-halo{ fill:none; stroke:var(--paper); stroke-width:5px; stroke-linecap:round; opacity:0.75; vector-effect:non-scaling-stroke; }
+.rt-edge{ fill:none; stroke:var(--accent); stroke-width:2.2px; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.rt-col{ stroke-dasharray:7 6; stroke-linecap:butt; }
+.rt-ring{ fill:var(--paper); stroke:var(--accent); stroke-width:2.2px; }
+.rt-dot{ fill:var(--accent); stroke:var(--paper); stroke-width:1.6px; }
+.rt-name, .rt-inst{ font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:0.01em; paint-order:stroke; stroke:var(--paper); stroke-opacity:0.7; stroke-width:2px; stroke-linejoin:round; }
+.rt-name{ fill:var(--ink); font-weight:600; }
+.rt-inst{ fill:var(--ink-soft); }
+
+.rt-sq{ fill:none; stroke:var(--you); stroke-width:1.8px; }
+.rt-both .rt-sq{ stroke-width:2.4px; }
+@media (prefers-reduced-motion:no-preference){
+@keyframes rtin{ from{ opacity:0; } to{ opacity:1; } }
+#route .rt-edge, #route .rt-halo, #route .rt-node, #route .rt-you{ animation:rtin .5s ease both; animation-delay:calc(var(--i, 0) * 0.35s); }
+}
+.pathx{ position:fixed; z-index:6; top:calc(var(--bar-b, 4.2rem) + 0.55rem); right:calc(var(--tlw) + 0.6rem); width:44px; height:44px; padding:0;
+display:grid; place-items:center; font-size:1.5rem; line-height:1; color:var(--ink); background:var(--paper);
+border:1px solid var(--accent); border-radius:50%; cursor:pointer; }
+.pathx:hover{ background:var(--paper-tint); }
+.pathx[hidden]{ display:none; }
+
+
+.mapbase{ position:fixed; left:0; right:0; bottom:0; z-index:4; height:var(--base-h); box-sizing:border-box;
+display:flex; align-items:center; gap:1.25rem; padding:0 var(--gutter) env(safe-area-inset-bottom);
+background:var(--paper); background:color-mix(in srgb, var(--paper) 86%, transparent); border-top:1px solid var(--line);
+-webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
+.mapchips{ display:flex; gap:0.1rem; flex:1 1 auto; min-width:0; overflow-x:auto; scrollbar-width:none; margin-left:-0.5rem; }
+.mapchips::-webkit-scrollbar{ display:none; }
+.chip{ flex:0 0 auto; display:flex; align-items:center; gap:0.38rem; padding:0.55rem 0.4rem; min-height:36px; box-sizing:border-box;
+font-family:var(--sans); font-size:0.75rem; letter-spacing:0.01em; color:var(--ink-soft); text-decoration:none;
+border-bottom:1.5px solid transparent; transition:color .2s ease, border-color .2s ease; }
+@media (hover:hover){ .chip:hover{ color:var(--ink); } }
+.chip i{ width:7px; height:7px; border-radius:50%; background:var(--kc); border:1px solid var(--accent); box-sizing:border-box; flex:none; }
+.chip.on{ color:var(--ink); border-bottom-color:var(--accent); }
+.tkey{ flex:none; display:flex; align-items:center; gap:1.1rem; font-family:var(--sans); font-size:0.7rem; letter-spacing:0.05em; color:var(--ink-soft); }
+.k-kind{ display:flex; align-items:center; gap:0.4rem; white-space:nowrap; }
+.k-pin, .k-trip{ display:inline-block; width:8px; height:8px; border-radius:50%; box-sizing:border-box; margin-left:0.4rem; }
+.k-kind .k-pin:first-child, .k-kind .k-sq:first-child{ margin-left:0; }
+.k-pin{ background:var(--accent); border:1px solid var(--accent); }
+.k-trip{ border:1.8px solid var(--trip); background:transparent; }
+.k-sq{ display:inline-block; width:8px; height:8px; box-sizing:border-box; border:1.6px solid var(--you); margin-left:0.4rem; }
+
+.k-you, .tkey.k-onpath{ display:none; }
+.career-on .k-you, .career-on .tkey.k-onpath{ display:flex; }
+
+:root{ --tlw:62px; }
+.tl{ position:fixed; z-index:6; right:4px; width:58px; top:calc(var(--bar-b, 4.2rem) + 0.5rem); bottom:calc(var(--base-h) + 1rem);
+touch-action:none; cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none; }
+.tl-track{ position:absolute; top:20px; bottom:20px; left:0; right:0; }
+.tl-track::before{ content:""; position:absolute; left:32px; width:6px; top:0; bottom:0; border-radius:3px; border:1px solid var(--accent); box-sizing:border-box;
+background:var(--accent); background:linear-gradient(180deg, color-mix(in srgb, var(--accent) var(--ramp-min, 38%), var(--paper)), var(--accent)); }
+.tl-n{ position:absolute; left:35px; top:calc(var(--f) * 100%); width:9px; height:9px; margin:-4.5px 0 0 -4.5px; box-sizing:border-box; border-radius:50%;
+background:var(--accent); background:color-mix(in srgb, var(--accent) var(--tm, 100%), var(--paper)); border:1.5px solid var(--accent); font-style:normal; }
+.tl-y{ position:absolute; right:calc(100% + 9px); top:50%; transform:translateY(-50%); font:500 11px/1 var(--sans); letter-spacing:0.01em; color:var(--ink); font-variant-numeric:tabular-nums;
+text-shadow:0 0 3px var(--paper), 0 0 3px var(--paper), 0 0 6px var(--paper); pointer-events:none; transition:opacity .15s ease; }
+.tl-y.tl-off{ opacity:0; }      
+.tl-w{ width:18px; height:18px; margin:-9px 0 0 -9px; background:var(--paper); border:0; color:var(--accent); }
+.tl-s{ width:18px; height:18px; margin:-9px 0 0 -9px; background:var(--paper); border:0; color:var(--accent); }
+.tl-w svg, .tl-s svg{ display:block; width:18px; height:18px; }
+.tl svg{ fill:none; stroke:currentColor; stroke-width:1.6; }
+.tl-thumb{ position:absolute; left:35px; top:calc(var(--f) * 100%); transform:translate(-50%, -50%); box-sizing:border-box; min-width:44px; height:28px; padding:0 4px;
+display:grid; place-items:center; border-radius:14px; background:var(--paper); border:2.5px solid var(--accent); color:var(--accent);
+font:600 12px/1 var(--sans); font-variant-numeric:tabular-nums; letter-spacing:0; transition:top .28s ease; }
+.tl-ty{ color:var(--ink); }
+.tl-thumb svg{ display:none; width:20px; height:20px; }
+.tl-thumb.is-start, .tl-thumb.is-world{ min-width:0; width:30px; height:30px; padding:0; border-radius:50%; }
+.tl-thumb.is-world svg.g, .tl-thumb.is-start svg.h{ display:block; }
+.tl-thumb.is-start .tl-ty, .tl-thumb.is-world .tl-ty{ display:none; }
+.tl:focus-visible .tl-thumb{ outline:2px solid var(--ink); outline-offset:3px; }
+html:not(.js) .tl{ display:none; }
+@media (prefers-reduced-motion:reduce){ .tl-thumb, .tl-y{ transition:none; } }
+.moving .mapbase{ -webkit-backdrop-filter:none; backdrop-filter:none; }
+
+@media (min-width:720px){
+.tkey{ position:absolute; right:calc(var(--tlw) + 0.6rem); bottom:calc(100% + 0.55rem); padding:0 0.85rem 0 1rem; min-height:1.7rem; border-radius:999px;
+background:var(--paper); background:color-mix(in srgb, var(--paper) 80%, transparent); border:1px solid var(--line); }
+}
+
+@media (min-width:720px) and (min-height:501px){
+:root{ --base-h:0px; }
+.js .mapbase{ height:auto; padding:0 var(--gutter) 0.9rem; background:none; border:0; -webkit-backdrop-filter:none; backdrop-filter:none; pointer-events:none; }
+.js .mapchips{ position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; margin:0; padding:0; }
+.js .mapchips:focus-within{ position:static!important; width:auto; height:auto; clip:auto; overflow-x:auto; margin-left:-0.5rem; pointer-events:auto;
+background:var(--paper); background:color-mix(in srgb, var(--paper) 86%, transparent); border-radius:10px; padding:0 0.5rem; }
+.js .tkey{ pointer-events:auto; bottom:0.9rem; }
+}
+html:not(.js) .stage{ bottom:0; }
+html:not(.js) #map, html:not(.js) #globe{ display:none; }   
+
+
+.page-map .foot{ display:none; }
+
+.moving .stopcard, .moving .page-map .bar{ -webkit-backdrop-filter:none; backdrop-filter:none; }
+
+
+
+.journey{ pointer-events:none; --step:55vh; --step:55svh; }
+html.nosnap{ scroll-snap-type:none!important; }
+.step{ height:var(--step); }
+.step-world{ height:100vh; height:100svh; }
+@media (pointer:coarse) and (hover:none){     
+.journey{ --step:100vh; --step:100svh; }
+html{ scroll-snap-type:y mandatory; }
+.step{ scroll-snap-align:start; }
+}
+.cue{ position:fixed; left:50%; top:calc(100vh - 4.4rem - var(--base-h)); top:calc(100svh - 4.4rem - var(--base-h)); transform:translateX(-50%); z-index:3;
+font-size:1.2rem; color:var(--ink-soft); opacity:0.7; transition:opacity .4s ease; pointer-events:none; }
+html:not(.js) .journey, html:not(.js) .cue{ display:none; }
+.scrolled .cue{ opacity:0; }
+
+
+.stopcard{
+position:fixed; left:var(--gutter); top:calc(var(--bar-b, 4.2rem) + 0.45rem); z-index:5;
+width:min(24rem, calc(100% - 2 * var(--gutter)));
+background:var(--paper); background:color-mix(in srgb, var(--paper) 86%, transparent);
+-webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+border:1px solid var(--line); border-top:2px solid var(--kc, var(--line)); border-radius:14px;
+box-shadow:0 20px 40px -32px var(--shadow);
+}
+.stopcard[hidden]{ display:none; }
+.sc-body{ padding:0.95rem 1.2rem 1rem; }
+@media (prefers-reduced-motion:no-preference){
+.stopcard.swap{ animation:cardin .3s ease; }
+@keyframes cardin{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
+}
+.sc-head{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; }
+.stopcard h2{ margin:0; font-family:var(--serif); font-weight:400; font-size:1.5rem; letter-spacing:-0.01em; }
+.stopcard .nowtag{ font-family:var(--sans); font-size:0.6875rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--now); margin-left:0.55rem; vertical-align:0.25em; }
+.stopcard .count{ font-family:var(--sans); font-variant-numeric:tabular-nums; font-weight:500; font-size:0.7rem; letter-spacing:0.04em; color:var(--ink); white-space:nowrap; }
+
+.stopcard .lt{ margin:0 auto 0 -0.45rem; font-family:var(--sans); font-variant-numeric:tabular-nums; font-weight:500; font-size:0.7rem;
+letter-spacing:0.04em; color:var(--ink-soft); white-space:nowrap; }  .stopcard ol{ list-style:none; margin:0.5rem 0 0; padding:0; }
+.stopcard li{ display:grid; grid-template-columns:5.6rem 1fr; gap:0.7rem; padding:0.5rem 0; border-top:1px solid var(--line); }
+.stopcard .yr{ font-family:var(--sans); font-variant-numeric:tabular-nums; font-weight:500; font-size:0.6875rem; color:var(--accent); padding-top:0.15rem; }
+.stopcard .t{ display:block; font-family:var(--serif); font-size:0.98rem; line-height:1.3; }
+.stopcard .s{ display:block; font-size:0.78rem; line-height:1.4; color:var(--ink-soft); margin-top:0.1rem; }
+.inst{ cursor:default; }
+
+.stopcard .from, .panel .from{ border-top:1px solid var(--line); margin-top:0.1rem; padding-top:0.4rem; }
+.from ul{ list-style:none; margin:0; padding:0; }
+.stopcard .from li{ border-top:0; padding:0.22rem 0; }
+.stopcard .from li > div{ grid-column:2; }       
+.stopcard .from .t{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }   
+.from a.t{ color:var(--ink); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:0.15em; }
+@media (hover:hover){ .from a.t:hover{ text-decoration-color:currentColor; } }
+.panel .from li{ display:block; padding:0.5rem 0 0.5rem 6.8rem; }
+
+
+.stopcard.trip{ --kc:var(--trip); }
+.stopcard.trip.lone{ width:fit-content; min-width:min(15rem, calc(100% - 2 * var(--gutter))); max-width:calc(100% - 2 * var(--gutter)); }
+.stopcard .when{ font-family:var(--sans); font-variant-numeric:tabular-nums; font-weight:500; font-size:0.7rem; letter-spacing:0.04em; color:var(--ink-soft); white-space:nowrap; }
+.sc-x{ flex:none; width:34px; height:34px; margin:-0.45rem -0.7rem -0.4rem 0.2rem; padding:0; display:grid; place-items:center;
+background:none; border:0; border-radius:50%; font:inherit; font-size:1.35rem; line-height:1; color:var(--ink-soft); cursor:pointer;
+touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+@media (hover:hover){ .sc-x:hover{ color:var(--ink); background:var(--paper-tint); } }
+.sc-head .end{ display:flex; align-items:baseline; gap:0.5rem; }
+.photos{ display:grid; gap:0.55rem; margin-top:0.6rem; }
+.photos figure{ margin:0; min-width:0; }
+.photos img{ display:block; height:auto; border-radius:5px; background:var(--land); }
+.photos .cap-title{ display:block; font-size:0.82rem; line-height:1.3; }
+.photos.n1 figure{ display:flex; align-items:flex-end; gap:0.8rem; }
+.photos.n1 img{ width:auto; max-width:62%; max-height:min(32vh, 12rem); }
+.photos.n2{ grid-template-columns:1fr 1fr; }
+.photos.n3{ grid-template-columns:1fr 1fr 1fr; }
+.photos.n2 img, .photos.n3 img{ width:100%; height:7.4rem; object-fit:cover; }
+.photos.n2 figcaption, .photos.n3 figcaption{ margin-top:0.3rem; }
+.panel .yrs{ font-family:var(--sans); font-variant-numeric:tabular-nums; font-weight:500; font-size:0.7rem; color:var(--accent); margin:0 0 1rem; }
+.panel .photos{ margin-top:0; }
+.panel .photos img{ max-width:100%; }
+
+
+.js .panels{ display:none; }
+.panel h2{ font-family:var(--serif); font-weight:400; font-size:1.9rem; letter-spacing:-0.01em; margin:0 0 1rem; }
+.panel .stay{ margin:0 0 1.4rem; }
+.panel ol{ list-style:none; margin:0; padding:0; }
+.panel li{ display:flex; gap:1rem; padding:0.85rem 0; border-top:1px solid var(--line); }
+.panel .yr{ font-family:var(--sans); font-variant-numeric:tabular-nums; font-weight:500; font-size:0.7rem; color:var(--accent); white-space:nowrap; min-width:5.8rem; padding-top:0.2rem; }
+.panel .t{ display:block; font-family:var(--serif); font-size:1.04rem; line-height:1.3; }
+.panel .s{ display:block; font-size:0.82rem; line-height:1.45; color:var(--ink-soft); margin-top:0.2rem; }
+
+@media (min-width:720px) and (max-height:640px){
+.sc-body{ padding:0.75rem 1.1rem 0.8rem; }
+.stopcard h2{ font-size:1.3rem; }
+.stopcard li{ padding:0.32rem 0; }
+.stopcard .t{ font-size:0.9rem; line-height:1.25; }
+.stopcard .s{ font-size:0.74rem; line-height:1.32; }
+}
+
+
+.intro{
+position:fixed; left:var(--gutter); top:calc(var(--bar-b, 4.2rem) + 0.45rem); z-index:4;
+width:min(26rem, 32vw);
+background:var(--paper); background:color-mix(in srgb, var(--paper) 88%, transparent);
+-webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+border:1px solid var(--line); border-radius:14px; padding:1rem 1.25rem 0.9rem;
+box-shadow:0 20px 40px -32px var(--shadow);
+}
+
+@media (min-width:720px) and (min-height:501px){
+.intro{ left:0; top:4.6rem; bottom:var(--base-h); width:min(28rem, 34vw); box-sizing:border-box; overflow-y:auto;
+border-width:0 1px 0 0; border-radius:0; box-shadow:none; padding:1.4rem var(--gutter) 1.2rem; }
+}
+.js:not(.at-start) .intro, .card-open .intro{ display:none; }
+@media (prefers-reduced-motion:no-preference){
+.js.at-start .intro{ animation:cardin .4s ease; }
+}
+.i-role{ margin:0; font-family:var(--sans); font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); }
+.i-lede{ margin:0.45rem 0 0; font-family:var(--serif); font-size:1.08rem; line-height:1.4; }
+.i-papers{ list-style:none; margin:0.75rem 0 0; padding:0; }
+.i-papers li{ display:block; padding:0.6rem 0 0.55rem 0.8rem; border-top:1px solid var(--line); position:relative; }
+.i-papers li::before{ content:""; position:absolute; left:0; top:0.7rem; bottom:0.65rem; width:3px; border-radius:2px; background:var(--cl); }
+.i-k{ display:block; font-family:var(--sans); font-size:0.7rem; letter-spacing:0.04em; color:var(--cl); }
+.i-t{ display:block; margin-top:0.15rem; font-family:var(--serif); font-size:0.98rem; line-height:1.3; color:var(--ink); text-decoration:none; }
+@media (hover:hover){ .i-t:hover{ text-decoration:underline; text-decoration-color:var(--cl); text-underline-offset:0.18em; } }
+.i-s{ display:block; font-size:0.78rem; line-height:1.4; color:var(--ink-soft); margin-top:0.1rem; }
+.i-f{ display:block; font-size:0.8rem; line-height:1.45; color:var(--ink); margin-top:0.3rem; }
+
+.i-q{ color:inherit; text-decoration:underline; text-decoration-color:var(--line-strong); text-decoration-thickness:1px; text-underline-offset:0.18em; }
+@media (hover:hover){ .i-q:hover{ color:var(--accent); text-decoration-color:var(--accent); } }
+.i-all{ margin:0.55rem 0 0; padding-top:0.5rem; border-top:1px solid var(--line); font-size:0.78rem; }
+.i-all a{ display:inline-flex; align-items:center; min-height:32px; color:var(--ink-soft); text-decoration:none; }
+.i-all a:hover{ color:var(--accent); text-decoration:underline; text-underline-offset:0.2em; }
+.i-more{ display:none; }
+@media (max-height:780px) and (min-width:720px){ .i-f{ display:none; } }
+@media (max-height:500px) and (orientation:landscape){ .intro{ display:none; } }
+
+
+@media (max-width:719px){
+:root{ --base-h:0px; }
+.stage{ top:0; bottom:0; }
+#map{ overflow:hidden; }
+.page-map .bar{ background:var(--paper); background:color-mix(in srgb, var(--paper) 78%, transparent);
+-webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+html:not(.js) .lab, html:not(.js) .lab-now{ display:none; }   
+.mapbase{ height:auto; flex-direction:column-reverse; align-items:flex-start; gap:0.5rem; padding:0 0 calc(0.7rem + env(safe-area-inset-bottom));
+background:none; border:0; -webkit-backdrop-filter:none; backdrop-filter:none; pointer-events:none; }
+
+.js .mapchips{ position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; margin:0; padding:0; }
+.tkey{ margin:0 var(--gutter); padding:0 0.9rem; min-height:34px; gap:0 0.8rem; flex-wrap:wrap; border-radius:999px; pointer-events:auto;
+background:var(--paper); background:color-mix(in srgb, var(--paper) 86%, transparent); border:1px solid var(--line); }
+.tl{ bottom:calc(0.8rem + env(safe-area-inset-bottom)); }
+.pathx{ right:auto; left:var(--gutter); }
+.stopcard{ left:var(--gutter); right:calc(var(--tlw) + 6px); width:auto; }
+.intro{ right:calc(var(--tlw) + 6px); width:auto; padding:0.7rem 0.95rem 0.2rem; }
+.i-lede{ font-size:0.98rem; line-height:1.36; }
+.i-papers{ margin-top:0.5rem; }
+.i-papers li{ padding:0.45rem 0 0.4rem 0.75rem; }
+.i-t{ font-size:0.9rem; }
+.i-s{ font-size:0.72rem; }
+.i-f{ display:none; }
+
+.intro:not(.open) .i-rest, .intro:not(.open) .i-s, .intro:not(.open) .i-all{ display:none; }
+.i-all{ margin-top:0.35rem; padding-top:0.3rem; }
+.i-all a{ min-height:44px; }
+.intro:not(.open) .i-t{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.i-more{ display:grid; place-items:center; width:44px; height:44px; margin:0.05rem auto 0; padding:0; background:none; border:0; border-radius:50%;
+color:var(--ink-soft); cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.i-more svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .2s ease; }
+.intro.open .i-more svg{ transform:rotate(180deg); }
+.i-more:focus-visible{ outline:2px solid var(--ink); outline-offset:-4px; }
+.stopcard.trip.lone{ right:auto; width:fit-content; max-width:calc(100% - var(--gutter) - var(--tlw) - 6px); }
+}
+
+
+.sc-step{ display:none; }
+.sc-nav{ display:flex; align-items:center; }
+@media (max-width:719px), (max-height:500px) and (orientation:landscape){
+html.js, html.js body.page-map{ overflow:hidden; overscroll-behavior:none; }
+.journey, .cue{ display:none; }
+#map{ touch-action:none; }
+.sc-head{ align-items:center; }
+.sc-nav{ margin:-0.5rem -0.4rem -0.5rem 0; }
+.sc-step{ display:grid; place-items:center; width:44px; height:44px; padding:0; background:none; border:0; border-radius:50%;
+font:inherit; font-size:1.7rem; line-height:1; color:var(--ink); cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.sc-step[disabled]{ opacity:0.25; cursor:default; }
+.stopcard .count{ min-width:3.2em; text-align:center; }
+}
+
+
+@media (max-width:719px), (max-height:500px) and (orientation:landscape){
+.sc-body{ padding:0.55rem 0.9rem 0.6rem; }
+.stopcard h2{ font-size:1.25rem; }
+
+.sc-head{ display:grid; grid-template-columns:minmax(0, 1fr) auto; gap:0 0.6rem; }
+.sc-head h2{ grid-area:1 / 1; }
+.stopcard .lt{ grid-area:2 / 1; margin:0.05rem 0 0; font-size:0.6875rem; }
+.sc-head .sc-nav, .sc-head .end{ grid-area:1 / 2 / 3 / 3; align-self:center; }
+.stopcard .count{ font-size:0.6875rem; }
+.stopcard ol{ margin-top:0.3rem; }
+.stopcard .when{ font-size:0.6875rem; }
+.photos{ margin-top:0.45rem; gap:0.4rem; }
+.photos.n1 img{ max-height:min(24vh, 9rem); }
+.photos.n2 img, .photos.n3 img{ height:5.6rem; }
+.photos .cap-title{ font-size:0.76rem; }
+.stopcard li{ grid-template-columns:4.1rem 1fr; gap:0 0.5rem; padding:0.3rem 0 0.32rem; }
+.stopcard li > div{ display:contents; }
+.stopcard .t{ grid-area:1 / 1 / 2 / 3; font-size:0.86rem; line-height:1.2; }
+.stopcard .yr{ grid-area:2 / 1; font-size:0.6875rem; padding-top:0.14rem; }
+.stopcard .s{ grid-area:2 / 2; font-size:0.72rem; line-height:1.28; margin-top:0.06rem; }
+
+.stopcard .from{ padding-top:0.2rem; }
+.stopcard .from li{ display:block; padding:0.06rem 0; }
+.stopcard .from .t{ display:block; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:0.84rem; }
+.stopcard .from .s{ display:none; }
+@media (max-height:700px){      
+.sc-body{ padding:0.45rem 0.8rem 0.5rem; }
+.stopcard h2{ font-size:1.12rem; }
+.stopcard li{ padding:0.22rem 0 0.24rem; }
+.stopcard .s{ line-height:1.2; font-size:0.69rem; }
+}
+@media (max-height:420px){
+.stopcard li{ padding:0.18rem 0 0.2rem; }
+.stopcard h2{ font-size:1.05rem; }
+.stopcard .t{ font-size:0.8rem; }
+.stopcard .s{ font-size:0.6875rem; line-height:1.16; }
+}
+}
+
+
+@media (max-height:500px) and (orientation:landscape){
+:root{ --base-h:calc(2.5rem + env(safe-area-inset-bottom)); }
+.stage{ top:4rem; }
+#map{ overflow:hidden; }
+.stopcard{ left:auto; right:calc(var(--tlw) + 6px); width:min(46vw, 26rem); top:calc(var(--bar-b, 4.2rem) + 0.2rem); }
+.tl{ top:calc(var(--bar-b, 4.2rem) + 0.2rem); bottom:calc(var(--base-h) + 0.4rem); }
+.pathx{ right:auto; left:var(--gutter); }
+.mapbase{ right:auto; width:calc(100% - min(46vw, 26rem) - var(--tlw) - 2 * var(--gutter)); }
+}
+@media (max-height:500px) and (orientation:landscape) and (max-width:719px){
+:root{ --base-h:0px; }
+.mapbase{ width:calc(100% - min(46vw, 26rem) - var(--tlw) - 2 * var(--gutter)); }
+.tl{ bottom:0.4rem; }
+}
+
+.page-map .bar{ background:var(--paper); border-bottom:1px solid var(--line); }
+
+.i-key{ display:flex; flex-direction:column; gap:0.35rem; margin:0.9rem 0 0.4rem; font-size:0.9rem; }
+.i-key a{ color:var(--ink); text-decoration:none; } .i-key a:hover{ color:var(--accent); }
+.i-key svg{ width:0.62rem; height:0.62rem; }
+.after{ position:relative; z-index:8; background:var(--land); color:var(--ink); }
+.after.band{ --paper:var(--band); --land:var(--band); --ink:var(--band-ink); --ink-soft:var(--band-soft); --line:var(--band-line);
+background:var(--band); color:var(--band-ink); }
+.after .head{ padding:0 var(--pad); margin:0 0 2.6rem; }
+.after .head h2{ font:400 clamp(2.4rem, 5.6vw, 6.4rem)/1 var(--serif); letter-spacing:-0.02em; margin:0; }
+.research{ padding:7rem 0 5rem; }
+.research .ps-group h2{ padding:0 var(--pad); margin:3.6rem 0 0; font-family:var(--mono); font-weight:400; font-size:0.6875rem;
+letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-soft); }
+.research .ps-group:first-of-type h2{ margin-top:0; }
+.research .ps-list{ list-style:none; margin:0; padding:0; }
+.research .ps-card{ display:grid; grid-template-columns:repeat(12, minmax(0,1fr)); grid-template-rows:auto 1fr; column-gap:2vw;
+padding:1.4rem var(--pad) 2.4rem; border-top:1px solid var(--line); margin-top:0.8rem; }
+.research .ps-card h3{ grid-column:1 / 7; display:flex; gap:0.55rem; align-items:baseline; margin:0 0 0.9rem;
+font:400 clamp(1.4rem, 1.9vw, 2.4rem)/1.2 var(--serif); letter-spacing:-0.005em; text-wrap:balance; }
+.research .ps-card h3 .cv-cl svg{ width:0.62rem; height:0.62rem; }
+.research .ps-card h3 a{ color:inherit; text-decoration:none; }
+.research .ps-card h3 a:hover{ color:var(--accent); }
+.research .ps-meta{ grid-column:1 / 7; margin:0; color:var(--ink-soft); font-size:0.95rem; line-height:1.5; }
+.research .ps-card figure{ grid-column:8 / 13; grid-row:1 / 3; align-self:start; margin:0; }
+.research .ps-card figure svg{ width:100%; height:auto; }
+.insts{ padding:7rem 0; }
+.inst-grid{ list-style:none; margin:0; padding:0 var(--pad); display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:0 2vw; }
+.inst-grid li{ border-top:1px solid var(--line); padding:1.4rem 0 1rem; }
+.inst-grid b{ display:block; font:400 clamp(1.3rem, 1.6vw, 1.9rem)/1.15 var(--serif); }
+.inst-grid span{ display:block; color:var(--ink-soft); font-size:0.9rem; margin-top:0.3rem; }
+.contact-end{ min-height:70vh; display:grid; place-content:center; justify-items:center; gap:2rem; text-align:center; padding:7rem var(--pad); }
+.contact-end a.big{ font:400 clamp(3rem, 8vw, 9rem)/1 var(--serif); letter-spacing:-0.03em; color:var(--ink); text-decoration:none; }
+.contact-end a.big:hover{ color:var(--accent); }
+.contact-end nav{ display:flex; gap:2rem; }
+.contact-end nav a{ color:var(--ink-soft); text-decoration:none; } .contact-end nav a:hover{ color:var(--accent); }
+.after-close{ display:none; }
+@media (max-width:1100px){ .inst-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+@media (max-width:760px){
+.research .ps-card, .inst-grid{ display:block; }
+.research .ps-card figure{ margin-top:1.2rem; }
+.inst-grid li{ padding:1rem 0; }
+.research{ padding-top:4rem; } .insts{ padding:4rem 0; }
+}
+@media (max-width:719px), (max-height:500px) and (orientation:landscape){
+.after-wrap{ display:none; }
+.after-wrap:target{ display:block; position:fixed; inset:0; z-index:11; overflow-y:auto; -webkit-overflow-scrolling:touch;
+padding-top:calc(var(--bar-b, 6.2rem) + 0.5rem); background:var(--land); }
+.after-close{ display:block; position:sticky; top:0; z-index:2; padding:0.8rem var(--pad); background:var(--land);
+border-bottom:1px solid var(--line); color:var(--ink); font-size:0.92rem; text-decoration:none; }
+.after-close::before{ content:"\2190\00a0"; }
+}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://sherytash.github.io/#website","url":"https://sherytash.github.io/","name":"Stefan Herytash","description":"Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the way knowledge is produced and judged: when language models can simulate how people behave, and how work should be certified after AI, from peer review to theses.","inLanguage":"en","publisher":{"@id":"https://sherytash.github.io/#person"}},{"@type":"Person","@id":"https://sherytash.github.io/#person","name":"Stefan Herytash","alternateName":"Dr. Stefan Herytash","jobTitle":"Assistant Professor","url":"https://sherytash.github.io/","image":{"@type":"ImageObject","url":"https://sherytash.github.io/assets/portrait-web.jpg"},"description":"Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the way knowledge is produced and judged: when language models can simulate how people behave, and how work should be certified after AI, from peer review to theses.","worksFor":{"@type":"Organization","name":"Institute for Strategy, Technology and Organization","parentOrganization":{"@type":"CollegeOrUniversity","name":"WU Vienna","alternateName":"Vienna University of Economics and Business","url":"https://www.wu.ac.at/"}},"alumniOf":[{"@type":"CollegeOrUniversity","name":"LMU Munich","url":"https://www.lmu.de/"},{"@type":"CollegeOrUniversity","name":"University of Zurich","url":"https://www.uzh.ch/"},{"@type":"CollegeOrUniversity","name":"TU Wien","url":"https://www.tuwien.at/"}],"knowsAbout":["Post-AI institutions","AI-native methods","AI and how knowledge is produced and judged","Large language models as simulated research participants","Synthetic respondents in behavioral experiments","Science of science","Journal certification and peer review","Consumer behavior","Behavioral experiments in marketing","Marketing","Strategy","Innovation","Pay transparency and labor markets","Consumer wearables and health management"],"sameAs":["https://www.linkedin.com/in/stefan-herytash-606437253/","https://www.wu.ac.at/en/ifsto/institut/team/dr-stefan-herytash","https://orcid.org/0000-0002-6642-4397"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"https://orcid.org/0000-0002-6642-4397"}}]}</script>
+<meta name="twitter:title" content="Globe · Stefan Herytash">
+<meta name="twitter:description" content="Where Stefan Herytash has lived, studied, worked and spoken, on a globe.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:site_name" content="Stefan Herytash">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Stefan Herytash, Assistant Professor at WU Vienna">
+<meta name="twitter:image" content="https://sherytash.github.io/assets/og-card.png">
+<meta name="twitter:image:alt" content="Stefan Herytash, Assistant Professor at WU Vienna">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="page-map">
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="name" href="/"><svg class="mk" viewBox="0 0 22 10" aria-hidden="true" focusable="false"><circle class="c" cx="5" cy="5" r="4.3"/><rect class="s" x="12.6" y=".9" width="8.2" height="8.2"/></svg><span>Stefan Herytash</span></a>
+  <nav class="tabs" aria-label="Views">
+    <a href="/" data-tab="profile">Profile</a>
+    <a href="/globe/" data-tab="globe" aria-current="page">Globe</a>
+    <a href="/studio/" data-tab="studio">Studio</a>
+    <a class="tab-contact" href="#contact" aria-label="Contact"><svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true"><rect x="1" y="1.5" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 3l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span class="lbl">Contact</span></a>
+    <button class="theme" type="button" aria-label="Switch to dark mode"><svg class="t-moon" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><path d="M15.6 12.4A6.6 6.6 0 0 1 7.6 4.4a6.6 6.6 0 1 0 8 8z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><svg class="t-sun" viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 1.8v2.1M10 16.1v2.1M1.8 10h2.1M16.1 10h2.1M4.2 4.2l1.5 1.5M14.3 14.3l1.5 1.5M4.2 15.8l1.5-1.5M14.3 5.7l1.5-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+  </nav>
+</header>
+
+
+  <main class="stage" id="main">
+    <h1 class="vh">Stefan Herytash</h1>
+    <canvas id="globe" aria-hidden="true"></canvas>
+    <svg id="map" preserveAspectRatio="none" role="group" aria-label="Map of the places Stefan Herytash lived, studied, worked and spoke">
+      <g class="pins">
+<a class="pin pin-now" href="#vienna" tabindex="-1" data-id="vienna" data-kind="eu" data-lon="16.38" data-lat="48.2" data-years="2016-2019 2021-2022 2026-2026" style="--tm:38%" data-x="538.1" data-y="81.4" data-w="1.47" aria-label="Vienna"><circle class="halo" cx="538.1" cy="81.4" r="5"/><circle class="now-ring" cx="538.1" cy="81.4" r="9"/><circle class="pulse" cx="538.1" cy="81.4" r="5"/><circle class="ring" cx="538.1" cy="81.4" r="6"/><circle class="dot" cx="538.1" cy="81.4" r="3"/><circle class="hit" cx="538.1" cy="81.4" r="10"/></a>
+<a class="pin" href="#munich" tabindex="-1" data-id="munich" data-kind="eu" data-lon="11.59" data-lat="48.13" data-years="2022-2026" style="--tm:46%" data-x="527" data-y="81.6" data-w="1.41" aria-label="Munich"><circle class="pulse" cx="527" cy="81.6" r="5"/><circle class="ring" cx="527" cy="81.6" r="6"/><circle class="dot" cx="527" cy="81.6" r="3"/><circle class="hit" cx="527" cy="81.6" r="10"/></a>
+<a class="pin" href="#zurich" tabindex="-1" data-id="zurich" data-kind="eu" data-lon="8.53" data-lat="47.38" data-years="2019-2021" style="--tm:42%" data-x="520" data-y="83.8" data-w="1.32" aria-label="Zurich"><circle class="pulse" cx="520" cy="83.8" r="5"/><circle class="ring" cx="520" cy="83.8" r="6"/><circle class="dot" cx="520" cy="83.8" r="3"/><circle class="hit" cx="520" cy="83.8" r="10"/></a>
+<a class="pin" href="#lyon" tabindex="-1" data-id="lyon" data-kind="eu" data-lon="4.82" data-lat="45.76" data-years="2023-2023" style="--tm:50%" data-x="511.4" data-y="88.8" data-w="1.05" aria-label="Lyon"><circle class="pulse" cx="511.4" cy="88.8" r="5"/><circle class="ring" cx="511.4" cy="88.8" r="6"/><circle class="dot" cx="511.4" cy="88.8" r="3"/><circle class="hit" cx="511.4" cy="88.8" r="10"/></a>
+<a class="pin" href="#berlin" tabindex="-1" data-id="berlin" data-kind="eu" data-lon="13.4" data-lat="52.52" data-years="2026-2026" style="--tm:88%" data-x="530.1" data-y="68.8" data-w="1.05" aria-label="Berlin"><circle class="pulse" cx="530.1" cy="68.8" r="5"/><circle class="ring" cx="530.1" cy="68.8" r="6"/><circle class="dot" cx="530.1" cy="68.8" r="3"/><circle class="hit" cx="530.1" cy="68.8" r="10"/></a>
+<a class="pin" href="#copenhagen" tabindex="-1" data-id="copenhagen" data-kind="eu" data-lon="12.56" data-lat="55.69" data-years="2025-2025" style="--tm:65%" data-x="527.4" data-y="60.1" data-w="1.05" aria-label="Copenhagen"><circle class="pulse" cx="527.4" cy="60.1" r="5"/><circle class="ring" cx="527.4" cy="60.1" r="6"/><circle class="dot" cx="527.4" cy="60.1" r="3"/><circle class="hit" cx="527.4" cy="60.1" r="10"/></a>
+<a class="pin" href="#stockholm" tabindex="-1" data-id="stockholm" data-kind="eu" data-lon="18.07" data-lat="59.33" data-years="2026-2026" style="--tm:84%" data-x="538.1" data-y="50.6" data-w="1.05" aria-label="Stockholm"><circle class="pulse" cx="538.1" cy="50.6" r="5"/><circle class="ring" cx="538.1" cy="50.6" r="6"/><circle class="dot" cx="538.1" cy="50.6" r="3"/><circle class="hit" cx="538.1" cy="50.6" r="10"/></a>
+<a class="pin" href="#istanbul" tabindex="-1" data-id="istanbul" data-kind="eu" data-lon="28.98" data-lat="41" data-years="2025-2025" style="--tm:73%" data-x="570.9" data-y="103.7" data-w="1.05" aria-label="Istanbul"><circle class="pulse" cx="570.9" cy="103.7" r="5"/><circle class="ring" cx="570.9" cy="103.7" r="6"/><circle class="dot" cx="570.9" cy="103.7" r="3"/><circle class="hit" cx="570.9" cy="103.7" r="10"/></a>
+<a class="pin" href="#newcastle" tabindex="-1" data-id="newcastle" data-kind="w" data-lon="151.78" data-lat="-32.93" data-years="2026-2026" style="--tm:92%" data-x="888.9" data-y="369.6" data-w="1.05" aria-label="Newcastle"><circle class="pulse" cx="888.9" cy="369.6" r="5"/><circle class="ring" cx="888.9" cy="369.6" r="6"/><circle class="dot" cx="888.9" cy="369.6" r="3"/><circle class="hit" cx="888.9" cy="369.6" r="10"/></a>
+<a class="pin" href="#stanford" tabindex="-1" data-id="stanford" data-kind="w" data-lon="-122.18" data-lat="37.44" data-years="2027-2027" style="--tm:96%" data-x="194.5" data-y="115.3" data-w="1.05" aria-label="Stanford"><circle class="pulse" cx="194.5" cy="115.3" r="5"/><circle class="ring" cx="194.5" cy="115.3" r="6"/><circle class="dot" cx="194.5" cy="115.3" r="3"/><circle class="hit" cx="194.5" cy="115.3" r="10"/></a>
+<a class="pin" href="#boston" tabindex="-1" data-id="boston" data-kind="w" data-lon="-71.06" data-lat="42.37" data-years="2026-2026" style="--tm:77%" data-x="327.7" data-y="99.3" data-w="1.05" aria-label="Boston"><circle class="pulse" cx="327.7" cy="99.3" r="5"/><circle class="ring" cx="327.7" cy="99.3" r="6"/><circle class="dot" cx="327.7" cy="99.3" r="3"/><circle class="hit" cx="327.7" cy="99.3" r="10"/></a>
+<a class="pin" href="#philadelphia" tabindex="-1" data-id="philadelphia" data-kind="w" data-lon="-75.17" data-lat="39.96" data-years="2026-2026" style="--tm:81%" data-x="314.9" data-y="107" data-w="1.05" aria-label="Philadelphia"><circle class="pulse" cx="314.9" cy="107" r="5"/><circle class="ring" cx="314.9" cy="107" r="6"/><circle class="dot" cx="314.9" cy="107" r="3"/><circle class="hit" cx="314.9" cy="107" r="10"/></a>
+<a class="pin" href="#chicago" tabindex="-1" data-id="chicago" data-kind="w" data-lon="-87.62" data-lat="41.87" data-years="2025-2025" style="--tm:61%" data-x="286.9" data-y="100.9" data-w="1.05" aria-label="Chicago"><circle class="pulse" cx="286.9" cy="100.9" r="5"/><circle class="ring" cx="286.9" cy="100.9" r="6"/><circle class="dot" cx="286.9" cy="100.9" r="3"/><circle class="hit" cx="286.9" cy="100.9" r="10"/></a>
+<a class="pin" href="#montreal" tabindex="-1" data-id="montreal" data-kind="w" data-lon="-73.58" data-lat="45.5" data-years="2025-2025" style="--tm:57%" data-x="325.5" data-y="89.5" data-w="1.05" aria-label="Montreal"><circle class="pulse" cx="325.5" cy="89.5" r="5"/><circle class="ring" cx="325.5" cy="89.5" r="6"/><circle class="dot" cx="325.5" cy="89.5" r="3"/><circle class="hit" cx="325.5" cy="89.5" r="10"/></a>
+<a class="pin" href="#phoenix" tabindex="-1" data-id="phoenix" data-kind="w" data-lon="-112.07" data-lat="33.44" data-years="2025-2025" style="--tm:54%" data-x="213.6" data-y="128.7" data-w="1.05" aria-label="Phoenix"><circle class="pulse" cx="213.6" cy="128.7" r="5"/><circle class="ring" cx="213.6" cy="128.7" r="6"/><circle class="dot" cx="213.6" cy="128.7" r="3"/><circle class="hit" cx="213.6" cy="128.7" r="10"/></a>
+<a class="pin" href="#hongkong" tabindex="-1" data-id="hongkong" data-kind="w" data-lon="114.16" data-lat="22.32" data-years="2025-2025" style="--tm:69%" data-x="805.7" data-y="167.6" data-w="1.05" aria-label="Hong Kong"><circle class="pulse" cx="805.7" cy="167.6" r="5"/><circle class="ring" cx="805.7" cy="167.6" r="6"/><circle class="dot" cx="805.7" cy="167.6" r="3"/><circle class="hit" cx="805.7" cy="167.6" r="10"/></a>
+      </g>
+      <g class="labels" aria-hidden="true">
+<a class="lab-a" href="#vienna" tabindex="-1"><text class="lab lab-eu" data-for="vienna" data-x="538.1" data-y="81.4" x="546.4" y="83.4" font-size="8.1" text-anchor="start">Vienna</text></a>
+<text class="lab-now" data-for="vienna" data-x="538.1" data-y="81.4" x="538.1" y="96.4" font-size="7" text-anchor="middle">now</text>
+<a class="lab-a" href="#munich" tabindex="-1"><text class="lab lab-eu" data-for="munich" data-x="527" data-y="81.6" x="535.1" y="84.5" font-size="8.1" text-anchor="start">Munich</text></a>
+<a class="lab-a" href="#zurich" tabindex="-1"><text class="lab lab-eu" data-for="zurich" data-x="520" data-y="83.8" x="527.8" y="86.8" font-size="8.1" text-anchor="start">Zurich</text></a>
+<a class="lab-a" href="#lyon" tabindex="-1"><text class="lab lab-eu" data-for="lyon" data-x="511.4" data-y="88.8" x="484.1" y="90.8" font-size="8.1" text-anchor="start">Lyon</text></a>
+<a class="lab-a" href="#berlin" tabindex="-1"><text class="lab lab-eu" data-for="berlin" data-x="530.1" data-y="68.8" x="537" y="71.8" font-size="8.1" text-anchor="start">Berlin</text></a>
+<a class="lab-a" href="#copenhagen" tabindex="-1"><text class="lab lab-eu" data-for="copenhagen" data-x="527.4" data-y="60.1" x="469.5" y="62.1" font-size="8.1" text-anchor="start">Copenhagen</text></a>
+<a class="lab-a" href="#stockholm" tabindex="-1"><text class="lab lab-eu" data-for="stockholm" data-x="538.1" data-y="50.6" x="545" y="52.6" font-size="8.1" text-anchor="start">Stockholm</text></a>
+<a class="lab-a" href="#istanbul" tabindex="-1"><text class="lab lab-eu" data-for="istanbul" data-x="570.9" data-y="103.7" x="577.8" y="105.7" font-size="8.1" text-anchor="start">Istanbul</text></a>
+<a class="lab-a" href="#newcastle" tabindex="-1"><text class="lab lab-w" data-for="newcastle" data-x="888.9" data-y="369.6" x="895.8" y="371.6" font-size="8.1" text-anchor="start">Newcastle</text></a>
+<a class="lab-a" href="#stanford" tabindex="-1"><text class="lab lab-w" data-for="stanford" data-x="194.5" data-y="115.3" x="146.8" y="117.3" font-size="8.1" text-anchor="start">Stanford</text></a>
+<a class="lab-a" href="#boston" tabindex="-1"><text class="lab lab-w" data-for="boston" data-x="327.7" data-y="99.3" x="334.6" y="101.3" font-size="8.1" text-anchor="start">Boston</text></a>
+<a class="lab-a" href="#philadelphia" tabindex="-1"><text class="lab lab-w" data-for="philadelphia" data-x="314.9" data-y="107" x="284.3" y="119.9" font-size="8.1" text-anchor="start">Philadelphia</text></a>
+<a class="lab-a" href="#chicago" tabindex="-1"><text class="lab lab-w" data-for="chicago" data-x="286.9" data-y="100.9" x="244.2" y="102.9" font-size="8.1" text-anchor="start">Chicago</text></a>
+<a class="lab-a" href="#montreal" tabindex="-1"><text class="lab lab-w" data-for="montreal" data-x="325.5" data-y="89.5" x="305" y="80.7" font-size="8.1" text-anchor="start">Montreal</text></a>
+<a class="lab-a" href="#phoenix" tabindex="-1"><text class="lab lab-w" data-for="phoenix" data-x="213.6" data-y="128.7" x="220.5" y="130.7" font-size="8.1" text-anchor="start">Phoenix</text></a>
+<a class="lab-a" href="#hongkong" tabindex="-1"><text class="lab lab-w" data-for="hongkong" data-x="805.7" data-y="167.6" x="812.6" y="169.6" font-size="8.1" text-anchor="start">Hong Kong</text></a>
+      </g>
+      <g id="route" aria-hidden="true"></g>
+    </svg>
+    <svg id="globe-first" viewBox="-3000 -3000 6000 6000" aria-hidden="true" focusable="false"><defs><radialGradient id="gf-shade" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="2900"><stop offset=".7" stop-color="var(--globe-shade)" stop-opacity="0"/><stop offset="1" stop-color="var(--globe-shade)"/></radialGradient></defs><circle r="2900" class="gf-sea"/><path class="gf-grat" d="M-729 -2807l106 -4 80 23 84 44 178 151M-1264 -2610l142 -49 121 -15 128 6 135 25 286 112M-1842 -2239l226 -143 147 -57 158 -39 168 -20h177l375 55M-2420 -1598l108 -144 125 -129 142 -115 157 -100 172 -84 185 -68 196 -50 207 -33 437 -13M-2833 -619l59 -207 75 -178 96 -170 116 -161 135 -152 152 -140 169 -127 185 -115 199 -100 211 -85 222 -69 232 -53 239 -37M-2848 544l-30 -317 11 -194 32 -195 55 -194 75 -190 96 -187 116 -181 135 -174 153 -166 170 -156 384 -279 435 -228 471 -170M-2455 1543l-142 -294-51 -176-31 -184-10 -191 10 -196 31 -200 51 -202 70 -204 90 -202 234 -396 302 -375 173 -176 384 -322 208 -143 440 -247M-1882 2206l-124 -124-93 -126-77 -142-61 -155-44 -168-26 -180v-387l70 -415 61 -215 77 -216 202 -433 123 -214 285 -412 331 -382 179 -176 380 -316M-1301 2592l-162 -115-83 -94-72 -113-60 -130-47 -146-33 -162-27 -363 27 -408 33 -217 47 -223 132 -460 178 -464 106 -229 114 -226 255 -431 138 -204 293 -373M-763 2798l-105 -56-60 -62-53 -83-84 -225-30 -140-21 -156-17 -360 38 -634 114 -707 180 -733 234 -708 274 -636M-261 2888l-48 -46-41 -133-40 -351-14 -512 14 -638 40 -720 65 -754 83 -735 98 -667M228 2891l43 -46 35 -132 35 -351 12 -512-12 -638-35 -720-56 -755-73 -736-86 -668M729 2807l103 -55 109 -144 80 -224 28 -140 33 -329 4 -187-37 -634-108 -708-173 -735-225 -711-262 -639M1264 2610l166 -116 81 -94 71 -112 58 -129 46 -146 53 -336 6 -188-6 -200-53 -426-46 -224-129 -460-174 -467-103 -230-112 -227-249 -435-135 -204-286 -377M1842 2239l137 -134 92 -126 76 -141 60 -154 44 -168 26 -179 8 -189-8 -198-26 -206-104 -425-168 -436-228 -432-135 -210-147 -205-326 -386-177 -178-375 -321M2420 1598l88 -154 71 -165 50 -176 30 -184 10 -191-10 -196-30 -200-50 -203-71 -204-89 -204-107 -201-267 -390-329 -364-381 -326-207 -146-437 -251M2833 619l28 -167 11 -193-11 -194-33 -195-54 -194-75 -192-96 -188-116 -182-135 -176-152 -167-169 -158-384 -284-433 -233-471 -175M2848 -544l-68 -250-75 -179-96 -172-116 -163-135 -152-153 -142-170 -129-185 -117-199 -102-212 -87-223 -72-471 -96M2455 -1543l-126 -173-126 -130-143 -117-159 -102-173 -86-186 -69-198 -53-208 -36-440 -18M1882 -2206l-108 -81-136 -77-149 -59-161 -40-170 -22-179 -2-380 51M1301 -2592l-153 -54-124 -16-131 4-138 24-293 108M763 -2798l-113 -6-83 22-179 108-95 84M261 -2888l-59 41-98 223M-228 -2891l51 42 86 224M-1115 2677l314 107 340 71 176 21 357 12 354 -28 174 -29 331 -86 183 -67M-2196 1894l190 188 293 209 167 92 367 153 403 110 211 38 215 25 438 15 218 -11 428 -58 406 -106 191 -69 180 -80 326 -188 142 -107 217 -211M-2729 980l132 269 101 143 120 137 294 251 357 214 410 171 449 122 476 71 488 16 484 -38 467 -92 435 -142 390 -189 333 -229 266 -264 106 -141 85 -148 65 -151M-2900 0l22 227 41 161 64 157 84 153 105 148 125 142 143 134 338 241 399 200 446 153 481 100 248 30 505 17 252 -13 495 -67 469 -122 428 -172 376 -218 311 -256 129 -140 108 -147 89 -152 68 -157 46 -160 28 -259M-2729 -980l-45 154-23 157-2 157 19 156 40 155 61 152 82 149 101 142 120 137 139 130 155 121 357 214 199 91 431 147 229 55 476 71 488 16 243 -12 478 -65 453 -118 414 -166 188 -100 333 -229 266 -264 106 -141 85 -148 65 -151 45 -154 23 -157 2 -157-19 -156-51 -186M-2196 -1894l-116 152-135 268-40 139-21 140-2 141 17 140 36 139 55 136 164 261 108 123 264 224 153 101 167 91 367 154 403 110 211 37 215 26 438 15 218 -11 428 -59 406 -105 191 -70 350 -169 156 -99 142 -107 238 -236 172 -259 58 -136 40 -138 21 -140 2 -141-17 -141-36 -138-55 -137-73 -133-133 -178M-1114 -2678l-258 128-244 168-195 192-139 212-81 224-18 229 43 228 45 112 134 213 189 194 239 171 282 142 316 107 340 71 176 21 357 12 354 -28 342 -67 163 -47 303 -122 266 -154 220 -181 168 -203 110 -218 50 -228-13 -229-29 -114-105 -220-162 -204-215 -184-262 -157-147 -67M-543 -2788l-225 74-202 97-173 119-137 137-99 149-57 158-13 163 31 161 74 155 114 145 152 130 185 111 212 88 233 64 246 36 253 9 373 -41 234 -60 312 -138 173 -119 73 -66 119 -144 78 -154 35 -161-9 -162-21 -81-74 -155-52 -74-134 -138-169 -121-308 -141-355 -85-250 -23-253 6-366 61M-281 -2593l-221 89-89 61-72 71-51 77-29 82-7 84 16 83 38 81 59 75 175 124 230 79 258 23 193 -20 122 -32 161 -71 89 -62 100 -108 40 -80 19 -84-16 -125-65 -119-70 -71-87 -63-160 -73-120 -33-193 -23-130 3-190 32"/><path class="gf-land" d="M2342 1139l-44 42 12 11-13 37 8 27-47 79-3 51 29 53 81 -40 6 51 77 -77 79 -123-14 -34 20 -140-33 3v-20l-99 23zM586 576l3 27-113 27-41 108-61 59-11 68-23 41-106 11-1 21 10 -17 183 -14-13 -69 9 -25 43 -10-10 -124 146 -17zM-1821 -1322l17 -6-20 33 10 73 20 46 26 14 4 121-10 22 10 6-11 77-47 77-66 42 4 27 102 24 13 -29 14 3 39 37 81 -20 76 60 32 -5 87 -60 24 39-36 59 2 35 74 36-66 9-20 38 19 16 207 -23-10 -25 14 -34-53 36-48 -18-22 -42 31 -90 40 -15-9 -34-38 -18-72 4-73 29-24 -7 121 -53 81 -17 109 71 46 15 52 -21 51 4 53 -16 23 -52-17 -35 10 -42-38 -50-20 -74 25 -22 33 -174-78 45-43 4-7 -49 63 -85-26 -24 7 -77h-21l-24 -47h-18l-80 95-55 21-8 44-41 67-76 27-42 -8-52 98-43 30-25 -1 9 -61 28 -53 63 -70-31 -50 9 -161-22 -17 61 -66-5 -28 49 -32 91 -30 45 -6 14 13 53 -19 15 18 38 -5 88 -32-3 20 20 12h48l35 -36 48 -23 9 -28-15 -35-47 29-81 24 74 -75-43 5 45 -25-3 -25 28 -2 42 -40 16 -36-90 26-35 47-89 19 42 -21 8 -25-40 8-19 -34 16 -30-7 -12 33 -36-10 -21-17 -2-19 19-25 -5 27 -22-14 -40 12 -25 22 11 25 -23 61 -94-16 -14 36 -7-26 -10 56 -31-27 -7 23 -9-14 -31 15 -16-16 -21 71 -46-378 20-95 61 13 23-166 93-40 37-60 14-160 113-104 129zM-1193 -1553l8 10 42 -9-15 -18zM-725 -1828l30 27 18 -38-20 -23zM-1135 -1504l-23 1-6 22zM-700 -2002l13 -14-18 -6-31 19 3 13zM-601 -2060l6 17 12 -10-5 -13zM-545 -2083l1 -14-46 25 32 2zM-653 -2039l-15 34-47 24-1 28 43 63 19 6 40 -33-42 -31-8 -24 42 -42v-43zM-595 -2169l-21 -13-17 14 16 10zM-561 -2176l-14 -5-8 1v11l10 6zM-995 -589l7 -25-24 -1 23 -30-58 -42 17 -13-13 -17-25 7 76 -63-11 -9-60 25-99 76 5 17-24 8-3 16 84 37 22 23-30 13 17 9 51 -27-17 46 16 16 14 3 29 -36zM-1085 -1576l-12 -6 18 -16 8 -63-12 -1 13 -26-103 47 17 15-20 22 67 -1-11 21 8 27 22 1zM-752 -1496l8 -46-23 -65 39 -1 20 -40-10 -53 13 -29-27 -8 15 -14 5 -59-52 -5 59 -59-35 -9-41 12 55 -32-27 -15-68 15-44 27 9 13-27 1-9 17 29 91 38 10-13 57-16 2 8 61-20 32-74 33-9 16-54 -38-36 16-3 22 43 28 11 -11 5 68-15 6 1 32 47 90 15 -96 27 79 28 -25 20 -44-1 -75 21 -20 22 7-1 78 89 -53zM-749 -1965l-7 -19-17 -3-83 38 3 11 103 -6zM-697 -2230l25 31h53l-3 -20-29 -12-32 -10zM-1640 -2158l40 -11 17 -26zM-554 -2139l-26 8-14 42 41 -20 18 -35zM-1859 -1930l100 -123-96 91-29 43zM-802 -2176l35 -47 2 -28-32 11-79 -11-55 34 15 24 52 4 41 27zM-700 -2107l-8 -14 46 -24-64 18 2 -15 47 -44-59 -9-7 49-21 -13-16 4 1 13 32 44zM-936 -2021l78 -36 24 -28-76 15 61 -34-25 -5 24 -19-13 -18 32 -12-27 -20-52 -5-17 36-16 -21-18 10-14 61-14 -49-40 22-10 28-22 13 36 76-11 49 34 -18 9 17 20 -7zM-823 -1993l38 -8-6 -28-26 -3-28 22 1 -22-15 5-45 64 24 9 42 -16zM-811 -2070l-4 -12-7 -1-32 25 34 -2zM-668 -2049l20 -13-28 -24-37 11 7 12-32 21 9 12zM-472 -2044l57 -57-9 -10-54 6-33 22 5 11-48 20 12 24 61 -3zM-398 -2101l-37 37 19 28-22 1-6 -21-34 29-55 4-24 37 1 -29-70 22 35 68 42 1 6 -22 80 -10 23 -28 51 13 150 -48-26 -49-26 -17-49 3 8 -15zM-924 -1630l33 7 24 -34-16 -5zM-971 -1911l14 -28-40 -2-14 54zM-1252 -779l37 38-38 -71-10 -1zM-1310 -639l-15 -16 2 -27-18 8 22 57 34 -9zM-1901 -1882l-40 22 38 -32 16 -36-273 185-148 178-52 74-75 156-2 60-40 147 5 77 12 -14 6 48-51 158-2 35 24 -11 7 22-56 202 5 62 5 9 43 -74 69 4 27 27 21 47-1 41 25 38 20 -45 62 73 8 63 30 7 5 16-40 219v42l19 20 39 -63 36 -164 31 -59 98 -33 63 -6 32 11 33 -19 44 -112-7 -28 11 21 27 -46-19 37 2 27-23 26 51 -32 17 -56v36l36 -18 33 -40 53 31-2 -14-40 -20 109 40 9 -11-2 -15-6 18-10 -9 6 -29 51 -45 108 5 2 -53 36 -59-24 -39-87 60-32 5-76 -60-81 20-39 -37-14 -3-13 29-107 -30 1 -21 66 -42 47 -77 11 -105-4 -121-26 -14-20 -46-10 -73 20 -33-17 6-48 -585zM-851 -2674l34 -17zM-1171 -2526l24 -26-35 10-6 22zM-864 -2407l156 -105 48 -11v-17l32 -32-8 -32 25 -13-6 -9-143 19 58 -19 36 -36-88 16-60 39-31 -6 48 -38-14 -22-159 33-88 56-27 -7 2 -11 62 -68-97 73-15 49 6 11 29 -10 9 40-55 -11-29 46 27 -4-8 13-210 145-55 62-166 99 40 -6 40 -37 166 -93-13 -23 95 -61 378 -20zM-693 -2691l47 -13zM1771 -2085l17 27-31 19 21 33-11 17 23 21-112 5-14 -13 54 86-23 -13-11 17 12 25-41 -15-8 28 41 96 5 80 13 18 30 3 33 62 34 -14 18 18-8 28 10 14-26 11-8 33 9 33-68 34-13 31 20 75 25 27-32 1 61 91 34 6 8 -16 48 30 11 -5v-67l24 -33 56 53-16 38 24 26-13 19 60 27 23 -15 34 35-3 -55 47 3 3 -13-126 -121-3 -76 55 -22 35 5 1 -75 27 -7 63 39 1 -30 16 7v-9l-72 -120v-49l-30 -39 8 -22-20 -82 9 -14-33 -34-53 -19-42 -70-70 -52-7 -36-103 -86zM2139 -1202l-18 -13-20 -70 26 -15 35 20 12 -30 35 20 43 -8 33 -32 19 20 8 -27-32 -46-23 -17-8 12-14 -20 1 -20-39 -54-9 -40 24 23v-27l-27 -52-15 14 11 25-12 7-26 -33 57 102v9l-16 -7-1 30-63 -39-27 7-1 75-35 -5-55 22 3 76 126 121zM-1494 2485l76 44-45 -29 140 58-100 -66-27 -37-9 -27 103 -7-36 -39-16 -3 4 18-25 2-111 -55 16 -18-11 -13-128 -86-95 -86-40 -24-4 13-77 -65-16 7 12 30-28 -11 41 63-15 8 6 14 155 156A2900 2900 0 0 0 -1494 2485zM-1724 2332l-132 -122-29 -48 15 -8-41 -63 28 11-4 -21-29 -20-126 -192-16 5 127 259 126 137A2900 2900 0 0 0 -1724 2332zM2259 1292l22 -165 39 -96-13 5v-48l-38 -15-40 46-15 6-22 -19-57 41-97 87-14 39-55 21-56 2-33 54-30 202-50 76-18 75-60 81-39 1-41 36-16 46 163 -85 37 54 59 -35 45 -60 58 -22-5 120 74 -51 70 -22 22 -25 3 13 24 -15 16 13 23 -18 7 -34-35 18 20 -92 23 -41 54 -46-29 -53zM2602 878l94 -308 27 -160 8 -214-17 -129-27 90 17 78-45 298-57 114-22 91 4 142 12 14zM2544 1052l52 -158-12 -14-4 -142 17 -71-26 19-26 68-35 33-35 2-19 19-12 -26-15 7-31 86 34 65-31 142 99 -23v20l33 -3zM2058 950l22 -28 9 -69 24 -23 38 17 71 -51 26 -64 30 4 15 -19 21 -79-17 -29 17 -28 14 -10 12 61 17 3 19 61-6 -89 28 -175-24 -158 25 -85-32 -1-66 -126-335 285 27 88-38 26 50 191-30 16-11 158 12 -10 38 66 25 14 3 50 42 5zM1633 468l-30 43 27 67 40 27 12 182-42 65-7 66 19 9 5 28 25 -11 29 99 26 29-51 23-7 25 45 12 23 37-5 15 103 -74 33 -51-6 -12 47 -28 32 -40 19 -62 37 -50-31 -51-12 10 8 -78-10 -5 13 -75 30 -16-45 -173zM-2107 358l-17 -16-11 6 17 22 3 46-14 1-47 -49-7 11 12 26 68 53 20 -73zM-2105 472l6 13 33 -19 2 14 21 2 39 39 16 -10-40 -82-48 -48-27 47zM-341 -2671l-16 5 13 11 12 -12zM589 -2839l-90 -10 152 44-516 -56-58 -1 19 6-65 14-62 3-22 -11-98 25 13 -16 212 -45-81 -12-113 11 13 2-34 15 34 2-34 15-170 18-178 64 75 10-45 17 69 50 177 -14-17 -17 19 -8 38 10 121 -11 22 4 13 20 101 2 47 29 127 32 25 -4 4 -18 92 21 14 14 36 -12 13 32-27 15 8 16 40 21 21 -10 46 25-12 8 29 21 36 8-17 11 27 26-101 -10-5 28 38 19-17 7 10 15-19 -5-1 13 74 10 131 92 56 3 38 56 86 -1-20 15 8 21 22 19 34 1-7 10-70 -6 34 3 35 24 36 -6 50 19 25 3 3 -11 56 11 48 26 31 27-5 13-101 -56-27 6-179 -39-11 23 98 56 74 19 5 -13 35 -2 25 15-71 38-20 28 44 10 28 25-32 2 22 63-10 13-23 -25-6 8 29 95 26 19-1 25h-22l-23 -15 4 -17-29 -8-35 22 87 37 25 26-34 10 18 56 37 14 1 18-50 10 8 19 41 24-47 6-58 -46-47 -6 4 -12 77 -26-6 -55-28 -18-183 17-7 59 23 25 43 7 17 35 56 27 22 37 39 15 17 27 46 8 31 127 33 4 16 71 38 50 58 39 37 1 31 -17 22 30 82 26-15 33 40 31 28 -42 30 12 13 22 16 -12 27 18 33 -8 8 -20 25 6 43 -26 52 69-12 42 13 18 10 -24 8 8-12 44 22 4 12 49-9 21 115 4 47 -43 44 -9 25 -31 74 -4-10 -41-115 -58-32 -115-59 -25-8 16-34 -6-61 -91 32 -1-25 -27-20 -75 13 -31 68 -34-9 -33 8 -33 26 -11-10 -14 8 -28-18 -18-34 14-33 -62-30 -3-13 -18-5 -80-41 -96 8 -28 41 15-12 -25 11 -17 23 13-54 -86 14 13 112 -5-23 -21 11 -17-21 -33 31 -19-17 -27 16 -1-116 -119-35 -79-105 -56-28 -46 21 4-12 -19-117 -106-182 -108-169 -56-113 -54 15 -10-164 -57A2900 2900 0 0 0 589 -2839zM405 -2342l-16 14 58 15 34 -17 10 -29-16 -11-40 8zM443 -2381l75 5-49 -27-18 3zM198 -2586l48 7 19 -12-14 -18-71 -9-18 14zM146 -2608l7 -6-21 -12-20 -4-18 7zM257 -2637l-50 -6zM444 -2082l27 7-22 -32-14 4 15 14-12 -3-2 20zM1181 -1042l-6 -13-41 6-20 31 8 22 69 -36zM655 -2165l74 121 23 6 34 36 9 -6 63 59 68 3 16 -39-45 4-40 -13-83 -61-84 -104zM490 -2858l-29 -5A2900 2900 0 0 0 441 -2866l16 5-10 8 82 2A2900 2900 0 0 0 490 -2858zM-571 -2676l50 -15-19 -6 150 3-69 -50 13 11-19 9-146 15 18 14-34 23zM-375 -2659l-10 10 41 -6zM1666 -860l-7 42 31 -9 9 24 17 -3 26 -78-7 -17-17 22-60 2zM-2176 -77l30 20 5 -12-16 -18-13 -8zM-2138 -71l-4 59 18 -27zM-2179 45l-1 -53-17 22 2 52zM335 -1931l-20 -7-1 19-24 -5-11 21 89 50 2 16 48 4-40 -65 5 -24zM775 -1701l3 -20-60 3-34 34 11 40-22 11-14 32 13 273-54 147 84 146 42 11 26 -22 19 -67 28 20-3 -66-22 -53-26 -16-34 -54-12 -44 19 -8-20 -30-39 -152 14 -7-13 -23 32 -9-19 -25 6 -21 32 10 37 -13-23 -52 5 -25 29 2 21 27 9 -39zM356 -1980l-24 2 5 13-17 -2-11 19 43 14 25 -7 15 -16-12 -22zM426 -1903l-17 -9-8 15 19 19 22 -1 2 -24zM67 -1933l-23 -6-53 30 3 -35-15 11-47 -19 63 -1 12 -14-36 -31-44 -9-83 21-5 38-20 -38-30 12 2 -13-18 -7-43 -3-13 16-75 15 4 21-15 9-84 -6-16 10 23 53-49 -13-12 45 66 37 9 33-37 127-39 28 4 15h17l13 53-36 -27-35 45 10 21 54 -11-37 45-32 5-45 42 2 18-24 28 3 47-23 71 12 144 45 13 19 47 34 5 50 -76 4 -37 48 -28 56 -82 76 -10 50 -25 59 -58 78 -9 100 -69-69 -6 22 -23-4 -30 31 43 30 -8-6 -35-41 -38 8 -11 30 19-18 -48 41 -7 4 -15-16 -17 30 -4-19 -35 14 -4-5 -35-22 -21 36 -15-17 -71 14 -54-20 -1 27 -8 31 -39zM1588 2370l6 8-39 44 26 -9 293 -207 204 -199 39 -49-57 51 76 -93 13 -41-238 234-150 112 11 -20-13 -11-56 88-123 69zM1925 2141l50 -39-71 67zM1965 2105l-67 62zM-2461 -1296l-84 172-19 16v-13l-70 186-37 132h11l94 -254 61 -134 43 -56-151 368-46 198-57 160 2 263 22 136 33 35 9 34 9 106 27 -47 22 37-1 -78 8 14 8 -23 33 54 22 -9 9 27 69 -98-31 -54-40 -28-37 55-17 -1-58 -59-10 -70 38 -201 77 -111-10 -72 52 -168-3 -56-24 11 7 -60 46 -133-6 -48-12 14-5 -77 40 -147 2 -60zM-1450 2455l51 48 107 52 37 3-183 -122-21 -8zM-1240 2557l90 -32-14 -54 26 -12 113 1 113 20 5 -12 34 -2 1 -25 39 -23 1 -34 13 -8 8 -59-11 -56 11 -20 161 -100 17 -54-28 -69-98 -39-135 -97-72 -14-92 -42-54 -2 7 -19-23 -28-135 -77-34 15-2 -39-94 -49 34 -21-1 -28-23 -14-33 -106-15 -4-59 62-129 -69-2 27-55 -29-50 3-44 -42-13 -45 20 -40-24 -66-20 -8 4 14-15 8-84 -14-64 -48 16 20 2 54 33 32-83 8-54 -49-17 -46-11 6-68 -48v26l20 18-2 14-26 -16 21 78-11 109-30 -24-65 -14-1 43-18 -4-5 15 35 88 65 69 23 -1 9 50 15 15 61 39 50 1 45 23 10 59 46 53 153 121 33 83 75 38 6 28 39 40 3 43-9 1 29 55 85 44 33 46 44 19 7 36 43 24 9 18-103 7zM-2059 1732l-1 62 28 57-10 18 126 192 37 4 77 65 4 -13 48 32 2 -53 151 82-3 -43-39 -40-6 -28-75 -38-33 -83-153 -121-46 -53-10 -59-45 -23-50 -1-43 -31zM-2164 1381l-10 -8 20 -23-100 -91-65 -137-9 -4-4 50-31 10-33 -16-19 36h-14l-35 -54 1 -34-19 1 4 75 208 436 174 212 52 45 12 -28-28 -57 1 -62-41 -74-33 -23-9 -50-23 1-65 -69-35 -88 5 -15 18 4 1 -43 65 14 30 24zM-2055 1225l-22 -36 19 -9-15 -59 22 -54-71 -48-21 -52-61 -47-13 -30-2 -77-15 -16 21 -44 37 -25 22 7 10 -9-7 -17-11 -12-62 11-46 -31-21 4-14 44-39 3-15 -16-1 34-16 -4-6 16 10 71-12 66 10 20-26 23-14 -10-6 29-11 -8 43 93 69 80 65 137 100 91-20 23 28 40 11 -109-21 -78 26 16 2 -14-20 -18v-26l68 48 11 -6 17 46zM-2375 671l-39 -57-54 -16-32 -71-8 59 44 61 1 30 25 11-6 -42 39 6 21 53 2 53 6 -16 16 4zM-2504 477l-2 -30-41 -65-11 2-2 47 9 31 7 -17 35 133 9 -51 10 8zM-2508 437l55 -143-35 -20-8 -21-31 15-21 -24-13 23-11 -18 20 134 38 66zM-2457 275l-49 -102-40 -48-35 -4-11 21 23 64 1 53 15 6 5 -21 21 24 31 -15 8 21 35 20zM-2597 138l-14 5v22l33 71 9 -30zM-2637 86l23 62 29 -10 4 -17 26 1-17 -36 28 -76-33 -54-8 23-8 -14 1 78-22 -37-27 47zM-2572 86l25 -2 30 -66-5 -17-16 15-4 -13zM-1832 1202l13 -26 35 4-7 -37 34 -8-35 -28-2 -37-26 -36-31 -19-10 -28 34 5-92 -48-2 11-23 1-44 -53-70 -42-17 -53-23 -17-7 -38-14 5 1 23-44 -12 4 54-11 25-15 -8-7 -42 18 -13-3 -49 20 9 2 -10-22 -7-37 25-21 44 15 16 2 77 13 30 61 47 21 52 71 48-22 54 15 59-19 9 51 117 28 15 83 -8-33 -32-2 -54-16 -20 64 48 84 14 15 -8zM-1668 1415l-34 -69 7 -28 26 1 9 -34-51 -61 1 -21-47 -68-34 8 7 37-35 -4-13 26 25 45 29 22-6 15 21 37-20 40 13 45 44 42 50 -3 33 16zM-1546 1468l12 -31-18 -60 25 -26-133 -66-9 34-26 -1-7 28 59 115 22 13 2 -27 61 34zM-1438 1436l-89 -85-25 26 18 60-24 44 68 35 59 -62zM882 -617l-41 -14-14 8-72 -43-22 17 4 42-59 56-36 -15 25 53h-56l-38 19 11 35 54 8 77 62 19 100-10 34 18 15 70 6 9 -14 45 12 37 -18-4 -30 43 -31 69 -8 20 -38-5 -21-19 -1-21 -33 5 -19-19 -29-18 -16-12 12-7 -21 6 -47 20 -11-7 -73zM1091 -325l19 49 18 4-23 -79zM-2355 1071l-33 -29-40 -77-34 -9-12 51-10 -4 1 44 17 34 9 -7-7 70 35 54h14l19 -36 33 16 31 -10 4 -50zM-1904 575l-50 -30-3 21 46 27zM-2239 340l-47 -60 17 58 31 18zM-2165 266l-20 -20 6 -10-23 -31-28 -101-26 -19-21 -64-64 -63-56 -1 20 24 42 2 22 27-13 2 5 16 67 105 2 52 24 40-27 7 100 77zM2195 1817l76 -150-61 26-126 154-55 35 3 15 29 17 11 -7-4 21 33 -16zM2089 1914l-21 14 4 -21-33 1-15 -24-149 108-43 102-34 20-39 76 13 11-11 20 174 -132zM1798 2114l34 -20 43 -102 92 -56 58 -55-215 138-272 122-4 20 23 14 11 37 21 17-24 114 80 -25 58 -40zM313 1277l26 -13 20 9 31 -10 10 13-146 26 9 35 55 -15 190 -7 9 -18-23 -27-15 -53-64 -59-56 -21-74 12-50 74-21 10 45 49zM519 1327l20 -9 43 12 50 -28 37 35-10 27 17 -1 14 24 56 -7 30 -22 8 17 31 -18 5 -61 51 -90 42 -12 88 -86 95 -24 14 -21 99 -40 20 -68-17 -105-47 19-5 -29-50 -7-14 -19-324 -137-68 14 95 404-7 34-190 32-52 23-48 -5-23 38 15 53 18 10zM258 957l23 115-12 93 16 -16 74 -12 56 21 64 59 23 -38 48 5 52 -23 190 -32 7 -34-95 -404 68 -14-179 -89 8 74-146 17 10 124-43 10-9 25 13 69-183 14-10 17zM1202 1372l4 -56 32 -50 2 -31-12 -38-37 -15-61 49-26 55 45 48 17 123 39 -16zM1580 541l-27 -15-66 6-218 278-57 40 17 105-20 68-142 71 6 41 30 22 3 21 53 -4 2 30 30 -22 37 15-1 -40 24 -62 46 -21 64 12 41 -25 55 4 79 -58 56 -8 38 -41 41 31 11 -45-25 11-5 -28-19 -9 7 -66 42 -65-12 -182-40 -27-27 -67zM1278 1418l75 60 114 -63 28 -80 35 -40h41l28 -26 91 -270-26 -6-34 -35-38 41-56 8-79 58-55 -4-41 25-64 -12-46 21-24 62 11 109-39 80 6 95zM1671 974l19 25-3 25-30 49-58 196-28 26h-41l-35 40-28 80 21 29 20 -1 18 20-6 34 197 -83 65 -11-5 -50-59 -43-2 -62 31 -79-23 -37-45 -12 7 -25 51 -23-26 -29-9 -56-20 -21zM1067 1272l41 108-3 61 25 36 36 -20-17 -123-45 -48 4 -24zM1046 1274l-116 33 25 115-28 90 20 49 43 1 140 -85-25 -36 3 -61-13 -12-9 -65-19 -31zM680 1392l21 64-21 15-12 81 51 24-6 56 149 -60 85 -11-20 -49 28 -90-16 -58-33 -4-39 20-52 -23-31 18-8 -17-30 22zM408 1332l-8 26-38 10-22 23 96 85 40 -45 63 -16 26 31 7 39 36 -13 29 48 45 -22-2 -27 21 -15-24 -49 13 -20-14 -24-17 1 10 -27-37 -35-50 28-43 -12-20 9-4 -16-106 5zM266 1345l27 28 47 18 68 -40 1 -35-120 12zM660 1499l-23 21-29 -48-23 9-57 76 122 65 63 10 6 -56-51 -24 6 -53zM443 1508l36 35 49 14 57 -76-13 4-7 -39-26 -31-39 5-64 56zM836 1362l31 18 39 -20 33 4-9 -57 178 -45 45 -42 6 -46-53 4-3 -21-30 -22-6 -41-66 14-88 86-54 27-4 31-45 80 5 25zM2186 997l-27 3-11 -19-41 -13-2 -14-63 -8-3 -50-32 -29-37 50-19 62-32 40-47 28 6 12-33 51-103 74-26 64 2 62 59 43 8 27 42 -81 51 -19 2 -30 33 -54 56 -2 55 -21 14 -39 143 -115zM1853 1291l-26 8-23 33-22 71-117 34 10 33 41 -14-18 54 20 14 3 28-18 51-37 15-21 -9-4 19-43 32 15 18-33 34 32 24 31 -35 25 5 37 -30 17 8 60 -81 18 -75 45 -61 12 -46 21 -141zM1591 1517l-76 33-30 94 95 68 33 -34-15 -18 43 -32 4 -19 21 9 37 -15 18 -51-3 -28-20 -14 18 -54-41 14-10 -33-75 33zM1506 1547l85 -30-1 -47-70 27zM2272 1446l-65 80-20 92 35 -18-7 34-23 18-16 -13-24 15-3 -13-47 39-56 14-12 64-72 46-31 102 32 15 121 -74 227 -278-12 5 29 -59 21 -94zM2349 1421l-21 94-29 59 40 -17-20 53 10 3 42 -88-3 -13-16 8 22 -110-9 -11-27 19zM2357 1484l-5 36 16 -8 3 13-11 39-31 49-10 -3 20 -53-28 12-96 104-7 30 63 -36-41 95-81 113-52 101 134 -153 52 -110 179 -258 32 -67 33 -138zM2107 1958l-47 51zM1643 1701l-31 35 9 22 37 -51zM1621 1776l19 13 15 47-18 27 24 56-83 128-40 94 272 -122 153 -98-32 -15 31 -102 72 -46 12 -64-63 45 5 -120-58 22-45 60-59 35-37 -54zM2281 1239l-29 42 6 54 47 -79-8 -27zM2062 -372l-10 -17-12 24 22 99 53 58-23 -80-8 -16-9 17-10 -23-10 -33 11 -3zM2045 -417l3 -29-14 -12-11 8 17 85 12 -24zM2524 1427l130 -267 31 -109-92 216-185 349A2900 2900 0 0 0 2524 1427zM2080 -320l-14 -26-11 3 20 56zM254 1302l146 -26-10 -13-66 3-65 16zM1323 233l-12 -40 39 -68-10 -38-32 -20-19 7-15 -24 15 -33-8 -43-23 -28 2 -39-22 29-7 -25-26 5-31 34 24 113-15 35 14 35 70 39 41 80zM772 677l324 137 14 19 50 7 5 29 104 -59 218 -278-59 -30-17 16-57 -65 10 -26-33 -138-64 -117-70 -39-14 -35 15 -35-24 -113-79 19-28 30-140 49-51 52-40 18-31 36 65 113-3 22-89 52 3 37-45 29-12 28-139 82 8 71zM2080 -320l35 112 33 -15 16 -101-45 -18 32 -80-37 -41-17 90-34 11zM2541 -424l25 29 45 -68-35 -133-27 -34 19 134zM2524 -431l-7 -39-23 -27 6 41zM2348 -542l11 57 16 -20 15 13 10 -21-26 -32-14 -12zM2182 -440l45 -9 98 10 34 -46-11 -57 22 -28-34 -27-4 8-16 -32-26 -16-34 9-35 -19-36 -83-18 4-44 -31-41 56 4 59 46 84-18 95 37 41zM2627 -463l28 97-19 129 49 59 17 -88-4 -147-47 -193-28 -6-17 26-30 -10-5 15 38 105zM2555 -633l-8 -18h-3l5 21 9 8zM1802 -2088l4 -31 73 29-33 -72 29 5-142 -156-221 -155-289 -156 89 52-78 -29 205 128 4 17 69 55 12 19-21 -4 28 46 105 56 35 79 109 110zM2228 -1857l151 199 95 165 11 81-44 -71-12 25-77 -86-26 -5 31 49 12 68 14 25 40 29 9 -8 39 64 86 173 27 98 54 45 17 108 17 -4 15 32 20 3-15 -83 16 28 80 159 40 122A2900 2900 0 0 0 2749 -924l-144 -350A2900 2900 0 0 0 2556 -1370l-12 -21A2900 2900 0 0 0 2495 -1478l-82 -130A2900 2900 0 0 0 2228 -1857zM2413 -1608l82 130A2900 2900 0 0 0 2413 -1608zM2352 -1694l61 92zM2422 -1577l17 49-8 27 54 89-11 -81zM2325 -1518l-31 -8 32 104 65 84 11 43 59 85 17 85 35 65 9 81-5 46-20 29 32 14 15 -11 37 37 5 60 24 53 8 -155 32 21 5 -13-17 -108-54 -45-27 -98-86 -173-39 -64-9 8-40 -29-26 -93-31 -49zM2303 -1303l-9 4 15 43 46 102v24l-15 14 72 110 41 39 8 -15 17 20 19 58 20 -29 4 -76-60 -201-95 -166-26 -18-46 -132-3 38 28 59-46 -32-6 7 44 81zM2315 -1341l-18 -68-30 -45 6 -7 46 32-33 -101-29 -24v21l-28 -21 7 104-19 -20-6 -40 1 11-24 -23 9 40 52 94 8 -12zM2146 -1570l23 38 12 -7-11 -25 15 -14 27 52 5 56 19 20-7 -104-134 -235-9 14 20 82-8 22 30 39v49zM2108 -1094l-23 -27v-28l47 16 2 32-17 14 25 34 8 -13 19 30 18 -7 54 61-9 -67 13 -48 31 -27 34 1 4 -19 26 26 15 -14-23 -95-38 -74 10 -11-19 -20-33 32-43 8-35 -20-12 30-35 -20-26 15 20 70 18 13-11 41-47 -3 3 55zM2366 -596l17 -4 4 -21 72 50 18 -15h29l20 -21 3 -76 8 -7 31 34 42 -95-24 -53-5 -60-37 -37-15 11-32 -14-19 -58-17 -20-8 15-41 -39-98 -136-4 19-34 -1-39 42 10 111-9 49-22 29-40 14-26 -19-26 2-23 -29-2 76-14 11-35 -17-2 28 44 52 75 49 18 -4 36 83 35 19 34 -9 59 60 21 7zM2097 -373l35 -185-46 -84-4 -59-39 85-31 24-16 36-12 -1 18 77 21 30 11 -8 14 12 15 84zM2083 -884l-26 3-5 -18-45 -17-17 36 26 31 56 -18 27 18zM868 -1039l76 80 26 -14-7 -41 30 -9-49 -122 14 -21-13 -55-67 -35-27 -63 9 -100-21 -21-8 -35 16 -27-70 -67-76 -17 12 31-32 9 13 23-14 7 39 152 20 30-19 8 12 44 34 54 26 16 22 53 3 66zM1233 -1151l16 82-10 31-21 12 68 97 29 -40 124 -57-16 -34 14 -16-40 -31 15 -33-82 -26-22 -30-31 17-37 -1zM1423 -1060l16 34-124 57-29 40 41 43-6 61 19 16-1 36 30 14 4 -16 50 -12 40 -73 35 -6 78 47-26 20 13 51h15l21 -17-13 -73 16 -22 12 14 46 -17-2 -14 40 -6-18 -20 33 -94-14 -38 13 -22-52 -69-43 26-25 -6-8 20-33 8-27 -18-16 12-13 -22-30 -12zM1204 -1035l-104 50-36 -5-53 88 85 108 41 2 5 13 36 -15 10 13 21 -7 26 16 7 -12 21 9 36 -37 41 3-19 -16 6 -61-74 -76-4 -33zM1207 -701l-56 -4-14 33-27 -5-6 37 19 36-28 -1-42 26 1 14-20 -7-3 27 52 -3 25 -30 14 14 71 -15 32 -30-15 -51 15 -8zM1337 -766l-34 3-54 80-31 -4 7 19-15 8 16 41 87 17 38 -42 15 -21-7 -76 10 -18zM1459 -836l64 34 40 54-13 -51 22 -12-6 -16-68 -39-35 6-12 15zM1546 -764l-23 -38-73 -34-27 49-50 12-14 34 7 76-15 21 68 39 22 3 12 -14 25 30 70 -39 27 -50 44 -4-27 -56 14 -19-7 -11-36 17zM1193 -1142l-21 -2-51 36-15 26 28 33 41 -6 16 23 27 6 21 -12 10 -31-13 -26 6 -24zM1167 -1209l-40 -3-9 18 20 34-15 11-38 -21-8 25 29 63 15 -26 51 -36 54 8 14 -44-42 -37zM1112 -1290l-24 6-31 47 19 22 25 -3 17 24 9 -18 55 -7-38 -50-7 -31zM991 -910l-36 -6-28 38-47 -33-34 14 26 40-7 29-30 2 22 71v19l-17 5 34 81 35 37 45 -7 7 73 28 -22 65 4-1 -14 42 -26 28 1-19 -36 6 -37-44 -17-23 -29 35 -63 18 -8zM1460 -585l34 25 6 49 21 6 18 28 35 -38 26 3 21 -20-12 -22 17 -32 25 -10-23 -19-9 -64-44 4-27 50-70 39-18 -14zM1754 -255l-46 21-23 -5 4 22 42 -7 39 -32-3 -16zM1534 -472l-37 50 2 70 104 99 33 5 19 -13-30 -33 15 -16-19 -18 32 -5-14 -24-45 -15 5 -17-45 -34 1 -13 26 14 25 -27-31 -12 57 -48-4 -42-19 -3 12 22-21 20-26 -3zM2092 -775l-44 -52 2 -28-34 6-26 -31-30 3-21 71-35 47-94 22-52 69-9 51-48 31 9 40-37 31-4 63 27 9 6 43 71 42 28 -23 37 4 15 -20-5 -22 27 -21 33 6 32 -38 1 -40 35 -26 2 25 19 11-13 -55 12 1 16 -36 31 -24 42 -102 36 -21 2 -18zM1628 -551l4 42 24 23 11 -60 28 -25-2 -14-29 3-13 -14-25 10-17 32zM1480 -425l-29 -50-32 -8-1 28 46 86 35 17 3 -58zM1228 -585l5 41-46 20 6 18 15 11v-24l22 -1 26 34 40 22 92 10-128 -67-4 -22 15 6 14 -20 64 -13 1 -23-31 -21-33 15-42 -9zM989 -569l-2 13-46 20 1 68 12 -12 35 22 25 -30 22 -2-1 -21 34 -16-6 -20-32 2-5 -21zM867 -646l8 28 15 -2-6 -22zM845 -689l-26 -15-64 38 72 43 14 -8 34 13-10 -65zM812 -808l-30 31-7 95 44 -22 46 21-25 -48 17 -5-11 -64-12 -14zM488 -114l15 38-14 105 29 21 8 70 41 -5 23 -68-16 -12 5 -35-20 -27 16 -7-4 -71 15 -16-15 -24-49 13-12 -23-26 25zM619 101l33 41h20l33 -44 85 -19 19 -44 26 -17 17 -61-22 -24 4 -44 15 -51 42 -22 23 -43-11 -27-37 18-45 -12-9 14-70 -6-18 -15-85 19-131 7-45 43 18 19 3 37 26 -25 12 23 49 -13 15 24-15 16 4 71-16 7 20 27-5 35 16 12-15 37 6 15zM441 -743l-17 4-11 -52-48 70 24 47-16 55 45 1 48 -38 12 -47-12 -33zM782 -2792l164 57-15 10 113 54 119 34 145 66-74 -48 278 151 221 155 142 156-29 -5 33 72-54 -29h-19l-4 31-22 -7 110 95 7 36 70 52 42 70 53 19 41 43 80 129 30 81 44 37v-21l68 36 1 -31 26 5 77 86 10 -70-30 -80-181 -249A2900 2900 0 0 0 782 -2792zM1069 -527l-34 16 1 21-22 2-11 23-31 1 35 81 19 1 5 21 33 -48 49 4 28 42 73 38 57 3 78 26 42 40 8 55 11 -10v-48l12 -10-7 -25-30 -6v-36l29 -7 27 12-9 -26-99 -15-8 -20-23 12-120 -64-34 -56 17 -27 26 -4-23 -40-46 7-14 -14-25 30-20 1zM1334 -177l-39 13 4 26 105 6-17 -82zM1162 -238l-31 -26-31 25 38 82 18 8 8 -22 16 -3zM863 -930l8 -57-26 -13-11 -40-15 35-19 11 1 30 45 67 34 -14zM913 -987l-27 30 13 17 38 15-4 -42zM473 -773l-37 -24-23 6 11 52 42 3zM453 -855l13 46 10 -25 17 45 36 2 28 26 3 29-44 4 3 33 23 23-28 20 13 18 49 -1-24 15-33 61 19 6 17 -22h30l14 -28 17 6 88 -35 18 -31-20 -22 3 -50-37 1-49 -66-21 -3-44 -54-29 3 6 -87-52 18 12 -57-50 11-7 93zM150 -1268l1 -31h-33l-32 26-26 -12-30 25-33 -30-31 7-14 28 43 12 1 14-38 8 47 23-22 20 92 20 80 -44 23 -38zM2009 -960l26 16-30 16 2 12 45 17 5 18 26 -3 20 25-2 -66 23 29 24 5-46 -92 7 -23-19 7-51 -20 10 41-36 2zM2076 -861l-26 6 35 17 14 -11zM1875 -886l34 -6 35 40 16 -25 30 -3 15 -48 28 -24-25 -19-33 -3-25 31-44 9-49 36zM1175 -547l12 23 46 -20-5 -41 16 -23-12 -13-64 50zM780 -1679l-29 -2-5 25 23 52-37 13-32 -10 1 15 76 17 52 56 69 28-2 79 15 60 62 72 55 17 67 -87-31 -127-46 -8-17 -27-39 -15-22 -37-56 -27-17 -35-43 -7zM1299 -812l-36 37-21 -9-17 14-3 36-18 14 14 33 31 4 54 -80 34 -3-4 -43zM1088 -784l-10 -2-35 63 23 29 71 22 14 -33 55 -3 26 -66-54 -20-20 4 3 13-24 -15zM2425 369l-1 -39 20 2 35 -42 25 -8 48 23 14 -27-121 -25-46 -64-25 85 12 104 7 14zM-1610 2170l-138 -74-2 53 87 78 128 86 11 13-16 18 84 46 52 7-11 -54-44 -19-33 -46-85 -44zM2600 -138l-10 130-9 -6-68 83 15 119 47 81 29 -46 51 -162 32 -168-2 -71-49 -59zM2137 -140l13 -12 90 59 37 42 35 -1 31 32 23 51 30 23 39 5 83 78-5 -68 68 -83 9 6 10 -130 36 -99 19 -129-28 -97-18 -13-43 81-40 -46-10 11-25 -17-24 -40-42 -2-25 -24-10 21-15 -13-50 66-98 -10-76 27-32 80 45 18-16 101-29 20zM1942 -400l26 -22-2 -40-31 49zM1926 -387l29 7 15 -40zM787 157l-80 9-27 -16-28 5-27 89-65 55-23 38-14 72 18 60-83 100-41 10-21 22-25 53-29 20-24 88-40 42-44 113 106 -11 23 -41 11 -68 61 -59 41 -108 113 -27-4 -86 139 -82 12 -28 45 -29-3 -37 89 -52 3 -22-45 -85-20 -28zM2294 57l-44 -8-9 -39-80 -55-116 -114 48 39 35 15 2 -14-15 -89-53 -58-6 22-45 23v19l-17 -14-21 10-41 74-82 21-38 28 15 78 24 29 115 323zM1851 24l-24 -29-15 -78-14 -10-56 20-18 -13-64 36-16 62 22 31-20 51-131 8-31 -33-144 18 10 38-39 68 12 40-15 19 31 58 25 117-10 26 57 65 17 -16 59 30 66 -6 27 15 53 -73 327 11-5 -18 38 -26zM2680 354l-71 49-35 -24 2 -20-23 24-1 -78-26 -16-47 1-35 42-20 -2 1 39-32 23 4 92-27 123 6 89-23 64 17 -14 38 15 21 28 15 -7 12 26 19 -19 35 -2 35 -33 114 -221 36 -204zM2545 362l8 21 23 -24-10 -81zM2678 175l-60 150-10 15-29 -13-5 52 24 21 82 -46 15 -25 9 -94-17 -78zM2401 1041l31 -101-34 -65-16 34-64 58-11 69 13 -5-33 73-16 106 130 -128zM2279 1208l-27 73 55 -65-9 -35zM1379 -491l12 -28-33 -56-73 18-14 20-15 -6 4 22 94 54 33 4zM1480 -494l-18 22 4 29 31 21 42 -55-18 -28-21 -6zM1335 -601l15 8 12 41 22 10 2 29 44 15 5 -30 40 11 5 23 20 -17-6 -49-34 -25-7 -31-12 14-22 -3-68 -39-32 30zM1430 -498l-44 -15 2 59 39 12-8 -41zM1466 -462l9 -55-40 -11-4 44zM-1796 1001l-23 -6-15 23 40 20zM2318 967l64 -58 47 -120-42 -36-17 -7-17 14 23 -64-19 -61-17 -3-12 -61-31 38 17 29-21 79-15 19-30 -4-26 64-71 51-38 -17-24 23-9 69-22 28 47 4 2 14 41 13 11 19 27 -3 28 28 55 -52 38 15z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 0%, var(--visit-old))" d="M1207 -701l-56 -4-14 33-27 -5-6 37 19 36-28 -1-42 26 1 14-20 -7-3 27 52 -3 25 -30 14 14 71 -15 32 -30-15 -51 15 -8z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 6%, var(--visit-old))" d="M989 -569l-2 13-46 20 1 68 12 -12 35 22 25 -30 22 -2-1 -21 34 -16-6 -20-32 2-5 -21z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 12%, var(--visit-old))" d="M991 -910l-36 -6-28 38-47 -33-34 14 26 40-7 29-30 2 22 71v19l-17 5 34 81 35 37 45 -7 7 73 28 -22 65 4-1 -14 42 -26 28 1-19 -36 6 -37-44 -17-23 -29 35 -63 18 -8z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 19%, var(--visit-old))" d="M882 -617l-41 -14-14 8-72 -43-22 17 4 42-59 56-36 -15 25 53h-56l-38 19 11 35 54 8 77 62 19 100-10 34 18 15 70 6 9 -14 45 12 37 -18-4 -30 43 -31 69 -8 20 -38-5 -21-19 -1-21 -33 5 -19-19 -29-18 -16-12 12-7 -21 6 -47 20 -11-7 -73zM1091 -325l19 49 18 4-23 -79z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 25%, var(--visit-old))" d="M-1901 -1882l-40 22 38 -32 16 -36-273 185-148 178-52 74-75 156-2 60-40 147 5 77 12 -14 6 48-51 158-2 35 24 -11 7 22-56 202 5 62 5 9 43 -74 69 4 27 27 21 47-1 41 25 38 20 -45 62 73 8 63 30 7 5 16-40 219v42l19 20 39 -63 36 -164 31 -59 98 -33 63 -6 32 11 33 -19 44 -112-7 -28 11 21 27 -46-19 37 2 27-23 26 51 -32 17 -56v36l36 -18 33 -40 53 31-2 -14-40 -20 109 40 9 -11-2 -15-6 18-10 -9 6 -29 51 -45 108 5 2 -53 36 -59-24 -39-87 60-32 5-76 -60-81 20-39 -37-14 -3-13 29-107 -30 1 -21 66 -42 47 -77 11 -105-4 -121-26 -14-20 -46-10 -73 20 -33-17 6-48 -585zM-851 -2674l34 -17zM-1171 -2526l24 -26-35 10-6 22zM-864 -2407l156 -105 48 -11v-17l32 -32-8 -32 25 -13-6 -9-143 19 58 -19 36 -36-88 16-60 39-31 -6 48 -38-14 -22-159 33-88 56-27 -7 2 -11 62 -68-97 73-15 49 6 11 29 -10 9 40-55 -11-29 46 27 -4-8 13-210 145-55 62-166 99 40 -6 40 -37 166 -93-13 -23 95 -61 378 -20zM-693 -2691l47 -13z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 31%, var(--visit-old))" d="M-1821 -1322l17 -6-20 33 10 73 20 46 26 14 4 121-10 22 10 6-11 77-47 77-66 42 4 27 102 24 13 -29 14 3 39 37 81 -20 76 60 32 -5 87 -60 24 39-36 59 2 35 74 36-66 9-20 38 19 16 207 -23-10 -25 14 -34-53 36-48 -18-22 -42 31 -90 40 -15-9 -34-38 -18-72 4-73 29-24 -7 121 -53 81 -17 109 71 46 15 52 -21 51 4 53 -16 23 -52-17 -35 10 -42-38 -50-20 -74 25 -22 33 -174-78 45-43 4-7 -49 63 -85-26 -24 7 -77h-21l-24 -47h-18l-80 95-55 21-8 44-41 67-76 27-42 -8-52 98-43 30-25 -1 9 -61 28 -53 63 -70-31 -50 9 -161-22 -17 61 -66-5 -28 49 -32 91 -30 45 -6 14 13 53 -19 15 18 38 -5 88 -32-3 20 20 12h48l35 -36 48 -23 9 -28-15 -35-47 29-81 24 74 -75-43 5 45 -25-3 -25 28 -2 42 -40 16 -36-90 26-35 47-89 19 42 -21 8 -25-40 8-19 -34 16 -30-7 -12 33 -36-10 -21-17 -2-19 19-25 -5 27 -22-14 -40 12 -25 22 11 25 -23 61 -94-16 -14 36 -7-26 -10 56 -31-27 -7 23 -9-14 -31 15 -16-16 -21 71 -46-378 20-95 61 13 23-166 93-40 37-60 14-160 113-104 129zM-1193 -1553l8 10 42 -9-15 -18zM-725 -1828l30 27 18 -38-20 -23zM-1135 -1504l-23 1-6 22zM-700 -2002l13 -14-18 -6-31 19 3 13zM-601 -2060l6 17 12 -10-5 -13zM-545 -2083l1 -14-46 25 32 2zM-653 -2039l-15 34-47 24-1 28 43 63 19 6 40 -33-42 -31-8 -24 42 -42v-43zM-595 -2169l-21 -13-17 14 16 10zM-561 -2176l-14 -5-8 1v11l10 6zM-995 -589l7 -25-24 -1 23 -30-58 -42 17 -13-13 -17-25 7 76 -63-11 -9-60 25-99 76 5 17-24 8-3 16 84 37 22 23-30 13 17 9 51 -27-17 46 16 16 14 3 29 -36zM-1085 -1576l-12 -6 18 -16 8 -63-12 -1 13 -26-103 47 17 15-20 22 67 -1-11 21 8 27 22 1zM-752 -1496l8 -46-23 -65 39 -1 20 -40-10 -53 13 -29-27 -8 15 -14 5 -59-52 -5 59 -59-35 -9-41 12 55 -32-27 -15-68 15-44 27 9 13-27 1-9 17 29 91 38 10-13 57-16 2 8 61-20 32-74 33-9 16-54 -38-36 16-3 22 43 28 11 -11 5 68-15 6 1 32 47 90 15 -96 27 79 28 -25 20 -44-1 -75 21 -20 22 7-1 78 89 -53zM-749 -1965l-7 -19-17 -3-83 38 3 11 103 -6zM-697 -2230l25 31h53l-3 -20-29 -12-32 -10zM-1640 -2158l40 -11 17 -26zM-554 -2139l-26 8-14 42 41 -20 18 -35zM-1859 -1930l100 -123-96 91-29 43zM-802 -2176l35 -47 2 -28-32 11-79 -11-55 34 15 24 52 4 41 27zM-700 -2107l-8 -14 46 -24-64 18 2 -15 47 -44-59 -9-7 49-21 -13-16 4 1 13 32 44zM-936 -2021l78 -36 24 -28-76 15 61 -34-25 -5 24 -19-13 -18 32 -12-27 -20-52 -5-17 36-16 -21-18 10-14 61-14 -49-40 22-10 28-22 13 36 76-11 49 34 -18 9 17 20 -7zM-823 -1993l38 -8-6 -28-26 -3-28 22 1 -22-15 5-45 64 24 9 42 -16zM-811 -2070l-4 -12-7 -1-32 25 34 -2zM-668 -2049l20 -13-28 -24-37 11 7 12-32 21 9 12zM-472 -2044l57 -57-9 -10-54 6-33 22 5 11-48 20 12 24 61 -3zM-398 -2101l-37 37 19 28-22 1-6 -21-34 29-55 4-24 37 1 -29-70 22 35 68 42 1 6 -22 80 -10 23 -28 51 13 150 -48-26 -49-26 -17-49 3 8 -15zM-924 -1630l33 7 24 -34-16 -5zM-971 -1911l14 -28-40 -2-14 54zM-1252 -779l37 38-38 -71-10 -1zM-1310 -639l-15 -16 2 -27-18 8 22 57 34 -9z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 44%, var(--visit-old))" d="M863 -930l8 -57-26 -13-11 -40-15 35-19 11 1 30 45 67 34 -14zM913 -987l-27 30 13 17 38 15-4 -42z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 56%, var(--visit-old))" d="M2092 -775l-44 -52 2 -28-34 6-26 -31-30 3-21 71-35 47-94 22-52 69-9 51-48 31 9 40-37 31-4 63 27 9 6 43 71 42 28 -23 37 4 15 -20-5 -22 27 -21 33 6 32 -38 1 -40 35 -26 2 25 19 11-13 -55 12 1 16 -36 31 -24 42 -102 36 -21 2 -18zM1628 -551l4 42 24 23 11 -60 28 -25-2 -14-29 3-13 -14-25 10-17 32z"/><path class="gf-visit" style="fill:color-mix(in srgb, var(--visit-new) 75%, var(--visit-old))" d="M868 -1039l76 80 26 -14-7 -41 30 -9-49 -122 14 -21-13 -55-67 -35-27 -63 9 -100-21 -21-8 -35 16 -27-70 -67-76 -17 12 31-32 9 13 23-14 7 39 152 20 30-19 8 12 44 34 54 26 16 22 53 3 66z"/><path class="gf-lake" d="M1223 -2531l126 48 113 65-122 -79zM-1743 -1423l103 -118-24 -7-29 15-89 133zM-1312 -1954l-47 -29 36 -53-37 29-27 -17 6 -24-27 37 6 41 56 13 18 26zM-1780 -788l51 45 26 1 10 -17-1 -15-22 3-4 -16-40 -19-25 6zM-1799 -782l-38 -24-40 -1-8 -14-17 8 30 45 57 10 34 -7zM-1763 -1040l31 -37-11 -27 15 -37-15 -40-120 -4 14 19-4 24 63 18-22 13 1 43 39 27-2 22zM2385 1048l-44 77v77l51 -62-10 -2 26 -87zM1121 -1387l41 26-2 -20 14 -10-33 -32-48 -2 5 32zM1951 -1862l15 22 4 66 43 58 27 6-67 -72-3 -57zM2255 1375v38l16 4 3 35 16 -5-5 -53-22 -5 9 -20-14 -71zM2364 1525l18 -87-11 -43-23 125 1 19zM861 -1138l-12 30 8 17 22 -31zM-2533 384l-15 -39 6 46 10 14zM2443 480l2 -8-2 -16-8 5-3 14zM-2045 1835l-29 -41zM-1693 -1537l34 -44-40 24zM1140 -1503l-32 -3 30 6-18 4 4 13 62 29 1 -25zM-2184 -1465l16 -32zM-1165 -2165l-29 -4-9 11 13 15-25 3 17 17 17 -5-3 21 36 -4 2 -32 21 4-18 -61zM-1512 -1880l21 14 18 46 6 -48zM-1512 -1711l-76 20 43 -1zM-1793 -976l-13 49-44 31 31 11-26 43h22l66 -68-10 34 11 22 16 -7 15 -61-38 -92-12 26-26 -13zM-1802 -1023l-32 -18-48 16 33 2-79 56-30 39-8 38 37 -9 49 -70 86 -33z"/><path class="gf-river" d="M2422 -1525v-29l-37 -76-114 -174M2354 -1694l110 164M2181 -1901l-11 -22M1807 -2119l36 36 10 62 18 24-13 5-41 -26-16 20 3 62-156 17-46 -48-33 -8-39 84-104 -72-104 25-105 -42-64 -41-6 -63M-1550 -2085l-37 34-24 103 91 -19 2 24 29 26-5 22 96 -71v-47l20 -57 58 -67 113 -51 65 -57 81 -33 32 -40 91 -21M976 -575l33 -18 56 -71 89 2 31 -21h64l19 -17 67 99 64 9 13 -13 29 3 3 -15 34 31 70 -39 41 -74-26 -48 36 -18M-1534 2063l-47 -6 27 49-41 25 11 40-22 8 89 133-24 39 18 52-14 9 110 74M2118 1668l-16 -5 7 -56 56 -88 13 -106-27 -24-16 -140-110 1-118 92-107 186-28 92-102 119-44 28M1306 -2501l38 38-89 -22-157 -75-130 -44-37 -38-265 -90-46 14 51 46-19 21-28 17-141 9-25 24 34 30M2208 -1849l-81 -122M2381 1054l-9 -34-22 5 3 -19-28 20 17 -73-15 -18-3 -66-40 -38-18 -47 49 -97 4 -56-12 -82-28 -49-6 -86 16 -51-4 -53-34 -50-40 111h-23l-40 -89 29 -141-4 -51-45 -97-19 9-63 -41-28 -90-43 -78M-2132 1751l-12 -40-89 -119-37 -137-35 -70v-31l22 -1 32 -45 107 106 28 -11 84 21 127 132 52 22 77 14 47 30 47 -9 81 15 43 37 118 -6 54 -24M-2060 -1534l12 -31 68 -56 37 4-10 69 23 18 16 66-12 58-31 48-69 63-37 95 2 68-85 152 24 43-8 48 32 38-19 15-18 80-120 74-33 61-35 22-18 61 3 81"/><circle r="2900" class="gf-shade"/><circle r="2900" class="gf-limb"/></svg>
+    <button class="pathx" id="pathx" type="button" aria-label="Clear path" hidden>&times;</button>
+  </main>
+
+  <span class="cue" aria-hidden="true">&darr;</span>
+
+  <div class="mapbase">
+    <nav class="mapchips" aria-label="Places, in the order of the journey">
+<a class="chip" href="#vienna" data-id="vienna" data-years="2016-2019 2021-2022 2026-2026" style="--tm:38%"><i aria-hidden="true"></i>Vienna</a>
+<a class="chip" href="#zurich" data-id="zurich" data-years="2019-2021" style="--tm:42%"><i aria-hidden="true"></i>Zurich</a>
+<a class="chip" href="#munich" data-id="munich" data-years="2022-2026" style="--tm:46%"><i aria-hidden="true"></i>Munich</a>
+<a class="chip" href="#lyon" data-id="lyon" data-years="2023-2023" style="--tm:50%"><i aria-hidden="true"></i>Lyon</a>
+<a class="chip" href="#phoenix" data-id="phoenix" data-years="2025-2025" style="--tm:54%"><i aria-hidden="true"></i>Phoenix</a>
+<a class="chip" href="#montreal" data-id="montreal" data-years="2025-2025" style="--tm:57%"><i aria-hidden="true"></i>Montreal</a>
+<a class="chip" href="#chicago" data-id="chicago" data-years="2025-2025" style="--tm:61%"><i aria-hidden="true"></i>Chicago</a>
+<a class="chip" href="#copenhagen" data-id="copenhagen" data-years="2025-2025" style="--tm:65%"><i aria-hidden="true"></i>Copenhagen</a>
+<a class="chip" href="#hongkong" data-id="hongkong" data-years="2025-2025" style="--tm:69%"><i aria-hidden="true"></i>Hong Kong</a>
+<a class="chip" href="#istanbul" data-id="istanbul" data-years="2025-2025" style="--tm:73%"><i aria-hidden="true"></i>Istanbul</a>
+<a class="chip" href="#boston" data-id="boston" data-years="2026-2026" style="--tm:77%"><i aria-hidden="true"></i>Boston</a>
+<a class="chip" href="#philadelphia" data-id="philadelphia" data-years="2026-2026" style="--tm:81%"><i aria-hidden="true"></i>Philadelphia</a>
+<a class="chip" href="#stockholm" data-id="stockholm" data-years="2026-2026" style="--tm:84%"><i aria-hidden="true"></i>Stockholm</a>
+<a class="chip" href="#berlin" data-id="berlin" data-years="2026-2026" style="--tm:88%"><i aria-hidden="true"></i>Berlin</a>
+<a class="chip" href="#newcastle" data-id="newcastle" data-years="2026-2026" style="--tm:92%"><i aria-hidden="true"></i>Newcastle</a>
+<a class="chip" href="#stanford" data-id="stanford" data-years="2027-2027" style="--tm:96%"><i aria-hidden="true"></i>Stanford</a>
+    </nav>
+    <div class="tkey k-onpath"><span class="k-kind" role="img" aria-label="Filled pin: where I lived, studied, worked or spoke."><i class="k-pin" aria-hidden="true"></i>work</span><span class="k-kind k-you" role="img" aria-label="Square: a place where you worked."><i class="k-sq" aria-hidden="true"></i>your places</span></div>
+  </div>
+
+  <div class="tl" id="tl" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Places, in the order of the journey" aria-valuemin="-1" aria-valuemax="17" aria-valuenow="-1" aria-valuetext="Stefan Herytash" style="--ramp-min:38%"><div class="tl-track"><i class="tl-n tl-s" style="--f:0" title="Start" aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.8 9.4 10 3.2l7.2 6.2"/><path d="M4.8 8.4V16.5h10.4V8.4"/><path d="M8.3 16.5v-4.6h3.4v4.6"/></svg></i><i class="tl-n" style="--f:0.0556;--tm:38%" data-year="2016" aria-hidden="true" title="Vienna 2016"><b class="tl-y">2016</b></i><i class="tl-n" style="--f:0.1111;--tm:42%" data-year="2019" aria-hidden="true" title="Zurich 2019"><b class="tl-y">2019</b></i><i class="tl-n" style="--f:0.1667;--tm:46%" data-year="2022" aria-hidden="true" title="Munich 2022"><b class="tl-y">2022</b></i><i class="tl-n" style="--f:0.2222;--tm:50%" data-year="2023" aria-hidden="true" title="Lyon 2023"><b class="tl-y">2023</b></i><i class="tl-n" style="--f:0.2778;--tm:54%" data-year="2025" aria-hidden="true" title="Phoenix 2025"><b class="tl-y">2025</b></i><i class="tl-n" style="--f:0.3333;--tm:57%" data-year="2025" aria-hidden="true" title="Montreal 2025"></i><i class="tl-n" style="--f:0.3889;--tm:61%" data-year="2025" aria-hidden="true" title="Chicago 2025"></i><i class="tl-n" style="--f:0.4444;--tm:65%" data-year="2025" aria-hidden="true" title="Copenhagen 2025"></i><i class="tl-n" style="--f:0.5000;--tm:69%" data-year="2025" aria-hidden="true" title="Hong Kong 2025"></i><i class="tl-n" style="--f:0.5556;--tm:73%" data-year="2025" aria-hidden="true" title="Istanbul 2025"></i><i class="tl-n" style="--f:0.6111;--tm:77%" data-year="2026" aria-hidden="true" title="Boston 2026"><b class="tl-y">2026</b></i><i class="tl-n" style="--f:0.6667;--tm:81%" data-year="2026" aria-hidden="true" title="Philadelphia 2026"></i><i class="tl-n" style="--f:0.7222;--tm:84%" data-year="2026" aria-hidden="true" title="Stockholm 2026"></i><i class="tl-n" style="--f:0.7778;--tm:88%" data-year="2026" aria-hidden="true" title="Berlin 2026"></i><i class="tl-n" style="--f:0.8333;--tm:92%" data-year="2026" aria-hidden="true" title="Newcastle 2026"></i><i class="tl-n" style="--f:0.8889;--tm:96%" data-year="2027" aria-hidden="true" title="Stanford 2027"><b class="tl-y">2027</b></i><i class="tl-n" style="--f:0.9444;--tm:100%" data-year="" aria-hidden="true" title="Vienna"></i><i class="tl-n tl-w" style="--f:1" title="World" aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg></i><span class="tl-thumb is-start" style="--f:0"><svg class="g" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5"/><path d="M2.5 10h15"/></svg><svg class="h" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.8 9.4 10 3.2l7.2 6.2"/><path d="M4.8 8.4V16.5h10.4V8.4"/><path d="M8.3 16.5v-4.6h3.4v4.6"/></svg><span class="tl-ty"></span></span></div></div>
+
+  <aside class="panels">
+<article class="panel" id="vienna" data-kind="eu" data-tz="Europe/Vienna" aria-labelledby="vienna-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="vienna-h">Vienna</h2><section class="stay" id="vienna-2016" data-stay="vienna-2016" data-city="vienna" data-start="2016-10" data-now="1"><ol><li><span class="yr">2026–</span><div><span class="t">Assistant Professor, <span class="inst" data-sketch="wu">WU Vienna</span></span><span class="s">Institute for Strategy, Technology and Organization</span></div></li><li><span class="yr">2021–2022</span><div><span class="t">Mathematician, UNIQA Insurance Group</span><span class="s">Group Actuarial</span></div></li><li><span class="yr">2019</span><div><span class="t">Mathematician, Erste Group Bank</span><span class="s">Group Risk Management</span></div></li><li><span class="yr">2016–2019</span><div><span class="t">BSc in Mathematics, Vienna University of Technology</span><span class="s">Thesis on optimal stopping · with great distinction</span></div></li></ol><div class="from"><ul><li><div><a class="t" href="/papers/fax/">After the Fax Machine Burns: Journal Certification When Everything Is Published</a><span class="s">Under review, Management Science</span></div></li><li><div><a class="t" href="/papers/ai-sounding/">Sounding like AI Costs Ratings, Even for Strong Papers</a><span class="s">Submitted to Research Policy</span></div></li></ul></div></section></article>
+<article class="panel" id="munich" data-kind="eu" data-tz="Europe/Berlin" aria-labelledby="munich-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="munich-h">Munich</h2><section class="stay" id="munich-2022" data-stay="munich-2022" data-city="munich" data-start="2022-10"><ol><li><span class="yr">2022–2026</span><div><span class="t">PhD in Management, <span class="inst" data-sketch="lmu">LMU Munich</span></span><span class="s">summa cum laude · Förderpreis (award for an outstanding doctorate), LMU Management Alumni</span></div></li><li><span class="yr">2022–2025</span><div><span class="t">Research and Teaching Assistant, <span class="inst" data-sketch="lmu">LMU Munich</span></span><span class="s">School of Management</span></div></li><li><span class="yr">May 2024</span><div><span class="t">Munich Summer Institute</span><span class="s">Participant</span></div></li><li><span class="yr">2022–2024</span><div><span class="t">Master of Research in Business, <span class="inst" data-sketch="lmu">LMU Munich</span></span><span class="s">Overall grade: excellent (1.0), the highest grade awarded</span></div></li></ol><div class="from"><ul><li><div><span class="t">Simulating Human Decision-Making with Large Language Models</span></div></li><li><div><a class="t" href="/papers/ai-simulations/">When and How to Integrate AI Simulations into Behavioral Experimentation</a><span class="s">Revise and resubmit, International Journal of Research in Marketing</span></div></li><li><div><a class="t" href="/papers/meta-science/">How Researchers&#x27; Analytical Decisions Impact Brand Price Elasticity Estimates: Insights from a Many-Analyst Study</a><span class="s">Forthcoming, International Journal of Research in Marketing</span></div></li></ul></div></section></article>
+<article class="panel" id="zurich" data-kind="eu" data-tz="Europe/Zurich" aria-labelledby="zurich-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="zurich-h">Zurich</h2><section class="stay" id="zurich-2019" data-stay="zurich-2019" data-city="zurich" data-start="2019-09"><ol><li><span class="yr">2019–2021</span><div><span class="t">MSc in Mathematics, <span class="inst" data-sketch="uzh">University of Zurich</span></span><span class="s">Thesis on the principal–agent framework, supervised by Dylan Possamaï (<span class="inst" data-sketch="eth">ETH Zurich</span>) · with great distinction</span></div></li><li><span class="yr">2020–2021</span><div><span class="t">Tutor, Open Learning Space Zurich</span><span class="s">Mathematics and English for high-school students</span></div></li><li><span class="yr">2020</span><div><span class="t">Research Assistant, <span class="inst" data-sketch="usz">University Hospital Zurich</span></span><span class="s">Department of Neurology · machine learning on large-scale sleep data · Swiss National Science Foundation project 160075</span></div></li></ol></section></article>
+<article class="panel" id="lyon" data-kind="eu" data-tz="Europe/Paris" aria-labelledby="lyon-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="lyon-h">Lyon</h2><section class="stay" id="lyon-2023" data-stay="lyon-2023" data-city="lyon" data-start="2023-01-23"><ol><li><span class="yr">Jan 2023</span><div><span class="t">Instructor, Analyzing Markets, <span class="inst" data-sketch="emlyon">EM Lyon Business School</span></span></div></li></ol></section></article>
+<article class="panel" id="berlin" data-kind="eu" data-tz="Europe/Berlin" aria-labelledby="berlin-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="berlin-h">Berlin</h2><section class="stay" id="berlin-2026" data-stay="berlin-2026" data-city="berlin" data-start="2026-10-17"><ol><li><span class="yr">Oct 2026</span><div><span class="t">Strategic Management Society Annual Conference</span><span class="s">Participant</span></div></li></ol></section></article>
+<article class="panel" id="copenhagen" data-kind="eu" data-tz="Europe/Copenhagen" aria-labelledby="copenhagen-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="copenhagen-h">Copenhagen</h2><section class="stay" id="copenhagen-2025" data-stay="copenhagen-2025" data-city="copenhagen" data-start="2025-06-23"><ol><li><span class="yr">Jun 2025</span><div><span class="t">Doctoral Summer School on AI, League of European Research Universities, University of Copenhagen</span><span class="s">Selected participant, LMU stipend</span></div></li></ol></section></article>
+<article class="panel" id="stockholm" data-kind="eu" data-tz="Europe/Stockholm" aria-labelledby="stockholm-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="stockholm-h">Stockholm</h2><section class="stay" id="stockholm-2026" data-stay="stockholm-2026" data-city="stockholm" data-start="2026-10-09"><ol><li><span class="yr">Oct 2026</span><div><span class="t">Dialogues on Digital, Stockholm School of Economics</span><span class="s">Participant</span></div></li></ol></section></article>
+<article class="panel" id="istanbul" data-kind="eu" data-tz="Europe/Istanbul" aria-labelledby="istanbul-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="istanbul-h">Istanbul</h2><section class="stay" id="istanbul-2025" data-stay="istanbul-2025" data-city="istanbul" data-start="2025-09-17"><ol><li><span class="yr">Sep 2025</span><div><span class="t">European Marketing Academy Fall Conference</span><span class="s">Participant</span></div></li></ol></section></article>
+<article class="panel" id="newcastle" data-kind="w" data-tz="Australia/Sydney" aria-labelledby="newcastle-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="newcastle-h">Newcastle</h2><section class="stay" id="newcastle-2026" data-stay="newcastle-2026" data-city="newcastle" data-start="2026-11-30"><ol><li><span class="yr">Nov–Dec 2026</span><div><span class="t">ANZAM Annual Conference, University of Newcastle</span><span class="s">Presenter</span></div></li></ol></section></article>
+<article class="panel" id="stanford" data-kind="w" data-tz="America/Los_Angeles" aria-labelledby="stanford-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="stanford-h">Stanford</h2><section class="stay" id="stanford-2027" data-stay="stanford-2027" data-city="stanford" data-start="2027-01-04"><ol><li><span class="yr">Jan–Mar 2027</span><div><span class="t">Visiting Scholar, Scandinavian Consortium for Organizational Research, <span class="inst" data-sketch="stanford">Stanford University</span></span><span class="s">Scandinavian Consortium for Organizational Research</span></div></li></ol></section></article>
+<article class="panel" id="boston" data-kind="w" data-tz="America/New_York" aria-labelledby="boston-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="boston-h">Boston</h2><section class="stay" id="boston-2026" data-stay="boston-2026" data-city="boston" data-start="2026-07-27"><ol><li><span class="yr">Jul 2026</span><div><span class="t">Open and User Innovation Conference, Harvard Business School</span><span class="s">Presenter</span></div></li></ol></section></article>
+<article class="panel" id="philadelphia" data-kind="w" data-tz="America/New_York" aria-labelledby="philadelphia-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="philadelphia-h">Philadelphia</h2><section class="stay" id="philadelphia-2026" data-stay="philadelphia-2026" data-city="philadelphia" data-start="2026-07-31"><ol><li><span class="yr">Jul–Aug 2026</span><div><span class="t">Academy of Management Annual Meeting</span><span class="s">Roundtable contribution, Professional Development Workshop on AI in Health</span></div></li></ol></section></article>
+<article class="panel" id="chicago" data-kind="w" data-tz="America/Chicago" aria-labelledby="chicago-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="chicago-h">Chicago</h2><section class="stay" id="chicago-2025" data-stay="chicago-2025" data-city="chicago" data-start="2025-05-30"><ol><li><span class="yr">Aug 2025</span><div><span class="t">Quantitative Marketing and Economics Conference, University of Chicago</span><span class="s">Participant</span></div></li><li><span class="yr">May 2025</span><div><span class="t">Inaugural New Data Conference, Chicago Booth School of Business</span><span class="s">Participant</span></div></li></ol></section></article>
+<article class="panel" id="montreal" data-kind="w" data-tz="America/Toronto" aria-labelledby="montreal-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="montreal-h">Montreal</h2><section class="stay" id="montreal-2025" data-stay="montreal-2025" data-city="montreal" data-start="2025-05-21"><ol><li><span class="yr">May 2025</span><div><span class="t">Academy of Marketing Science Annual Conference</span><span class="s">Presenter</span></div></li></ol></section></article>
+<article class="panel" id="phoenix" data-kind="w" data-tz="America/Phoenix" aria-labelledby="phoenix-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="phoenix-h">Phoenix</h2><section class="stay" id="phoenix-2025" data-stay="phoenix-2025" data-city="phoenix" data-start="2025-02-14"><ol><li><span class="yr">Feb 2025</span><div><span class="t">American Marketing Association Winter Academic Conference</span><span class="s">Presenter</span></div></li></ol></section></article>
+<article class="panel" id="hongkong" data-kind="w" data-tz="Asia/Hong_Kong" aria-labelledby="hongkong-h"><a class="close" href="#" aria-label="Close">&times;</a><h2 id="hongkong-h">Hong Kong</h2><section class="stay" id="hongkong-2025" data-stay="hongkong-2025" data-city="hongkong" data-start="2025-07-24"><ol><li><span class="yr">Jul 2025</span><div><span class="t">Global Marketing Conference</span><span class="s">Presenter</span></div></li></ol></section></article>
+  </aside>
+
+  
+  <aside class="stopcard" id="card" hidden aria-live="polite"></aside>
+
+  
+  <aside class="intro" id="intro" aria-labelledby="intro-role">
+    <p class="i-role" id="intro-role">Assistant Professor, WU Vienna</p>
+    <p class="i-lede"><span class="i-first">I study how AI changes the way knowledge is produced and judged.</span></p>
+    <p class="cv-key i-key"><a href="/#publications" class="cv-cl cv-cl-ai"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg>AI-native methods</a><a href="/#publications" class="cv-cl cv-cl-sci"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg>Post-AI institutions</a></p>
+    <p class="i-all"><a href="/#publications">All papers</a></p>
+    <button class="i-more" type="button" aria-expanded="false" aria-label="Show more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  </aside>
+
+  <div class="journey">
+<section class="step step-world" data-step="world" aria-hidden="true"></section>
+<section class="step" data-step="vienna" aria-hidden="true"></section>
+<section class="step" data-step="zurich" aria-hidden="true"></section>
+<section class="step" data-step="munich" aria-hidden="true"></section>
+<section class="step" data-step="lyon" aria-hidden="true"></section>
+<section class="step" data-step="phoenix" aria-hidden="true"></section>
+<section class="step" data-step="montreal" aria-hidden="true"></section>
+<section class="step" data-step="chicago" aria-hidden="true"></section>
+<section class="step" data-step="copenhagen" aria-hidden="true"></section>
+<section class="step" data-step="hongkong" aria-hidden="true"></section>
+<section class="step" data-step="istanbul" aria-hidden="true"></section>
+<section class="step" data-step="boston" aria-hidden="true"></section>
+<section class="step" data-step="philadelphia" aria-hidden="true"></section>
+<section class="step" data-step="stockholm" aria-hidden="true"></section>
+<section class="step" data-step="berlin" aria-hidden="true"></section>
+<section class="step" data-step="newcastle" aria-hidden="true"></section>
+<section class="step" data-step="stanford" aria-hidden="true"></section>
+<section class="step" data-step="vienna" aria-hidden="true"></section>
+<section class="step step-world" data-step="world" aria-hidden="true"></section>
+  </div>
+  <script id="map-boxes" type="application/json">{"world": [0, 6, 1000, 430], "eu": [466.3, 44.6, 149.6, 65.1], "euPhone": [503.9, 41.6, 74.6, 71.1], "worldBand": [23.6, 408.7], "worldX": [194.5, 888.9], "rampMin": 38}</script>
+
+
+<aside class="sheet" id="contact" role="dialog" aria-modal="true" aria-labelledby="contact-h">
+  <a class="close" href="#" aria-label="Close">&times;</a>
+  <p class="sheet-eyebrow" id="contact-h">Contact</p>
+  <div class="whoami" role="group" aria-label="I am a">
+    <button class="whobtn active" type="button" data-who="research" aria-pressed="true">Researcher</button>
+    <button class="whobtn" type="button" data-who="student" aria-pressed="false">Student</button>
+    <button class="whobtn" type="button" data-who="industry" aria-pressed="false">Industry</button>
+  </div>
+  <div class="who-panel" id="who-panel" aria-live="polite">
+    <p>I&rsquo;m always glad to hear from potential collaborators.</p>
+  </div>
+  
+  <div class="frow frow-end cmail">
+    <a class="btn" id="write-mail" href="#contact">Write an email</a>
+    <button class="linkbtn" type="button" id="show-email">Show email</button>
+  </div>
+  <div class="finder" role="group" aria-labelledby="finder-h">
+    <p class="finder-h" id="finder-h">Find our connection</p>
+    <div class="frow">
+      <input id="finder-name" placeholder="Your name or institution" aria-label="Your name or institution" autocomplete="name" enterkeyhint="search">
+      <button class="btn btn-ghost" id="finder-go" type="button">Search</button>
+    </div>
+    <script id="finder-stays" type="application/json">[["Vienna University of Technology", "2016–2019"], ["Erste Group Bank", "2019"], ["University of Zurich", "2019–2021"], ["University Hospital Zurich", "2020"], ["Open Learning Space Zurich", "2020–2021"], ["UNIQA Insurance Group", "2021–2022"], ["LMU Munich", "2022–2026"], ["EM Lyon Business School", "2023"], ["University of Copenhagen", "2025"], ["WU Vienna", "since 2026"]]</script>
+    <script id="finder-places" type="application/json">[["Assistant Professor, WU Vienna", "2026–", "vienna", "WU Vienna"], ["Mathematician, UNIQA Insurance Group", "2021–2022", "vienna", "UNIQA Insurance Group"], ["Mathematician, Erste Group Bank", "2019", "vienna", "Erste Group Bank"], ["BSc in Mathematics, Vienna University of Technology", "2016–2019", "vienna", "Vienna University of Technology"], ["PhD in Management, LMU Munich", "2022–2026", "munich", "LMU Munich"], ["Research and Teaching Assistant, LMU Munich", "2022–2025", "munich", "LMU Munich"], ["Participant, Munich Summer Institute", "May 2024", "munich", ""], ["Master of Research in Business, LMU Munich", "2022–2024", "munich", "LMU Munich"], ["MSc in Mathematics, University of Zurich", "2019–2021", "zurich", "University of Zurich"], ["Tutor, Open Learning Space Zurich", "2020–2021", "zurich", "Open Learning Space Zurich"], ["Research Assistant, University Hospital Zurich", "2020", "zurich", "University Hospital Zurich"], ["Instructor, Analyzing Markets, EM Lyon Business School", "Jan 2023", "lyon", "EM Lyon Business School"], ["Participant, Strategic Management Society Annual Conference", "Oct 2026", "berlin", ""], ["Doctoral Summer School on AI, League of European Research Universities, University of Copenhagen", "Jun 2025", "copenhagen", "University of Copenhagen"], ["Participant, Dialogues on Digital, Stockholm School of Economics", "Oct 2026", "stockholm", "Stockholm School of Economics"], ["Participant, European Marketing Academy Fall Conference", "Sep 2025", "istanbul", ""], ["Presenter, ANZAM Annual Conference, University of Newcastle", "Nov–Dec 2026", "newcastle", "University of Newcastle"], ["Visiting Scholar, Scandinavian Consortium for Organizational Research, Stanford University", "Jan–Mar 2027", "stanford", "Stanford University"], ["Presenter, Open and User Innovation Conference, Harvard Business School", "Jul 2026", "boston", "Harvard Business School"], ["Academy of Management Annual Meeting", "Jul–Aug 2026", "philadelphia", ""], ["Participant, Quantitative Marketing and Economics Conference, University of Chicago", "Aug 2025", "chicago", "University of Chicago"], ["Participant, Inaugural New Data Conference, Chicago Booth School of Business", "May 2025", "chicago", "Chicago Booth School of Business"], ["Presenter, Academy of Marketing Science Annual Conference", "May 2025", "montreal", ""], ["Presenter, American Marketing Association Winter Academic Conference", "Feb 2025", "phoenix", ""], ["Presenter, Global Marketing Conference", "Jul 2025", "hongkong", ""]]</script>
+    <script id="finder-colleague" type="application/json">{"wu": {"one": "We are colleagues at WU Vienna.", "edge": "Colleagues at WU Vienna"}, "lmu-som": {"one": "We were colleagues at LMU Munich.", "edge": "Colleagues at LMU Munich"}}</script>
+    <div class="finder-out" id="finder-out" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+  <p class="sheet-legal"><a href="/legal/">Legal notice &amp; privacy</a></p>
+</aside>
+
+
+
+  <script src="/assets/site.js?v=58280554" defer></script>
+  <script src="/assets/globe-land.js?v=ce06bc40" defer></script>
+  <script src="/assets/map.js?v=04d8be99" defer></script>
+</body>
+</html>
