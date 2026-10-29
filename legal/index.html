@@ -26,7 +26,8 @@
 <link rel="stylesheet" href="/assets/site.css?v=2dcd37a0">
 <style>
 
-main{ max-width:40rem; margin:0 auto; padding:6.5rem var(--gutter) 3.5rem; color:var(--ink); }
+
+main{ max-width:none; margin:0; padding:6.5rem var(--pad) 3.5rem; color:var(--ink); }
 h1{ font-family:var(--serif); font-weight:400; font-size:clamp(1.8rem, 1.4rem + 2vw, 2.4rem);
 line-height:1.15; letter-spacing:-0.01em; margin:0 0 0.3rem; }
 .de{ display:block; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.1em; text-transform:uppercase;
@@ -37,6 +38,10 @@ color:var(--ink-soft); margin:0 0 0.6rem; }
 ul{ list-style:none; margin:0 0 1.8rem; padding:0; }
 li{ font-size:1rem; line-height:1.6; padding:0.5rem 0; border-top:1px solid var(--line); }
 li:last-child{ border-bottom:1px solid var(--line); }
+@media (min-width:1000px){
+ul{ columns:2 26rem; column-gap:3vw; }
+li{ break-inside:avoid; }
+}
 .credits{ font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.04em; line-height:1.7; color:var(--ink-soft); margin:0; }
 main a{ color:var(--accent); text-underline-offset:0.25em; }
 main a:hover{ color:var(--accent-lift); }

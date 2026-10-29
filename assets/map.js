@@ -256,8 +256,9 @@ if (imgOn) {
 ctx.beginPath(); land.forEach(trace); ctx.lineWidth = 0.6; ctx.strokeStyle = COL.iBorder; ctx.stroke();
 (land.groups || []).forEach(g => {
 const c = tintOf(g.iso); if (!c) return;
-ctx.beginPath(); g.rings.forEach(trace); ctx.fillStyle = c; ctx.globalAlpha = 0.16; ctx.fill();
-ctx.globalAlpha = 0.9; ctx.lineWidth = 1; ctx.strokeStyle = c; ctx.stroke(); ctx.globalAlpha = 1;
+ctx.beginPath(); g.rings.forEach(trace); ctx.fillStyle = c; ctx.globalAlpha = 0.3; ctx.fill();
+ctx.globalAlpha = 0.55; ctx.lineWidth = 2.6; ctx.strokeStyle = 'rgba(20,16,8,1)'; ctx.stroke();
+ctx.globalAlpha = 1; ctx.lineWidth = 1.2; ctx.strokeStyle = c; ctx.stroke();
 });
 ctx.beginPath(); rivers.forEach(trace); ctx.lineWidth = 0.8; ctx.strokeStyle = COL.iRiver; ctx.stroke();
 return;
