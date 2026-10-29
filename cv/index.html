@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-TWR2iXEHAAFxHNNpmP1J4gF15Tz3FFu77Nmh+mTqRiA='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Gpi/50Ma+9VlxO/7EmNxhoU9PUQPKpXIZLIqRchbIHY=' 'sha256-RKCjC6YEmEZjVSPOvERlujCydw5cdfNH/rTjkepXLAs=' 'sha256-mAaX7CWUc5zu80auVSKmMmz7ztCgKnY+EeK83KjF+H0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openalex.org; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>CV of Stefan Herytash, WU Vienna</title>
 <meta name="description" content="Curriculum vitae of Stefan Herytash, Assistant Professor at WU Vienna, PhD from LMU Munich: publications, working papers, grants, talks and teaching.">
@@ -23,149 +23,169 @@
 <meta name="theme-color" content="#1D1C18" media="(prefers-color-scheme: dark)">
 <script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="/assets/fonts.css?v=aea717b2">
-<link rel="stylesheet" href="/assets/site.css?v=da7a7113">
-<link rel="stylesheet" href="/assets/vis.css?v=56ed819a">
+<link rel="stylesheet" href="/assets/site.css?v=2dcd37a0">
+<link rel="stylesheet" href="/assets/vis.css?v=c63e6f43">
 <style>
-  
-  main{ max-width:68rem; margin:0 auto; padding:6.2rem var(--gutter) 3rem; }
 
-  
-  .quote{ margin:0; background:var(--paper-tint); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.25rem; }
-  .q-en{ margin:0; font-family:var(--serif); font-style:italic; font-size:1.05rem; line-height:1.5; color:var(--ink); }
-  .q-de{ margin:0.5rem 0 0; font-size:0.86rem; line-height:1.5; color:var(--ink-soft); }
-  
-  .q-orig{ margin:0.5rem 0 0; }
-  .q-orig summary{ display:inline-flex; align-items:center; min-height:44px; margin:-0.6rem 0; cursor:pointer; list-style:none;
-    font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft);
-    text-decoration:underline; text-decoration-color:var(--line-strong); text-underline-offset:0.2em; }
-  .q-orig summary::-webkit-details-marker{ display:none; }
-  .q-orig summary:hover{ color:var(--accent); }
-  .q-orig[open] summary{ margin-bottom:0; }
-  @media print{ .q-orig summary{ display:none; } .q-orig p{ display:block; } }
-  
-  .quote.q-short{ padding:0.8rem 1rem; }
-  .quote.q-short .q-en{ font-size:1rem; line-height:1.45; }
-  .quote.q-short .q-de{ margin-top:0.5rem; }
-  .quote.q-short .q-src{ margin-top:0.6rem; }
-  .q-src{ margin:0.8rem 0 0; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.02em; line-height:1.4; color:var(--ink-soft); }
-  
-  .cv-head{ display:grid; grid-template-columns:4.2rem minmax(0, 1fr); gap:1.2rem; align-items:center;
-    padding:0 0 1.2rem; border-bottom:1px solid var(--line); margin-bottom:0.6rem; }
-  .cv-photo{ display:block; width:4.2rem; height:5.4rem; object-fit:cover; object-position:50% 20%;
-    border-radius:8px; background:var(--paper-tint); }
-  .cv-index{ display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem 1.1rem; }
-  .cv-index a{ font-size:0.8rem; color:var(--ink-soft); text-decoration:none; padding:0.2rem 0; }
-  .cv-index a:hover{ color:var(--accent); }
-  .cv-index .cv-pdf{ margin-left:auto; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.08em;
-    text-transform:uppercase; color:var(--accent); border:1px solid var(--line); border-radius:999px;
-    padding:0.2rem 0.75rem; align-self:center; }
-  .cv-index .cv-pdf:hover{ border-color:var(--accent); }
-  
-  .cv-index .cv-short{ display:none; }
-  
-  .cv-links{ display:inline-flex; gap:1.1rem; margin-left:auto; }
-  .cv-links + .cv-pdf{ margin-left:0; }
-  .cv-index .cv-ext{ font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.08em; text-transform:uppercase;
-    color:var(--ink-soft); }
-  .cv-index .cv-ext:hover{ color:var(--accent); }
-  @media (max-width:720px){
-    
-    .cv-index{ gap:0 1.1rem; }
-    .cv-head{ grid-template-columns:3.4rem minmax(0, 1fr); gap:1rem; align-items:start; }
-    .cv-photo{ width:3.4rem; height:4.4rem; margin-top:0.3rem; }
-    .cv-index a{ display:inline-flex; align-items:center; min-height:44px; padding:0; }
-    .cv-index .cv-full{ display:none; }
-    .cv-index .cv-short{ display:inline; }
-    .cv-index .cv-pdf{ padding:0 1rem; }
-  }
+main{ max-width:68rem; margin:0 auto; padding:6.2rem var(--gutter) 3rem; }
 
-  
-  .cv-bar{ position:fixed; left:0; right:0; top:var(--cv-top); z-index:8;
-    background:var(--paper); border-bottom:1px solid var(--line);
-    opacity:0; visibility:hidden; transform:translateY(-0.35rem);
-    transition:opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
-  .cv-bar.on{ opacity:1; visibility:visible; transform:none; transition-delay:0s; }
-  .cv-bar-in{ display:flex; align-items:stretch; gap:1rem; max-width:68rem; box-sizing:border-box; margin:0 auto;
-    height:var(--cv-barh); padding:0 var(--gutter); overflow-x:auto; overscroll-behavior-x:contain;
-    scrollbar-width:none; }
-  .cv-bar-in::-webkit-scrollbar{ display:none; }
-  .cv-bar-in a{ flex:none; display:flex; flex-direction:column; justify-content:center; white-space:nowrap;
-    font-size:0.78rem; line-height:1.2; color:var(--ink-soft); text-decoration:none;
-    border-bottom:2px solid transparent; margin-bottom:-1px; }
-  .cv-bar-in a::after{ content:attr(data-t); display:block; height:0; overflow:hidden; visibility:hidden;
-    font-weight:600; pointer-events:none; user-select:none; }
-  .cv-bar-in a:hover{ color:var(--accent); }
-  .cv-bar-in a[aria-current="location"]{ color:var(--ink); font-weight:600; border-bottom-color:var(--accent); }
-  .cv-bar-in a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; border-radius:3px; }
-  .cv-bar-in .cv-pdf{ margin-left:auto; padding-left:1.15rem; font-family:var(--mono); font-size:0.6875rem;
-    letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); }
-  @media (max-width:720px){
-    html:root{ --cv-barh:2.75rem; }
-    .cv-bar-in{ gap:1.2rem; }
-  }
-  
-  .cv-bar.more-r .cv-bar-in{ -webkit-mask-image:linear-gradient(90deg, #000 calc(100% - 2.4rem), transparent); mask-image:linear-gradient(90deg, #000 calc(100% - 2.4rem), transparent); }
-  .cv-bar.more-l .cv-bar-in{ -webkit-mask-image:linear-gradient(90deg, transparent, #000 2.4rem); mask-image:linear-gradient(90deg, transparent, #000 2.4rem); }
-  .cv-bar.more-l.more-r .cv-bar-in{ -webkit-mask-image:linear-gradient(90deg, transparent, #000 2.4rem, #000 calc(100% - 2.4rem), transparent); mask-image:linear-gradient(90deg, transparent, #000 2.4rem, #000 calc(100% - 2.4rem), transparent); }
-  @media (prefers-reduced-motion:reduce){ .cv-bar{ transition:none; } }
 
-  
-  
-  :root{ --cv-top:3.9rem; --cv-barh:2.6rem; --cv-stick:calc(var(--cv-top) + var(--cv-barh) + 0.9rem); }
-  .cv-sec{ padding:1.6rem 0 1.4rem; border-bottom:1px solid var(--line); scroll-margin-top:var(--cv-stick); }
-  
-  .cv-row[id]{ scroll-margin-top:var(--cv-stick); }
-  .cv-h{ margin:0 0 0.6rem; font-family:var(--serif); font-weight:400; font-size:1.5rem; letter-spacing:-0.005em; }
-  .cv-sub{ margin:1rem 0 0.3rem; font-family:var(--mono); font-weight:400; font-size:0.6875rem;
-    letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
-  .cv-list{ list-style:none; margin:0; padding:0; }
-  .cv-row{ display:grid; grid-template-columns:6.4rem minmax(0, 1fr); gap:0.25rem 1.1rem; padding:0.55rem 0; align-items:start; }
-  .cv-row + .cv-row{ border-top:1px solid color-mix(in srgb, var(--line) 60%, transparent); }
-  .cv-when{ font-family:var(--mono); font-size:0.72rem; color:var(--accent); padding-top:0.2rem; white-space:nowrap; }
-  .cv-what{ font-size:0.95rem; line-height:1.55; }
-  .cv-what i{ font-family:var(--serif); font-size:1.06em; }
-  .cv-what b, .cv-t{ font-weight:600; }
-  .cv-what a{ color:inherit; text-decoration-color:var(--line-strong); text-underline-offset:0.2em; }
-  .cv-what a:hover{ color:var(--accent); }
-  .cv-g{ color:var(--accent); font-style:italic; font-family:var(--serif); font-size:1.04em; }
-  .cv-d, .cv-cont{ display:block; color:var(--ink-soft); font-size:0.87rem; line-height:1.45; }
-  
-  .cv-t1{ display:block; font-weight:600; line-height:1.4; }
-  .cv-t1 i{ font-weight:500; }
-  .cv-t1.cv-nb{ font-weight:400; }           
-  .cv-t1 b{ font-weight:600; }
-  .cv-t2{ display:block; margin-top:0.1rem; color:var(--ink-soft); font-size:0.87rem; line-height:1.45; }
-  .cv-t2 .cv-g{ font-size:1.06em; }
-  .cv-paper .cv-what{ font-size:0.92rem; }
-  .cv-row .vis{ grid-column:2; margin:0.6rem 0 0.4rem; }
+.quote{ margin:0; background:var(--paper-tint); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.25rem; }
+.q-en{ margin:0; font-family:var(--serif); font-style:italic; font-size:1.05rem; line-height:1.5; color:var(--ink); }
+.q-de{ margin:0.5rem 0 0; font-size:0.86rem; line-height:1.5; color:var(--ink-soft); }
 
-  @media (min-width:1000px){
-    .cv-sec{ display:grid; grid-template-columns:13rem minmax(0, 1fr); gap:2rem; }
-    .cv-h{ position:sticky; top:var(--cv-stick); align-self:start; font-size:1.35rem; }
-    .cv-row.has-vis{ grid-template-columns:6.4rem minmax(0, 1fr) 21rem; }
-    .cv-row.has-vis .vis{ grid-column:3; grid-row:1; margin:0; }
-  }
-  
-  @media (min-width:561px){ html[lang="de"] .cv-row{ grid-template-columns:7.2rem minmax(0, 1fr); } }
-  @media (min-width:1000px){ html[lang="de"] .cv-row.has-vis{ grid-template-columns:7.2rem minmax(0, 1fr) 21rem; } }
-  
-  @media (min-width:1440px){
-    main, .cv-bar-in{ max-width:84rem; }
-    .cv-row.has-vis{ grid-template-columns:6.4rem minmax(0, 1fr) 26rem; gap:0.25rem 1.6rem; }
-    .cv-row:not(.has-vis) .cv-what{ max-width:46rem; }
-    html[lang="de"] .cv-row.has-vis{ grid-template-columns:7.2rem minmax(0, 1fr) 26rem; }
-  }
-  @media (max-width:560px){
-    .cv-row{ grid-template-columns:1fr; gap:0.1rem; }
-    .cv-row .vis{ grid-column:1; }
-  }
-  @media print{
-    .cv-index, .cv-bar, .vis-control, .cv-cite, .cv-pop{ display:none!important; }
-    .cv-row.has-vis, .cv-paper, .cv-row .vis{ break-inside:avoid; }
-    .cv-sub{ break-after:avoid; }
-    .cv-head{ border:0; padding:0; }
-    main{ padding-top:0; }
-  }
+.q-orig{ margin:0.5rem 0 0; }
+.q-orig summary{ display:inline-flex; align-items:center; min-height:44px; margin:-0.6rem 0; cursor:pointer; list-style:none;
+font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft);
+text-decoration:underline; text-decoration-color:var(--line-strong); text-underline-offset:0.2em; }
+.q-orig summary::-webkit-details-marker{ display:none; }
+.q-orig summary:hover{ color:var(--accent); }
+.q-orig[open] summary{ margin-bottom:0; }
+@media print{ .q-orig summary{ display:none; } .q-orig p{ display:block; } }
+
+.quote.q-short{ padding:0.8rem 1rem; }
+.quote.q-short .q-en{ font-size:1rem; line-height:1.45; }
+.quote.q-short .q-de{ margin-top:0.5rem; }
+.quote.q-short .q-src{ margin-top:0.6rem; }
+.q-src{ margin:0.8rem 0 0; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.02em; line-height:1.4; color:var(--ink-soft); }
+
+.cv-head{ display:grid; grid-template-columns:4.2rem minmax(0, 1fr); gap:1.2rem; align-items:center;
+padding:0 0 1.2rem; border-bottom:1px solid var(--line); margin-bottom:0.6rem; }
+.cv-photo{ display:block; width:4.2rem; height:5.4rem; object-fit:cover; object-position:50% 20%;
+border-radius:8px; background:var(--paper-tint); }
+.cv-index{ display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem 1.1rem; }
+.cv-index a{ font-size:0.8rem; color:var(--ink-soft); text-decoration:none; padding:0.2rem 0; }
+.cv-index a:hover{ color:var(--accent); }
+.cv-index .cv-pdf{ margin-left:auto; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.08em;
+text-transform:uppercase; color:var(--accent); border:1px solid var(--line); border-radius:999px;
+padding:0.2rem 0.75rem; align-self:center; }
+.cv-index .cv-pdf:hover{ border-color:var(--accent); }
+
+.cv-index .cv-short{ display:none; }
+
+.cv-links{ display:inline-flex; gap:1.1rem; margin-left:auto; }
+.cv-links + .cv-pdf{ margin-left:0; }
+.cv-index .cv-ext{ font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.08em; text-transform:uppercase;
+color:var(--ink-soft); }
+.cv-index .cv-ext:hover{ color:var(--accent); }
+@media (max-width:720px){
+
+.cv-index{ gap:0 1.1rem; }
+.cv-head{ grid-template-columns:3.4rem minmax(0, 1fr); gap:1rem; align-items:start; }
+.cv-photo{ width:3.4rem; height:4.4rem; margin-top:0.3rem; }
+.cv-index a{ display:inline-flex; align-items:center; min-height:44px; padding:0; }
+.cv-index .cv-full{ display:none; }
+.cv-index .cv-short{ display:inline; }
+.cv-index .cv-pdf{ padding:0 1rem; }
+}
+
+
+.cv-bar{ position:fixed; left:0; right:0; top:var(--cv-top); z-index:8;
+background:var(--paper); border-bottom:1px solid var(--line);
+opacity:0; visibility:hidden; transform:translateY(-0.35rem);
+transition:opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
+.cv-bar.on{ opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+.cv-bar-in{ display:flex; align-items:stretch; gap:1rem; max-width:68rem; box-sizing:border-box; margin:0 auto;
+height:var(--cv-barh); padding:0 var(--gutter); overflow-x:auto; overscroll-behavior-x:contain;
+scrollbar-width:none; }
+.cv-bar-in::-webkit-scrollbar{ display:none; }
+.cv-bar-in a{ flex:none; display:flex; flex-direction:column; justify-content:center; white-space:nowrap;
+font-size:0.78rem; line-height:1.2; color:var(--ink-soft); text-decoration:none;
+border-bottom:2px solid transparent; margin-bottom:-1px; }
+.cv-bar-in a::after{ content:attr(data-t); display:block; height:0; overflow:hidden; visibility:hidden;
+font-weight:600; pointer-events:none; user-select:none; }
+.cv-bar-in a:hover{ color:var(--accent); }
+.cv-bar-in a[aria-current="location"]{ color:var(--ink); font-weight:600; border-bottom-color:var(--accent); }
+.cv-bar-in a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; border-radius:3px; }
+.cv-bar-in .cv-pdf{ margin-left:auto; padding-left:1.15rem; font-family:var(--mono); font-size:0.6875rem;
+letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); }
+@media (max-width:720px){
+html:root{ --cv-barh:2.75rem; }
+.cv-bar-in{ gap:1.2rem; }
+}
+
+.cv-bar.more-r .cv-bar-in{ -webkit-mask-image:linear-gradient(90deg, #000 calc(100% - 2.4rem), transparent); mask-image:linear-gradient(90deg, #000 calc(100% - 2.4rem), transparent); }
+.cv-bar.more-l .cv-bar-in{ -webkit-mask-image:linear-gradient(90deg, transparent, #000 2.4rem); mask-image:linear-gradient(90deg, transparent, #000 2.4rem); }
+.cv-bar.more-l.more-r .cv-bar-in{ -webkit-mask-image:linear-gradient(90deg, transparent, #000 2.4rem, #000 calc(100% - 2.4rem), transparent); mask-image:linear-gradient(90deg, transparent, #000 2.4rem, #000 calc(100% - 2.4rem), transparent); }
+@media (prefers-reduced-motion:reduce){ .cv-bar{ transition:none; } }
+
+
+
+:root{ --cv-top:3.9rem; --cv-barh:2.6rem; --cv-stick:calc(var(--cv-top) + var(--cv-barh) + 0.9rem); }
+.cv-sec{ padding:1.6rem 0 1.4rem; border-bottom:1px solid var(--line); scroll-margin-top:var(--cv-stick); }
+
+.cv-row[id]{ scroll-margin-top:var(--cv-stick); }
+.cv-h{ margin:0 0 0.6rem; font-family:var(--serif); font-weight:400; font-size:1.5rem; letter-spacing:-0.005em; }
+.cv-sub{ margin:1rem 0 0.3rem; font-family:var(--mono); font-weight:400; font-size:0.6875rem;
+letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
+.cv-list{ list-style:none; margin:0; padding:0; }
+.cv-row{ display:grid; grid-template-columns:6.4rem minmax(0, 1fr); gap:0.25rem 1.1rem; padding:0.55rem 0; align-items:start; }
+.cv-row + .cv-row{ border-top:1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+.cv-when{ font-family:var(--mono); font-size:0.72rem; color:var(--accent); padding-top:0.2rem; white-space:nowrap; }
+.cv-what{ font-size:0.95rem; line-height:1.55; }
+.cv-what i{ font-family:var(--serif); font-size:1.06em; }
+.cv-what b, .cv-t{ font-weight:600; }
+.cv-what a{ color:inherit; text-decoration-color:var(--line-strong); text-underline-offset:0.2em; }
+.cv-what a:hover{ color:var(--accent); }
+.cv-g{ color:var(--accent); font-style:italic; font-family:var(--serif); font-size:1.04em; }
+.cv-d, .cv-cont{ display:block; color:var(--ink-soft); font-size:0.87rem; line-height:1.45; }
+
+.cv-t1{ display:block; font-weight:600; line-height:1.4; }
+.cv-t1 i{ font-weight:500; }
+.cv-t1.cv-nb{ font-weight:400; }           
+.cv-t1 b{ font-weight:600; }
+.cv-t2{ display:block; margin-top:0.1rem; color:var(--ink-soft); font-size:0.87rem; line-height:1.45; }
+.cv-t2 .cv-g{ font-size:1.06em; }
+.cv-paper .cv-what{ font-size:0.92rem; }
+.cv-row .vis{ grid-column:2; margin:0.6rem 0 0.4rem; }
+
+@media (min-width:1000px){
+.cv-sec{ display:grid; grid-template-columns:13rem minmax(0, 1fr); gap:2rem; }
+.cv-h{ position:sticky; top:var(--cv-stick); align-self:start; font-size:1.35rem; }
+.cv-row.has-vis{ grid-template-columns:6.4rem minmax(0, 1fr) 21rem; }
+.cv-row.has-vis .vis{ grid-column:3; grid-row:1; margin:0; }
+}
+
+@media (min-width:561px){ html[lang="de"] .cv-row{ grid-template-columns:7.2rem minmax(0, 1fr); } }
+@media (min-width:1000px){ html[lang="de"] .cv-row.has-vis{ grid-template-columns:7.2rem minmax(0, 1fr) 21rem; } }
+
+@media (min-width:1440px){
+main, .cv-bar-in{ max-width:84rem; }
+.cv-row.has-vis{ grid-template-columns:6.4rem minmax(0, 1fr) 26rem; gap:0.25rem 1.6rem; }
+.cv-row:not(.has-vis) .cv-what{ max-width:46rem; }
+html[lang="de"] .cv-row.has-vis{ grid-template-columns:7.2rem minmax(0, 1fr) 26rem; }
+}
+@media (max-width:560px){
+.cv-row{ grid-template-columns:1fr; gap:0.1rem; }
+.cv-row .vis{ grid-column:1; }
+}
+@media print{
+.cv-index, .cv-bar, .vis-control, .cv-cite, .cv-pop{ display:none!important; }
+.cv-row.has-vis, .cv-paper, .cv-row .vis{ break-inside:avoid; }
+.cv-sub{ break-after:avoid; }
+.cv-head{ border:0; padding:0; }
+main{ padding-top:0; }
+}
+
+@media screen{
+main, .cv-bar-in{ max-width:none; }
+main{ padding-left:var(--pad); padding-right:var(--pad); }
+.cv-bar-in{ padding:0 var(--pad); }
+}
+@media screen and (min-width:600px){
+.cv-bar-in{ flex-wrap:wrap; height:auto; min-height:var(--cv-barh); overflow:visible; row-gap:0; column-gap:1.4rem; align-content:center; }
+.cv-bar-in a{ min-height:var(--cv-barh); }
+.cv-bar.more-r .cv-bar-in, .cv-bar.more-l .cv-bar-in{ -webkit-mask-image:none; mask-image:none; }
+}
+@media screen and (min-width:1000px){
+.cv-sec{ grid-template-columns:minmax(13rem, 20vw) minmax(0, 1fr); gap:2vw; }
+.cv-h{ font-size:clamp(1.35rem, 1.9vw, 2.4rem); }
+.cv-row{ grid-template-columns:8.5rem minmax(0, 1fr); gap:0.25rem 1.6vw; }
+.cv-row.has-vis{ grid-template-columns:8.5rem minmax(0, 1fr) minmax(20rem, 30vw); }
+.cv-row:not(.has-vis) .cv-what{ max-width:none; }
+.cv-sec:not(:has(.has-vis)):not(:has(.quote)) .cv-list{ columns:2 26rem; column-gap:3vw; }
+.cv-sec:not(:has(.has-vis)):not(:has(.quote)) .cv-row{ break-inside:avoid; }
+}
 
 .vis[data-vis="ai-simulations"] .fc-q{ fill:none; stroke:var(--vis-ref); stroke-width:0.9; }
 .vis[data-vis="ai-simulations"] .fc-t{ fill:var(--ink); }
@@ -199,210 +219,7 @@
 
 
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "ProfilePage",
-      "@id": "https://sherytash.github.io/cv/#page",
-      "url": "https://sherytash.github.io/cv/",
-      "name": "CV of Stefan Herytash, WU Vienna",
-      "inLanguage": "en",
-      "mainEntity": {
-        "@id": "https://sherytash.github.io/#person"
-      }
-    },
-    {
-      "@type": "Person",
-      "@id": "https://sherytash.github.io/#person",
-      "name": "Stefan Herytash",
-      "alternateName": "Dr. Stefan Herytash",
-      "jobTitle": "Assistant Professor",
-      "url": "https://sherytash.github.io/",
-      "image": {
-        "@type": "ImageObject",
-        "url": "https://sherytash.github.io/assets/portrait-web.jpg"
-      },
-      "description": "Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the way knowledge is produced and judged: when language models can simulate how people behave, and how work should be certified after AI, from peer review to theses.",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Institute for Strategy, Technology and Organization",
-        "parentOrganization": {
-          "@type": "CollegeOrUniversity",
-          "name": "WU Vienna",
-          "alternateName": "Vienna University of Economics and Business",
-          "url": "https://www.wu.ac.at/"
-        }
-      },
-      "alumniOf": [
-        {
-          "@type": "CollegeOrUniversity",
-          "name": "LMU Munich",
-          "url": "https://www.lmu.de/"
-        },
-        {
-          "@type": "CollegeOrUniversity",
-          "name": "University of Zurich",
-          "url": "https://www.uzh.ch/"
-        },
-        {
-          "@type": "CollegeOrUniversity",
-          "name": "TU Wien",
-          "url": "https://www.tuwien.at/"
-        }
-      ],
-      "knowsAbout": [
-        "Post-AI certification",
-        "AI behavioral simulation",
-        "AI and how knowledge is produced and judged",
-        "Large language models as simulated research participants",
-        "Synthetic respondents in behavioral experiments",
-        "Science of science",
-        "Journal certification and peer review",
-        "Consumer behavior",
-        "Behavioral experiments in marketing",
-        "Marketing",
-        "Strategy",
-        "Innovation",
-        "Pay transparency and labor markets",
-        "Consumer wearables and health management"
-      ],
-      "sameAs": [
-        "https://www.linkedin.com/in/stefan-herytash-606437253/",
-        "https://www.wu.ac.at/en/ifsto/institut/team/dr-stefan-herytash",
-        "https://orcid.org/0000-0002-6642-4397"
-      ],
-      "identifier": {
-        "@type": "PropertyValue",
-        "propertyID": "ORCID",
-        "value": "https://orcid.org/0000-0002-6642-4397"
-      }
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "headline": "How Researchers' Analytical Decisions Impact Brand Price Elasticity Estimates: Insights from a Many-Analyst Study",
-      "name": "How Researchers' Analytical Decisions Impact Brand Price Elasticity Estimates: Insights from a Many-Analyst Study",
-      "url": "https://sherytash.github.io/papers/meta-science/",
-      "inLanguage": "en",
-      "author": [
-        {
-          "@type": "Person",
-          "name": "Koll, O."
-        },
-        {
-          "@type": "Person",
-          "name": "Datta, H."
-        },
-        {
-          "@id": "https://sherytash.github.io/#person"
-        },
-        {
-          "@type": "Person",
-          "name": "van Heerde, H. J."
-        }
-      ],
-      "sameAs": "https://doi.org/10.31234/osf.io/fs3k2_v4",
-      "abstract": "Price elasticities are central empirical measures in marketing, informing pricing, promotion planning, or evaluations of consumer responsiveness. Yet estimates may depend not only on brands, categories, and markets but also on the analytical decisions researchers make in transforming raw purchase data into elasticities. We use a many-analyst design in which 156 independent research teams (RTs) estimate brand price elasticities for 68 meat-substitute country-brand combinations from the same dataset. Each team retained discretion over its analytical approach, including choices concerning modeling, aggregation, fixed effects, control variables, and endogeneity correction. Results show substantial heterogeneity in both choices and estimates. Across 10,415 brand price elasticity estimates, the average is -0.61. However, the variation across the 156 RTs is considerable: the average brand price elasticity per RT ranges from -7.3 to +3.1, with a standard deviation of 0.84. Choices related to time aggregation, fixed effects, time controls, and marketing-mix covariates explain the largest share of variation in reported estimates. Because analytical choices occur in configurations rather than in isolation, we cluster RTs and reveal distinct analytical pathways associated with different patterns of estimates. Our findings contribute to elasticity research by identifying modeling decisions that warrant particular scrutiny and to the open science debate by supporting the call for greater transparency about analytical decisions.",
-      "creditText": "Koll, O., Datta, H., … Herytash, S., … van Heerde, H. J. (265 authors)",
-      "datePublished": "2026",
-      "identifier": {
-        "@type": "PropertyValue",
-        "propertyID": "DOI",
-        "value": "10.31234/osf.io/fs3k2_v4"
-      },
-      "isPartOf": {
-        "@type": "Periodical",
-        "name": "International Journal of Research in Marketing"
-      }
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "headline": "When and How to Integrate AI Simulations into Behavioral Experimentation",
-      "name": "When and How to Integrate AI Simulations into Behavioral Experimentation",
-      "url": "https://sherytash.github.io/papers/ai-simulations/",
-      "inLanguage": "en",
-      "author": {
-        "@id": "https://sherytash.github.io/#person"
-      },
-      "abstract": "Purpose. Behavioral experiments are the gold standard for identifying causal effects of firm interventions, yet they are costly and slow to scale. This study asks when and how large language model (LLM) simulations can complement human experimentation, and validates the answer against a benchmark of 70 treatment effects from 30 peer-reviewed marketing studies. Design/methodology/approach. I assemble a corpus of randomized, text-only contrasts from five leading marketing journals, simulate each experiment with an open-weights LLM, and compare predicted to human-observed effect sizes on prespecified metrics. Every statistic, table, and figure is generated from a single published effect-level dataset by one deterministic evaluation script. Boundary conditions are examined by cluster-robust meta-regression, and a hybrid human–AI design based on prediction-powered inference (PPI) is developed analytically. Findings. Simulated and human effect sizes correlate substantially across studies (Pearson r = .73, 95% CI [.60, .83]), but predictions are systematically attenuated (calibration slope .38) and 67.1% fall within the human 95% confidence interval. The simulations rank effects well yet do not beat a corpus-grand-mean prior on absolute error, locating their value in discrimination, not calibration. Publication-bias diagnostics reveal strong small-study asymmetry in the underlying human corpus, so the benchmark measures fidelity to published effects. Estimation error shrinks with human sample size; preregistered design moderators show no reliable effects in this underpowered corpus. Research implications. The results support a view of LLMs as population-level language priors: informative about the ordering of textual treatment effects, conservative about their magnitudes. Whether performance generalizes beyond the training distribution remains an open question that publication dates cannot settle. Practical implications. For screening and design triage, LLM simulations provide near-zero-marginal-cost rankings. The PPI framework shows how biased simulations can supplement—never replace—human samples while preserving unbiasedness, with savings that grow in the (application-specific, here illustrative) individual-level human–LLM correlation. Originality/value. The study contributes a fully auditable, open-weights, marketing-specific benchmark whose every number regenerates from public data with one script, and an honest account of what such simulations can and cannot yet deliver.",
-      "datePublished": "2026",
-      "isPartOf": {
-        "@type": "Periodical",
-        "name": "International Journal of Research in Marketing"
-      }
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "headline": "After the Fax Machine Burns: Journal Certification When Everything Is Published",
-      "name": "After the Fax Machine Burns: Journal Certification When Everything Is Published",
-      "url": "https://sherytash.github.io/papers/fax/",
-      "inLanguage": "en",
-      "author": {
-        "@id": "https://sherytash.github.io/#person"
-      },
-      "abstract": "Academic peer review is under strain. Review times in economics roughly doubled over three decades, business and economics journals sit at the slow end of the disciplines, and reviewers donate some 100 million unpaid hours per year. Large language models have collapsed the cost of writing the manuscripts that consume those hours. Recent work in this journal governs artificial intelligence inside the existing workflow; the accompanying commentary asks whether that workflow, formed when pages were scarce, should give way to publication of every submission with quality control afterward. We develop that alternative into a system a publisher could run. Every submission is published on arrival, and the open marketplace produces a public, revisable grade: a machine reading opens trading, participants price a claim on a verifiable settlement event, and the publisher reads the price into a grade with disclosed precision. We model the five parties a publication system serves. Where the publisher's own panels produce the grade, its users, author, committee, and reader, weakly prefer it to the verdict. Our marketplace inherits every comparison under one further assumption, testable on the settled sample, that its prices aggregate at least the information the panel aggregates today. Reviewer and publisher constraints turn on two magnitudes left to measurement, the worth of a public reviewing record and the price institutions pay for an evaluation layer; for a society publisher the second is arithmetic on its own accounts.",
-      "datePublished": "2026"
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "headline": "Sounding like AI Costs Ratings, Even for Strong Papers",
-      "name": "Sounding like AI Costs Ratings, Even for Strong Papers",
-      "url": "https://sherytash.github.io/papers/ai-sounding/",
-      "inLanguage": "en",
-      "author": {
-        "@id": "https://sherytash.github.io/#person"
-      },
-      "abstract": "Journals and conferences now treat text that reads as written by large language models (LLMs) as a sign of weak work. We test this premise with all 50,243 submissions to the International Conference on Learning Representations (ICLR) from 2021 to 2026 and their reviews. Before LLMs were available, papers that used the vocabulary typical of LLM text were rated like any other; from 2024 on, the same vocabulary costs ratings, with a sharp break on two measures available for every year and a penalty on a commercial detector in 2026. The penalty reaches papers that another reviewer rates highly, and most of it remains within the same authors. LLM-modified text is widespread at every rating level, in about 10% to 42% of abstracts from 2024 to 2026. On the same paper, confident reviewers mark AI-sounding text down more than their co-reviewers do. In decisions, the rating gap is worth about 12 percentage points of a fully AI-sounding paper's chance of acceptance. At equal ratings in 2021 to 2025 the committee adds no penalty, but authors withdraw such papers more often. Strong and weak work alike is now written with AI, and reviewers penalise its style even where other reviewers judge the work strong.",
-      "datePublished": "2026"
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "headline": "Post-training Makes Large Language Models Less Human-like",
-      "name": "Post-training Makes Large Language Models Less Human-like",
-      "url": "https://sherytash.github.io/papers/psych-201/",
-      "inLanguage": "en",
-      "author": [
-        {
-          "@type": "Person",
-          "name": "Binz, M."
-        },
-        {
-          "@type": "Person",
-          "name": "Akata, E."
-        },
-        {
-          "@id": "https://sherytash.github.io/#person"
-        },
-        {
-          "@type": "Person",
-          "name": "Schulz, E."
-        }
-      ],
-      "sameAs": "https://arxiv.org/abs/2605.07632",
-      "abstract": "Large language models (LLMs) are increasingly used as surrogates for human participants, but it remains unclear which models best capture human behavior and why. To address this, we introduce Psych-201, a novel dataset that enables us to measure behavioral alignment at scale. We find that post-training – the stage that turns base models into useful assistants – consistently reduces alignment with human behavior across model families, sizes, and objectives. Moreover, this misalignment widens in newer model generations even as base models continue to improve. Finally, we find that persona-induction – a popular technique for eliciting human-like behavior by conditioning models on participant-specific information – does not improve predictions at the level of individuals. Taken together, our results suggest that the very processes that are currently employed to turn LLMs into useful assistants also make them less accurate models of human behavior.",
-      "creditText": "Binz, M., Akata, E., … Herytash, S., … Schulz, E. (79 authors)",
-      "datePublished": "2026",
-      "identifier": {
-        "@type": "PropertyValue",
-        "propertyID": "arXiv",
-        "value": "2605.07632"
-      }
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "headline": "Threshold Migration to the Patient: Consumer Wearables, the Divided Gatekeeping Jurisdiction, and the Redistribution of Access",
-      "name": "Threshold Migration to the Patient: Consumer Wearables, the Divided Gatekeeping Jurisdiction, and the Redistribution of Access",
-      "url": "https://sherytash.github.io/papers/threshold-migration/",
-      "inLanguage": "en",
-      "author": {
-        "@id": "https://sherytash.github.io/#person"
-      },
-      "datePublished": "2026"
-    }
-  ]
-}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfilePage","@id":"https://sherytash.github.io/cv/#page","url":"https://sherytash.github.io/cv/","name":"CV of Stefan Herytash, WU Vienna","inLanguage":"en","mainEntity":{"@id":"https://sherytash.github.io/#person"}},{"@type":"Person","@id":"https://sherytash.github.io/#person","name":"Stefan Herytash","alternateName":"Dr. Stefan Herytash","jobTitle":"Assistant Professor","url":"https://sherytash.github.io/","image":{"@type":"ImageObject","url":"https://sherytash.github.io/assets/portrait-web.jpg"},"description":"Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the way knowledge is produced and judged: when language models can simulate how people behave, and how work should be certified after AI, from peer review to theses.","worksFor":{"@type":"Organization","name":"Institute for Strategy, Technology and Organization","parentOrganization":{"@type":"CollegeOrUniversity","name":"WU Vienna","alternateName":"Vienna University of Economics and Business","url":"https://www.wu.ac.at/"}},"alumniOf":[{"@type":"CollegeOrUniversity","name":"LMU Munich","url":"https://www.lmu.de/"},{"@type":"CollegeOrUniversity","name":"University of Zurich","url":"https://www.uzh.ch/"},{"@type":"CollegeOrUniversity","name":"TU Wien","url":"https://www.tuwien.at/"}],"knowsAbout":["Post-AI certification","AI behavioral simulation","AI and how knowledge is produced and judged","Large language models as simulated research participants","Synthetic respondents in behavioral experiments","Science of science","Journal certification and peer review","Consumer behavior","Behavioral experiments in marketing","Marketing","Strategy","Innovation","Pay transparency and labor markets","Consumer wearables and health management"],"sameAs":["https://www.linkedin.com/in/stefan-herytash-606437253/","https://www.wu.ac.at/en/ifsto/institut/team/dr-stefan-herytash","https://orcid.org/0000-0002-6642-4397"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"https://orcid.org/0000-0002-6642-4397"}},{"@type":"ScholarlyArticle","headline":"How Researchers' Analytical Decisions Impact Brand Price Elasticity Estimates: Insights from a Many-Analyst Study","name":"How Researchers' Analytical Decisions Impact Brand Price Elasticity Estimates: Insights from a Many-Analyst Study","url":"https://sherytash.github.io/papers/meta-science/","inLanguage":"en","author":[{"@type":"Person","name":"Koll, O."},{"@type":"Person","name":"Datta, H."},{"@id":"https://sherytash.github.io/#person"},{"@type":"Person","name":"van Heerde, H. J."}],"sameAs":"https://doi.org/10.31234/osf.io/fs3k2_v4","abstract":"Price elasticities are central empirical measures in marketing, informing pricing, promotion planning, or evaluations of consumer responsiveness. Yet estimates may depend not only on brands, categories, and markets but also on the analytical decisions researchers make in transforming raw purchase data into elasticities. We use a many-analyst design in which 156 independent research teams (RTs) estimate brand price elasticities for 68 meat-substitute country-brand combinations from the same dataset. Each team retained discretion over its analytical approach, including choices concerning modeling, aggregation, fixed effects, control variables, and endogeneity correction. Results show substantial heterogeneity in both choices and estimates. Across 10,415 brand price elasticity estimates, the average is -0.61. However, the variation across the 156 RTs is considerable: the average brand price elasticity per RT ranges from -7.3 to +3.1, with a standard deviation of 0.84. Choices related to time aggregation, fixed effects, time controls, and marketing-mix covariates explain the largest share of variation in reported estimates. Because analytical choices occur in configurations rather than in isolation, we cluster RTs and reveal distinct analytical pathways associated with different patterns of estimates. Our findings contribute to elasticity research by identifying modeling decisions that warrant particular scrutiny and to the open science debate by supporting the call for greater transparency about analytical decisions.","creditText":"Koll, O., Datta, H., … Herytash, S., … van Heerde, H. J. (265 authors)","datePublished":"2026","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.31234/osf.io/fs3k2_v4"},"isPartOf":{"@type":"Periodical","name":"International Journal of Research in Marketing"}},{"@type":"ScholarlyArticle","headline":"When and How to Integrate AI Simulations into Behavioral Experimentation","name":"When and How to Integrate AI Simulations into Behavioral Experimentation","url":"https://sherytash.github.io/papers/ai-simulations/","inLanguage":"en","author":{"@id":"https://sherytash.github.io/#person"},"abstract":"Purpose. Behavioral experiments are the gold standard for identifying causal effects of firm interventions, yet they are costly and slow to scale. This study asks when and how large language model (LLM) simulations can complement human experimentation, and validates the answer against a benchmark of 70 treatment effects from 30 peer-reviewed marketing studies. Design/methodology/approach. I assemble a corpus of randomized, text-only contrasts from five leading marketing journals, simulate each experiment with an open-weights LLM, and compare predicted to human-observed effect sizes on prespecified metrics. Every statistic, table, and figure is generated from a single published effect-level dataset by one deterministic evaluation script. Boundary conditions are examined by cluster-robust meta-regression, and a hybrid human–AI design based on prediction-powered inference (PPI) is developed analytically. Findings. Simulated and human effect sizes correlate substantially across studies (Pearson r = .73, 95% CI [.60, .83]), but predictions are systematically attenuated (calibration slope .38) and 67.1% fall within the human 95% confidence interval. The simulations rank effects well yet do not beat a corpus-grand-mean prior on absolute error, locating their value in discrimination, not calibration. Publication-bias diagnostics reveal strong small-study asymmetry in the underlying human corpus, so the benchmark measures fidelity to published effects. Estimation error shrinks with human sample size; preregistered design moderators show no reliable effects in this underpowered corpus. Research implications. The results support a view of LLMs as population-level language priors: informative about the ordering of textual treatment effects, conservative about their magnitudes. Whether performance generalizes beyond the training distribution remains an open question that publication dates cannot settle. Practical implications. For screening and design triage, LLM simulations provide near-zero-marginal-cost rankings. The PPI framework shows how biased simulations can supplement—never replace—human samples while preserving unbiasedness, with savings that grow in the (application-specific, here illustrative) individual-level human–LLM correlation. Originality/value. The study contributes a fully auditable, open-weights, marketing-specific benchmark whose every number regenerates from public data with one script, and an honest account of what such simulations can and cannot yet deliver.","datePublished":"2026","isPartOf":{"@type":"Periodical","name":"International Journal of Research in Marketing"}},{"@type":"ScholarlyArticle","headline":"After the Fax Machine Burns: Journal Certification When Everything Is Published","name":"After the Fax Machine Burns: Journal Certification When Everything Is Published","url":"https://sherytash.github.io/papers/fax/","inLanguage":"en","author":{"@id":"https://sherytash.github.io/#person"},"abstract":"Academic peer review is under strain. Review times in economics roughly doubled over three decades, business and economics journals sit at the slow end of the disciplines, and reviewers donate some 100 million unpaid hours per year. Large language models have collapsed the cost of writing the manuscripts that consume those hours. Recent work in this journal governs artificial intelligence inside the existing workflow; the accompanying commentary asks whether that workflow, formed when pages were scarce, should give way to publication of every submission with quality control afterward. We develop that alternative into a system a publisher could run. Every submission is published on arrival, and the open marketplace produces a public, revisable grade: a machine reading opens trading, participants price a claim on a verifiable settlement event, and the publisher reads the price into a grade with disclosed precision. We model the five parties a publication system serves. Where the publisher's own panels produce the grade, its users, author, committee, and reader, weakly prefer it to the verdict. Our marketplace inherits every comparison under one further assumption, testable on the settled sample, that its prices aggregate at least the information the panel aggregates today. Reviewer and publisher constraints turn on two magnitudes left to measurement, the worth of a public reviewing record and the price institutions pay for an evaluation layer; for a society publisher the second is arithmetic on its own accounts.","datePublished":"2026"},{"@type":"ScholarlyArticle","headline":"Sounding like AI Costs Ratings, Even for Strong Papers","name":"Sounding like AI Costs Ratings, Even for Strong Papers","url":"https://sherytash.github.io/papers/ai-sounding/","inLanguage":"en","author":{"@id":"https://sherytash.github.io/#person"},"abstract":"Journals and conferences now treat text that reads as written by large language models (LLMs) as a sign of weak work. We test this premise with all 50,243 submissions to the International Conference on Learning Representations (ICLR) from 2021 to 2026 and their reviews. Before LLMs were available, papers that used the vocabulary typical of LLM text were rated like any other; from 2024 on, the same vocabulary costs ratings, with a sharp break on two measures available for every year and a penalty on a commercial detector in 2026. The penalty reaches papers that another reviewer rates highly, and most of it remains within the same authors. LLM-modified text is widespread at every rating level, in about 10% to 42% of abstracts from 2024 to 2026. On the same paper, confident reviewers mark AI-sounding text down more than their co-reviewers do. In decisions, the rating gap is worth about 12 percentage points of a fully AI-sounding paper's chance of acceptance. At equal ratings in 2021 to 2025 the committee adds no penalty, but authors withdraw such papers more often. Strong and weak work alike is now written with AI, and reviewers penalise its style even where other reviewers judge the work strong.","datePublished":"2026"},{"@type":"ScholarlyArticle","headline":"Post-training Makes Large Language Models Less Human-like","name":"Post-training Makes Large Language Models Less Human-like","url":"https://sherytash.github.io/papers/psych-201/","inLanguage":"en","author":[{"@type":"Person","name":"Binz, M."},{"@type":"Person","name":"Akata, E."},{"@id":"https://sherytash.github.io/#person"},{"@type":"Person","name":"Schulz, E."}],"sameAs":"https://arxiv.org/abs/2605.07632","abstract":"Large language models (LLMs) are increasingly used as surrogates for human participants, but it remains unclear which models best capture human behavior and why. To address this, we introduce Psych-201, a novel dataset that enables us to measure behavioral alignment at scale. We find that post-training – the stage that turns base models into useful assistants – consistently reduces alignment with human behavior across model families, sizes, and objectives. Moreover, this misalignment widens in newer model generations even as base models continue to improve. Finally, we find that persona-induction – a popular technique for eliciting human-like behavior by conditioning models on participant-specific information – does not improve predictions at the level of individuals. Taken together, our results suggest that the very processes that are currently employed to turn LLMs into useful assistants also make them less accurate models of human behavior.","creditText":"Binz, M., Akata, E., … Herytash, S., … Schulz, E. (79 authors)","datePublished":"2026","identifier":{"@type":"PropertyValue","propertyID":"arXiv","value":"2605.07632"}},{"@type":"ScholarlyArticle","headline":"Threshold Migration to the Patient: Consumer Wearables, the Divided Gatekeeping Jurisdiction, and the Redistribution of Access","name":"Threshold Migration to the Patient: Consumer Wearables, the Divided Gatekeeping Jurisdiction, and the Redistribution of Access","url":"https://sherytash.github.io/papers/threshold-migration/","inLanguage":"en","author":{"@id":"https://sherytash.github.io/#person"},"datePublished":"2026"}]}</script>
 <meta name="twitter:title" content="CV of Stefan Herytash, WU Vienna">
 <meta name="twitter:description" content="Curriculum vitae of Stefan Herytash, Assistant Professor at WU Vienna, PhD from LMU Munich: publications, working papers, grants, talks and teaching.">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -417,10 +234,10 @@
 <body class="page-doc">
 <a class="skip" href="#main">Skip to content</a>
 <header class="bar">
-  <a class="name" href="/">Stefan Herytash</a>
+  <a class="name" href="/"><svg class="mk" viewBox="0 0 22 10" aria-hidden="true" focusable="false"><circle class="c" cx="5" cy="5" r="4.3"/><rect class="s" x="12.6" y=".9" width="8.2" height="8.2"/></svg><span>Stefan Herytash</span></a>
   <nav class="tabs" aria-label="Views">
-    <a href="/" data-tab="map">Map</a>
-    <a href="/papers/" data-tab="research">Research</a>
+    <a href="/" data-tab="map">Home</a>
+    <a href="/#research" data-tab="research">Research</a>
     <a href="/cv/" data-tab="cv" aria-current="page">CV</a>
     <a href="/studio/" data-tab="studio">Studio</a>
     <a class="tab-contact" href="#contact" aria-label="Contact"><svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true"><rect x="1" y="1.5" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 3l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span class="lbl">Contact</span></a>
@@ -617,78 +434,87 @@
 <footer class="foot-legal"><a href="/legal/">Legal notice &amp; privacy</a></footer>
 
 
-  <script src="/assets/site.js?v=ca1aa2ae" defer></script>
+  <script src="/assets/site.js?v=58280554" defer></script>
   <script>
 
 
 (function(){
-  var nav=document.querySelector('.cv-head .cv-index'), top=document.querySelector('header.bar');
-  if(!nav||!top||!('IntersectionObserver' in window)) return;
-  var links=[].slice.call(nav.querySelectorAll('a:not(.cv-ext)')), bar=document.createElement('nav'),
-      inner=document.createElement('div'), root=document.documentElement, pairs=[], live=[], shown=false, io, so, last=null;
-  bar.className='cv-bar'; bar.setAttribute('aria-label',nav.getAttribute('data-bar')||'Sections, while scrolling'); bar.setAttribute('aria-hidden','true');
-  inner.className='cv-bar-in'; bar.appendChild(inner);
-  links.forEach(function(a){
-    var c=a.cloneNode(true), id=(a.getAttribute('href')||'').slice(1);
-    if(!a.classList.contains('cv-pdf')){ var full=a.getAttribute('aria-label')||a.textContent, sh=a.querySelector('.cv-short'); c.removeAttribute('aria-label'); c.setAttribute('title',full); c.textContent=sh?sh.textContent:full; }
-    c.setAttribute('data-t',c.textContent); c.tabIndex=-1; inner.appendChild(c);
-    var sec=id&&document.getElementById(id); if(sec) pairs.push({a:c,h:a,sec:sec});
-  });
-  document.body.appendChild(bar);
-  pairs.forEach(function(q){ [q.a,q.h].forEach(function(a){ a.addEventListener('click',function(){ want=q; setTimeout(pick,80); }); }); });
-  function show(on){
-    shown=on; bar.classList.toggle('on',on); bar.setAttribute('aria-hidden',on?'false':'true');
-    inner.querySelectorAll('a').forEach(function(a){ a.tabIndex=on?0:-1; });
-    if(on&&last) keep(last);
-    edges();
-  }
-  function keep(p){
-    var l=p.a.offsetLeft, r=l+p.a.offsetWidth, v=inner.clientWidth, s=inner.scrollLeft, pad=40;
-    if(l<s+pad) inner.scrollLeft=Math.max(0,l-pad); else if(r>s+v-pad) inner.scrollLeft=r-v+pad;
-  }
-  function edges(){
-    bar.classList.toggle('more-l',inner.scrollLeft>4);
-    bar.classList.toggle('more-r',inner.scrollLeft+inner.clientWidth<inner.scrollWidth-4);
-  }
-  inner.addEventListener('scroll',edges,{passive:true});
-  function mark(p){
-    if(p===last) return; last=p;
-    pairs.forEach(function(q){
-      var cur=q===p; [q.a,q.h].forEach(function(a){ if(cur) a.setAttribute('aria-current','location'); else a.removeAttribute('aria-current'); });
-    });
-    if(shown&&p) keep(p);
-  }
-  var want=null;
-  ['wheel','touchmove','keydown'].forEach(function(n){ window.addEventListener(n,function(){ want=null; },{passive:true}); });
-  function atEnd(){ return window.innerHeight+window.pageYOffset>=document.documentElement.scrollHeight-4; }
-  function pick(){
-    var p=null;
-    if(atEnd()){ p=pairs[pairs.length-1]; pairs.forEach(function(q){ if(q===want&&q.sec.getBoundingClientRect().top>0) p=q; }); }
-    else pairs.forEach(function(q){ if(live.indexOf(q.sec)>-1) p=q; });
-    mark(p);
-  }
-  function build(){
-    root.style.setProperty('--cv-top',Math.round(top.getBoundingClientRect().bottom)+'px');
-    if(io) io.disconnect(); if(so) so.disconnect();
-    var t=Math.round(top.getBoundingClientRect().bottom), b=bar.getBoundingClientRect().height||40, h=window.innerHeight;
-    io=new IntersectionObserver(function(es){
-      var e=es[es.length-1]; show(!e.isIntersecting&&e.boundingClientRect.bottom<(e.rootBounds?e.rootBounds.top+1:t+b));
-    },{rootMargin:'-'+(t+b)+'px 0px 0px 0px'});
-    io.observe(nav);
-    var y=t+b+14, bottom=Math.max(0,h-y-2);
-    so=new IntersectionObserver(function(es){
-      es.forEach(function(e){ var i=live.indexOf(e.target); if(e.isIntersecting){ if(i<0) live.push(e.target); } else if(i>-1) live.splice(i,1); });
-      pick();
-    },{rootMargin:'-'+y+'px 0px -'+bottom+'px 0px'});
-    pairs.forEach(function(q){ so.observe(q.sec); });
-  }
-  var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ live=[]; build(); },120); });
-  var tick=false; window.addEventListener('scroll',function(){ if(tick) return; tick=true;
-    requestAnimationFrame(function(){ tick=false; if(atEnd()) pick(); }); },{passive:true});
-  build();
+var nav=document.querySelector('.cv-head .cv-index'), top=document.querySelector('header.bar');
+if(!nav||!top||!('IntersectionObserver' in window)) return;
+var links=[].slice.call(nav.querySelectorAll('a:not(.cv-ext)')), bar=document.createElement('nav'),
+inner=document.createElement('div'), root=document.documentElement, pairs=[], live=[], shown=false, io, so, last=null;
+bar.className='cv-bar'; bar.setAttribute('aria-label',nav.getAttribute('data-bar')||'Sections, while scrolling'); bar.setAttribute('aria-hidden','true');
+inner.className='cv-bar-in'; bar.appendChild(inner);
+links.forEach(function(a){
+var c=a.cloneNode(true), id=(a.getAttribute('href')||'').slice(1);
+if(!a.classList.contains('cv-pdf')){ var full=a.getAttribute('aria-label')||a.textContent, sh=a.querySelector('.cv-short'); c.removeAttribute('aria-label'); c.setAttribute('title',full); c.textContent=sh?sh.textContent:full; }
+c.setAttribute('data-t',c.textContent); c.tabIndex=-1; inner.appendChild(c);
+var sec=id&&document.getElementById(id); if(sec) pairs.push({a:c,h:a,sec:sec});
+});
+document.body.appendChild(bar);
+pairs.forEach(function(q){ [q.a,q.h].forEach(function(a){ a.addEventListener('click',function(){ want=q; setTimeout(pick,80); }); }); });
+function show(on){
+shown=on; bar.classList.toggle('on',on); bar.setAttribute('aria-hidden',on?'false':'true');
+inner.querySelectorAll('a').forEach(function(a){ a.tabIndex=on?0:-1; });
+if(on&&last) keep(last);
+edges();
+}
+function keep(p){
+var l=p.a.offsetLeft, r=l+p.a.offsetWidth, v=inner.clientWidth, s=inner.scrollLeft, pad=40;
+if(l<s+pad) inner.scrollLeft=Math.max(0,l-pad); else if(r>s+v-pad) inner.scrollLeft=r-v+pad;
+}
+function edges(){
+bar.classList.toggle('more-l',inner.scrollLeft>4);
+bar.classList.toggle('more-r',inner.scrollLeft+inner.clientWidth<inner.scrollWidth-4);
+}
+inner.addEventListener('scroll',edges,{passive:true});
+function mark(p){
+if(p===last) return; last=p;
+pairs.forEach(function(q){
+var cur=q===p; [q.a,q.h].forEach(function(a){ if(cur) a.setAttribute('aria-current','location'); else a.removeAttribute('aria-current'); });
+});
+if(shown&&p) keep(p);
+}
+var want=null;
+['wheel','touchmove','keydown'].forEach(function(n){ window.addEventListener(n,function(){ want=null; },{passive:true}); });
+function atEnd(){ return window.innerHeight+window.pageYOffset>=document.documentElement.scrollHeight-4; }
+function pick(){
+var p=null;
+if(atEnd()){ p=pairs[pairs.length-1]; pairs.forEach(function(q){ if(q===want&&q.sec.getBoundingClientRect().top>0) p=q; }); }
+else pairs.forEach(function(q){ if(live.indexOf(q.sec)>-1) p=q; });
+mark(p);
+}
+function build(){
+root.style.setProperty('--cv-top',Math.round(top.getBoundingClientRect().bottom)+'px');
+if(io) io.disconnect(); if(so) so.disconnect();
+var t=Math.round(top.getBoundingClientRect().bottom), b=bar.getBoundingClientRect().height||40, h=window.innerHeight;
+io=new IntersectionObserver(function(es){
+var e=es[es.length-1]; show(!e.isIntersecting&&e.boundingClientRect.bottom<(e.rootBounds?e.rootBounds.top+1:t+b));
+},{rootMargin:'-'+(t+b)+'px 0px 0px 0px'});
+io.observe(nav);
+var y=t+b+14, bottom=Math.max(0,h-y-2);
+so=new IntersectionObserver(function(es){
+es.forEach(function(e){ var i=live.indexOf(e.target); if(e.isIntersecting){ if(i<0) live.push(e.target); } else if(i>-1) live.splice(i,1); });
+pick();
+},{rootMargin:'-'+y+'px 0px -'+bottom+'px 0px'});
+pairs.forEach(function(q){ so.observe(q.sec); });
+}
+var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ live=[]; build(); },120); });
+var tick=false; window.addEventListener('scroll',function(){ if(tick) return; tick=true;
+requestAnimationFrame(function(){ tick=false; if(atEnd()) pick(); }); },{passive:true});
+build();
 })();
-  </script>
-  <script src="/assets/cite.js?v=3026ed91" defer></script>
+</script>
+  <script src="/assets/cite.js?v=bf71dfdb" defer></script>
+  <script>
+(function(){
+var b=document.querySelector('.cv-bar'), r=document.documentElement;
+if(!b||!window.ResizeObserver) return;
+new ResizeObserver(function(){
+r.style.setProperty('--cv-stick','calc(var(--cv-top) + '+b.querySelector('.cv-bar-in').offsetHeight+'px + 0.9rem)');
+}).observe(b);
+})();
+</script>
   <script>
 
 
@@ -696,6 +522,6 @@
 
 
 
-  </script>
+</script>
 </body>
 </html>
