@@ -21,6 +21,9 @@ let trigger = null;
 const sheet = document.getElementById('contact');
 document.addEventListener('click', e => {
 const a = e.target.closest && e.target.closest('a[href="#contact"], a[href="#finder"], a[href^="#contact-"]');
+if (a && a.classList.contains('tab-contact') && isOpen()) {
+e.preventDefault(); e.stopPropagation(); window.closeSheet(); return;
+}
 if (a && !isOpen()) {
 pushed = true; trigger = a;
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -31,13 +34,14 @@ const canInert = 'inert' in HTMLElement.prototype;
 const setInert = on => {
 if (!sheet || !canInert) return;
 for (const el of document.body.children) {
-if (el === sheet || el.contains(sheet) || /^(SCRIPT|TEMPLATE|STYLE)$/.test(el.tagName)) continue;
+if (el === sheet || el.contains(sheet) || el.matches('header.bar') || /^(SCRIPT|TEMPLATE|STYLE)$/.test(el.tagName)) continue;
 if (on && !el.inert) { el.inert = true; el.setAttribute('data-sheet-inert', ''); }
 else if (!on && el.hasAttribute('data-sheet-inert')) { el.inert = false; el.removeAttribute('data-sheet-inert'); }
 }
 };
+const mark = on => document.querySelectorAll('.tab-contact').forEach(b => b.setAttribute('aria-expanded', on ? 'true' : 'false'));
 const focusSheet = () => {
-setInert(true);
+setInert(true); mark(true);
 if (!sheet || sheet.contains(document.activeElement)) return;
 sheet.tabIndex = -1; sheet.focus({ preventScroll: true });
 };
@@ -53,7 +57,7 @@ clear();
 };
 const clear = () => {
 pushed = false;
-setInert(false);
+setInert(false); mark(false);
 location.replace('#_');
 history.replaceState(null, '', location.pathname + location.search);
 if (sheet && sheet.matches(':target')) sheet.style.display = 'none';
@@ -61,7 +65,7 @@ if (sheet && sheet.matches(':target')) sheet.style.display = 'none';
 addEventListener('hashchange', () => {
 if (sheet) sheet.style.display = '';
 if (isOpen()) { focusSheet(); return; }
-setInert(false);
+setInert(false); mark(false);
 if (/^#(contact-|finder$)/.test(location.hash)) return;
 pushed = false;
 if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
