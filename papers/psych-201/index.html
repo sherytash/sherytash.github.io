@@ -23,11 +23,11 @@
 <meta name="theme-color" content="#161B26" media="(prefers-color-scheme: dark)">
 <script>(function(d){if(window.Promise&&Promise.prototype.finally)d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="/assets/fonts.css?v=aea717b2">
-<link rel="stylesheet" href="/assets/site.css?v=4574f518">
+<link rel="stylesheet" href="/assets/site.css?v=05f4137c">
 <link rel="stylesheet" href="/assets/vis.css?v=c63e6f43">
 <style>
 
-main{ max-width:68rem; margin:0 auto; padding:6.2rem var(--gutter) 3rem; }
+main{ max-width:none; margin:0; padding:6.2rem var(--pad) 3rem; }   
 .pp-eye{ margin:0; display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem 0.8rem;
 font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
 .pp-eye .cv-cl{ color:var(--cl, var(--ink-soft)); letter-spacing:0.1em; }
@@ -64,10 +64,9 @@ text-decoration:none; }
 }
 
 @media (min-width:1360px){
-main{ max-width:calc(78rem + 2 * var(--gutter)); }
-.pp-body{ grid-template-columns:minmax(0, 40rem) minmax(18rem, 34rem); justify-content:space-between; }
-.pp-body .vis{ max-width:34rem; width:100%; }
-.pp-body.no-abs{ grid-template-columns:minmax(0, 34rem); }
+.pp-body{ grid-template-columns:minmax(0, 40rem) minmax(18rem, 1fr); column-gap:clamp(2.5rem, 6vw, 7rem); }
+.pp-body .vis{ max-width:52rem; width:100%; }
+.pp-body.no-abs{ grid-template-columns:minmax(0, 52rem); }
 }
 @media print{ .pp-actions, .pp-nav{ display:none; } }
 

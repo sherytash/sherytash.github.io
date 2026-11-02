@@ -486,11 +486,11 @@ display:flex; align-items:center; gap:1rem; background:var(--paper); border-bott
 body.page-about, body.page-studio, body.page-cv{ background:transparent; }
 body.page-about::before, body.page-studio::before, body.page-cv::before{
 content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-background:var(--ink); opacity:var(--poem-op, .07);
+background:var(--ink); opacity:var(--poem-op, .055);
 -webkit-mask:url("/assets/motifs/poems-tile.webp?v=5174e177") 0 0 / var(--poem-tile, 68rem) auto repeat;
 mask:url("/assets/motifs/poems-tile.webp?v=5174e177") 0 0 / var(--poem-tile, 68rem) auto repeat; }
 
-body.page-cv{ --poem-op:.065; }
+body.page-cv{ --poem-op:.05; }   
 body.page-cv::before{ display:none; }
 main.cv-main::before{ content:""; grid-row:1; grid-column:1 / -1; align-self:stretch; z-index:-1; pointer-events:none;
 margin:-7rem calc(-1 * var(--pad)) 0; background:var(--ink); opacity:var(--poem-op);
@@ -499,9 +499,9 @@ mask:url("/assets/motifs/poems-tile.webp?v=5174e177") 0 0 / var(--poem-tile, 68r
 -webkit-mask-composite:source-in; mask-composite:intersect; }
 @media (max-width:899px){ main.cv-main::before{ margin-top:-5.6rem; } }
 @media print{ main.cv-main::before{ display:none; } }
-@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) body{ --poem-op:.11; } :root:not([data-theme="light"]) body.page-cv{ --poem-op:.1; } }
-:root[data-theme="dark"] body{ --poem-op:.11; }
-:root[data-theme="dark"] body.page-cv{ --poem-op:.1; }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) body{ --poem-op:.075; } :root:not([data-theme="light"]) body.page-cv{ --poem-op:.07; } }
+:root[data-theme="dark"] body{ --poem-op:.075; }
+:root[data-theme="dark"] body.page-cv{ --poem-op:.07; }
 @media (max-width:719px){ body{ --poem-tile:46rem; } }
 @media print{ body::before{ display:none!important; } }
 @supports (animation-timeline: scroll()){
