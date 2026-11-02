@@ -431,8 +431,6 @@ html{ font-size:clamp(16px, calc(10px + 0.5vw), 21px); }
 .bar{ padding:calc(1.1rem + env(safe-area-inset-top)) var(--pad) 1rem; }
 
 .name{ display:inline-flex; align-items:center; font-size:1.2rem; letter-spacing:0.005em; }
-.name::after{ content:""; width:0.3em; height:0.3em; border-radius:50%; background:var(--lamp); margin-left:0.38em;
-align-self:center; transform:translateY(0.06em); }
 .tabs a[aria-current="page"]{ border-bottom-color:var(--lamp); }
 .tabs-sep{ width:1px; height:1.2rem; background:var(--line); }
 @media (max-width:520px){ .tabs-sep{ display:none; } }
@@ -483,3 +481,29 @@ display:flex; align-items:center; gap:1rem; background:var(--paper); border-bott
 @view-transition{ navigation:auto; }
 .dock-globe{ view-transition-name:globe; }
 }
+
+
+body.page-about, body.page-studio, body.page-cv{ background:transparent; }
+body.page-about::before, body.page-studio::before, body.page-cv::before{
+content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+background:var(--ink); opacity:var(--poem-op, .07);
+-webkit-mask:url("/assets/motifs/poems-tile.webp?v=5174e177") 0 0 / var(--poem-tile, 68rem) auto repeat;
+mask:url("/assets/motifs/poems-tile.webp?v=5174e177") 0 0 / var(--poem-tile, 68rem) auto repeat; }
+
+body.page-cv{ --poem-op:.065; }
+body.page-cv::before{ position:absolute; bottom:auto; height:110vh; animation:none!important;
+-webkit-mask:url("/assets/motifs/poems-tile.webp?v=5174e177") 0 0 / var(--poem-tile, 68rem) auto repeat, linear-gradient(#000 35%, transparent 75%);
+mask:url("/assets/motifs/poems-tile.webp?v=5174e177") 0 0 / var(--poem-tile, 68rem) auto repeat, linear-gradient(#000 35%, transparent 75%);
+-webkit-mask-composite:source-in; mask-composite:intersect; }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) body{ --poem-op:.11; } :root:not([data-theme="light"]) body.page-cv{ --poem-op:.1; } }
+:root[data-theme="dark"] body{ --poem-op:.11; }
+:root[data-theme="dark"] body.page-cv{ --poem-op:.1; }
+@media (max-width:719px){ body{ --poem-tile:46rem; } }
+@media print{ body::before{ display:none!important; } }
+@supports (animation-timeline: scroll()){
+@media (prefers-reduced-motion:no-preference){
+body.page-about::before, body.page-studio::before, body.page-cv::before{
+animation:poem-drift linear both; animation-timeline:scroll(root); }
+}
+}
+@keyframes poem-drift{ from{ -webkit-mask-position:0 0; mask-position:0 0; } to{ -webkit-mask-position:0 -45vh; mask-position:0 -45vh; } }
