@@ -355,7 +355,7 @@ const pins = [...svg.querySelectorAll('.pin')];
 pins.forEach(a => { a.v = vec(+a.dataset.lon, +a.dataset.lat); a.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', 0); c.setAttribute('cy', 0); }); });
 const labs = [...svg.querySelectorAll('.lab')];
 const card = document.getElementById('card');
-const intro = document.getElementById('intro');
+const intro = document.getElementById('intro') || Object.assign(document.createElement('aside'), { innerHTML: '<button class="i-more"></button>' });
 const steps = [...document.querySelectorAll('.step')];
 let route = null;
 let anim = null, shownStop = null, shownTrip = null, manual = false;
