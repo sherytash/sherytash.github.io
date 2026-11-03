@@ -111,36 +111,36 @@ main{ padding-top:6.5rem; }
 
 
 .deck{ margin:3.2rem 0 2.6rem; }
-.deck-table{ position:relative; height:30rem; }
-.pc{ position:absolute; top:0; left:0; width:15rem; height:21rem; perspective:1200px; transform-origin:50% 120%; }
+.deck-table{ --s:1; position:relative; height:30rem; font-size:calc(1rem * var(--s)); }
+.pc{ position:absolute; top:0; left:0; width:15em; height:21em; perspective:1200px; transform-origin:50% 120%; }
 .pc-inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; }
-.pc-face{ position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; gap:0.6rem; padding:1rem 1.05rem; background:var(--land, var(--paper)); border:1px solid var(--line); border-radius:10px; box-shadow:0 1px 2px rgba(0,0,0,.06), 0 10px 26px -12px rgba(0,0,0,.28); overflow:hidden; }
+.pc-face{ position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; gap:0.6em; padding:1em 1.05em; background:var(--land, var(--paper)); border:1px solid var(--line); border-radius:10px; box-shadow:0 1px 2px rgba(0,0,0,.06), 0 10px 26px -12px rgba(0,0,0,.28); overflow:hidden; }
 .pc-back{ transform:rotateY(180deg); justify-content:flex-start; }
 .pc.is-open .pc-inner{ transform:rotateY(180deg); }
-.pc-eye{ display:flex; align-items:center; gap:0.45rem; margin:0; font-size:0.74rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-soft); }
-.pc-eye .cv-cl{ color:var(--cl); } .pc-eye .cv-cl svg{ width:0.7rem; height:0.7rem; }
-.pc-title{ margin:0; font:italic 400 1.12rem/1.25 var(--serif); color:var(--ink); hyphens:none;
+.pc-eye{ display:flex; align-items:center; gap:0.45em; margin:0; font-size:0.74em; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-soft); }
+.pc-eye .cv-cl{ color:var(--cl); } .pc-eye .cv-cl svg{ width:0.95em; height:0.95em; }
+.pc-title{ margin:0; font:italic 400 1.12em/1.25 var(--serif); color:var(--ink); hyphens:none;
 display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; line-clamp:4; overflow:hidden; flex:none; }
 .pc-back .pc-title{ -webkit-line-clamp:5; line-clamp:5; }
-.pc-front .vis{ margin:auto 0 0; pointer-events:none; flex:1 1 0; min-height:0; max-height:9.5rem; display:flex; align-items:flex-end; }
+.pc-front .vis{ margin:auto 0 0; pointer-events:none; flex:1 1 0; min-height:0; max-height:9.5em; display:flex; align-items:flex-end; }
 .pc-front .vis svg{ width:100%; height:100%; }
-.pc-cite{ margin:0; font-size:0.8rem; line-height:1.4; color:var(--ink-soft); }
+.pc-cite{ margin:0; font-size:0.8em; line-height:1.4; color:var(--ink-soft); }
 .pc-cite span{ display:block; }
 .pc-cite .pc-stage{ color:var(--ink); }
-.pc-meta{ margin:0; font-size:0.86rem; line-height:1.45; color:var(--ink-soft); }
-.pc-open{ margin-top:auto; font-size:0.9rem; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--lamp); align-self:flex-start; position:relative; z-index:2; }
+.pc-meta{ margin:0; font-size:0.86em; line-height:1.45; color:var(--ink-soft); }
+.pc-open{ margin-top:auto; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--lamp); align-self:flex-start; position:relative; z-index:2; font-size:0.9em; }
 .pc-turn{ position:absolute; inset:0; z-index:1; background:none; border:0; border-radius:10px; cursor:pointer; }
-.pc.is-open .pc-turn{ bottom:3.2rem; }
+.pc.is-open .pc-turn{ bottom:3.2em; }
 .pc-turn:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 @media (min-width:720px){
 .pc:not(.is-open):hover .pc-inner, .pc:not(.is-open):focus-within .pc-inner{ translate:0 -14px; }
 }
 @media (prefers-reduced-motion:no-preference){
 .deck.ready .pc{ transition:transform .55s cubic-bezier(.2,.8,.2,1); }
+.deck.ready .deck-table{ transition:height .45s cubic-bezier(.2,.8,.2,1); }
 .pc-inner{ transition:transform .6s cubic-bezier(.3,.7,.2,1), translate .25s ease; }
 }
 
-@media (max-width:719px){ .deck{ display:none!important; } }
 @media print{ .deck{ display:none; } }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfilePage","@id":"https://sherytash.github.io/#page","url":"https://sherytash.github.io/","inLanguage":"en","mainEntity":{"@id":"https://sherytash.github.io/#person"}},{"@type":"Person","@id":"https://sherytash.github.io/#person","name":"Stefan Herytash","alternateName":"Dr. Stefan Herytash","jobTitle":"Assistant Professor","url":"https://sherytash.github.io/","image":{"@type":"ImageObject","url":"https://sherytash.github.io/assets/portrait-web.jpg"},"description":"Stefan Herytash is an Assistant Professor at WU Vienna. He studies how AI changes the way knowledge is produced and judged: when language models can simulate how people behave, and how work should be certified after AI, from peer review to theses.","worksFor":{"@type":"Organization","name":"Institute for Strategy, Technology and Organization","parentOrganization":{"@type":"CollegeOrUniversity","name":"WU Vienna","alternateName":"Vienna University of Economics and Business","url":"https://www.wu.ac.at/"}},"alumniOf":[{"@type":"CollegeOrUniversity","name":"LMU Munich","url":"https://www.lmu.de/"},{"@type":"CollegeOrUniversity","name":"University of Zurich","url":"https://www.uzh.ch/"},{"@type":"CollegeOrUniversity","name":"TU Wien","url":"https://www.tuwien.at/"}],"knowsAbout":["Post-AI institutions","AI-native methods","AI and how knowledge is produced and judged","Large language models as simulated research participants","Synthetic respondents in behavioral experiments","Science of science","Journal certification and peer review","Consumer behavior","Behavioral experiments in marketing","Marketing","Strategy","Innovation","Pay transparency and labor markets","Consumer wearables and health management"],"sameAs":["https://www.linkedin.com/in/stefan-herytash-606437253/","https://www.wu.ac.at/en/ifsto/institut/team/dr-stefan-herytash","https://orcid.org/0000-0002-6642-4397"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"https://orcid.org/0000-0002-6642-4397"}}]}</script>
@@ -304,7 +304,7 @@ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; line-cla
 <footer class="foot-legal"><a href="/legal/">Legal notice &amp; privacy</a></footer>
 
   <script src="/assets/site.js?v=8756ebca" defer></script>
-  <script src="/assets/deck.js?v=9f1a706c" defer></script>
+  <script src="/assets/deck.js?v=cfc3be1d" defer></script>
 
 
 
