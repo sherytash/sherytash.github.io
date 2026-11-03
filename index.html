@@ -111,9 +111,6 @@ main{ padding-top:6.5rem; }
 
 
 .deck{ margin:3.2rem 0 2.6rem; }
-.deck-bar{ display:flex; justify-content:flex-start; margin:0 0 0.6rem; }
-.deck-shuffle{ font:inherit; font-size:0.86rem; color:var(--ink-soft); background:none; border:0; border-bottom:1px solid var(--line); padding:0.2rem 0; cursor:pointer; }
-.deck-shuffle:hover, .deck-shuffle:focus-visible{ color:var(--accent); border-bottom-color:var(--lamp); }
 .deck-table{ position:relative; height:30rem; }
 .pc{ position:absolute; top:0; left:0; width:15rem; height:21rem; perspective:1200px; transform-origin:50% 120%; }
 .pc-inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; }
@@ -123,10 +120,13 @@ main{ padding-top:6.5rem; }
 .pc-eye{ display:flex; align-items:center; gap:0.45rem; margin:0; font-size:0.74rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-soft); }
 .pc-eye .cv-cl{ color:var(--cl); } .pc-eye .cv-cl svg{ width:0.7rem; height:0.7rem; }
 .pc-title{ margin:0; font:italic 400 1.12rem/1.25 var(--serif); color:var(--ink); hyphens:none;
-display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; line-clamp:4; overflow:hidden; }
+display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; line-clamp:4; overflow:hidden; flex:none; }
 .pc-back .pc-title{ -webkit-line-clamp:5; line-clamp:5; }
-.pc-front .vis{ margin:auto 0 0; pointer-events:none; }
-.pc-front .vis svg{ width:100%; height:auto; max-height:9.5rem; }
+.pc-front .vis{ margin:auto 0 0; pointer-events:none; flex:1 1 0; min-height:0; max-height:9.5rem; display:flex; align-items:flex-end; }
+.pc-front .vis svg{ width:100%; height:100%; }
+.pc-cite{ margin:0; font-size:0.8rem; line-height:1.4; color:var(--ink-soft); }
+.pc-cite span{ display:block; }
+.pc-cite .pc-stage{ color:var(--ink); }
 .pc-meta{ margin:0; font-size:0.86rem; line-height:1.45; color:var(--ink-soft); }
 .pc-open{ margin-top:auto; font-size:0.9rem; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--lamp); align-self:flex-start; position:relative; z-index:2; }
 .pc-turn{ position:absolute; inset:0; z-index:1; background:none; border:0; border-radius:10px; cursor:pointer; }
@@ -138,7 +138,6 @@ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; line-cla
 @media (prefers-reduced-motion:no-preference){
 .deck.ready .pc{ transition:transform .55s cubic-bezier(.2,.8,.2,1); }
 .pc-inner{ transition:transform .6s cubic-bezier(.3,.7,.2,1), translate .25s ease; }
-.deck.dealt .pc{ transition-duration:.8s; }
 }
 
 @media (max-width:719px){ .deck{ display:none!important; } }
@@ -185,7 +184,6 @@ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; line-cla
       <h2 id="ab-papers-h">Papers</h2>
       <p class="cv-key" role="group" aria-label="Research themes"><span class="cv-cl cv-cl-ai"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg>AI-native methods</span><span class="cv-cl cv-cl-sci"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1.2" y="1.2" width="7.6" height="7.6"/></svg>Post-AI institutions</span></p>
       <div class="deck" data-deck hidden>
-        <div class="deck-bar"><button class="deck-shuffle" type="button">Shuffle</button></div>
         <div class="deck-table"></div>
       </div>
     <section class="ps-group" aria-labelledby="ps-0"><h2 id="ps-0">Revise &amp; Resubmit</h2><ul class="ps-list"><li class="ps-card"><h3><span class="cv-cl cv-cl-ai" title="AI-native methods"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="4"/></svg><span class="vh">AI-native methods</span></span><a href="/papers/ai-simulations/"><i>When and How to Integrate AI Simulations into Behavioral Experimentation</i></a></h3><p class="ps-meta">Herytash, S. · Revise &amp; Resubmit at International Journal of Research in Marketing (AJG 4).</p><figure class="vis" style="--fig:var(--cl-ai)" style="--fig:var(--cl-ai)" data-vis="ai-simulations" aria-label="Decision flowchart for choosing among LLM-only, hybrid and human-only designs. Bars: cost against the human-only budget. The 2–33% saving is the paper’s illustration at alignments 0.25 to 0.65; the alignment is measured in a pilot, not assumed.">
@@ -307,7 +305,7 @@ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; line-cla
 <footer class="foot-legal"><a href="/legal/">Legal notice &amp; privacy</a></footer>
 
   <script src="/assets/site.js?v=8756ebca" defer></script>
-  <script src="/assets/deck.js?v=8e1b10de" defer></script>
+  <script src="/assets/deck.js?v=a8abf8ed" defer></script>
 
 
 

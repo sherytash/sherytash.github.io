@@ -16,6 +16,19 @@ return c;
 };
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
+const cite = (details, group) => {
+const cut = details.indexOf(' · ');
+let authors = cut < 0 ? details : details.slice(0, cut), rest = cut < 0 ? '' : details.slice(cut + 3);
+const many = authors.match(/\((\d+) authors\)/);
+if (many) authors = authors.split(', ').slice(0, 2).join(', ') + ', … Herytash, S., … (' + many[1] + ' authors)';
+const g = group.toLowerCase(), stage = g.charAt(0).toUpperCase() + g.slice(1);
+let venue = (rest.match(/\b(?:at|to)\s+([A-Z][^.(,]*?)\s*(?:\(|,|\.|$)/) || [])[1];
+if (!venue) { const v = (rest.match(/^([A-Za-z][^.(:]*?)\s*[(.:]/) || [])[1]; if (v && !/paper/i.test(v)) venue = v; }
+const p = el('p', 'pc-cite');
+p.append(el('span', null, authors), el('span', 'pc-stage', venue ? stage + ', ' + venue : stage));
+return p;
+};
+
 const cards = src.map((li, k) => {
 const group = li.closest('.ps-group')?.querySelector('h2')?.textContent.trim() || '';
 const h3 = li.querySelector('h3'), link = h3.querySelector('a'), mark = h3.querySelector('.cv-cl');
@@ -30,9 +43,8 @@ card.setAttribute('aria-label', title);
 const inner = el('div', 'pc-inner');
 const front = el('div', 'pc-face pc-front');
 const eyebrow = el('p', 'pc-eye');
-if (mark) eyebrow.appendChild(mark.cloneNode(true));
-eyebrow.appendChild(el('span', null, group));
-front.append(eyebrow, el('p', 'pc-title', title));
+if (mark) { const mk = mark.cloneNode(true); mk.querySelectorAll('.vh').forEach(e => e.remove()); eyebrow.append(mk, el('span', null, mark.title)); }
+front.append(eyebrow, el('p', 'pc-title', title), cite(meta ? meta.textContent.trim() : '', group));
 if (fig) front.appendChild(copyFigure(fig));
 const back = el('div', 'pc-face pc-back');
 back.append(el('p', 'pc-title pc-title-s', title));
@@ -48,7 +60,7 @@ deck.querySelector('.deck-table').appendChild(card);
 return { card, turn, k };
 });
 
-let order = cards.map((_, i) => i), open = null;
+const order = cards.map((_, i) => i), open = null;
 const wide = () => matchMedia('(min-width:720px)').matches;
 const fan = (list, from, span) => list.forEach((ci, pos) => {
 const n = list.length, t = n > 1 ? pos / (n - 1) - 0.5 : 0, c = cards[ci];
@@ -96,11 +108,6 @@ place();
 cards.forEach((c, i) => c.turn.addEventListener('click', () => setOpen(open === i ? null : i)));
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && open !== null) { const c = cards[open]; setOpen(null); c.turn.focus(); } });
 document.addEventListener('click', e => { if (open !== null && !deck.contains(e.target)) setOpen(null); });
-deck.querySelector('.deck-shuffle').addEventListener('click', () => {
-for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
-deck.classList.remove('dealt'); void deck.offsetWidth; deck.classList.add('dealt');
-setOpen(null);
-});
 let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(place, 120); });
 deck.hidden = false;
 setOpen(null);
