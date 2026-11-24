@@ -511,3 +511,10 @@ animation:poem-drift linear both; animation-timeline:scroll(root); }
 }
 }
 @keyframes poem-drift{ from{ -webkit-mask-position:0 0; mask-position:0 0; } to{ -webkit-mask-position:0 -45vh; mask-position:0 -45vh; } }
+
+
+
+.tabs a[data-tab="cv"]{ border:1px solid var(--accent)!important; border-radius:3px; padding:0.18rem 0.55rem; color:var(--accent)!important;
+font-family:var(--mono); font-size:0.78rem; letter-spacing:0.06em; }
+.tabs a[data-tab="cv"]:hover{ background:var(--accent); color:var(--on-accent)!important; }
+.tabs a[data-tab="cv"][aria-current="page"]{ background:var(--accent); color:var(--on-accent)!important; }
